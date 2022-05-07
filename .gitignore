@@ -1,0 +1,46 @@
+# Created by https://www.toptal.com/developers/gitignore/api/react,laravel
+# Edit at https://www.toptal.com/developers/gitignore?templates=react,laravel
+
+### Laravel ###
+react-backend/vendor/
+react-backend/node_modules/
+react-backend/npm-debug.log
+react-backend/yarn-error.log
+
+# Laravel 4 specific
+react-backend/bootstrap/compiled.php
+react-backend/app/storage/
+
+# Laravel 5 & Lumen specific
+react-backend/public/storage
+react-backend/public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+react-backend/public_html/storage
+react-backend/public_html/hot
+
+react-backend/storage/*.key
+react-backend/.env
+react-backend/Homestead.yaml
+react-backend/Homestead.json
+react-backend/.vagrant
+react-backend/.phpunit.result.cache
+
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+.env
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
+
+# End of https://www.toptal.com/developers/gitignore/api/react,laravel

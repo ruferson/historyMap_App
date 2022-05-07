@@ -1,0 +1,11 @@
+.cursor-link{
+    cursor:pointer;
+}
+
+.select {
+    background: #d6a680;
+}
+
+.hover-select:hover{
+    background: #e6bb96;
+}

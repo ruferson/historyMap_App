@@ -1,0 +1,51 @@
+
+
+.main{
+  display: flex;
+  min-height: 100vh;
+}
+
+.main > *{
+  margin: 1em;
+  width: 50%;
+  position: relative;
+}
+
+textarea{
+  background: #f9f9f9;
+  margin-top: 2em;
+  border: 1px solid #ccc;
+  padding: 1em;
+  border-radius: 5px;
+  min-height: 300px;
+  max-height: 100%;
+  overflow: auto;
+  max-width: 100%;
+  font-size: 1em;
+  width: 100%;
+}
+
+.public-DraftEditor-content{
+  background: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1em;
+}
+
+button{
+  border-radius: .3rem;
+  cursor: pointer;
+  margin-right: .5em;
+  border: none;
+  margin-bottom: 2em;
+  background: #f2594b;
+  font-size: 1.3em;
+  padding: .7em 1.3em;
+  font-weight: bold;
+  color: white;
+}

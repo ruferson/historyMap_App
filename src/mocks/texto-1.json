@@ -1,0 +1,84 @@
+{
+    "records": [
+      {
+        "id": 1,
+        "titulo": "ex",
+        "html": "<h1>id</h1><p><b>Sunt.</b><i>Fuga.</i>Et autem sit consequatur.</p>",
+        "marcador_id": 10,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 2,
+        "titulo": "delectus",
+        "html": "<h1>qui</h1><p><b>Est.</b><i>Quis.</i>Et et ut eaque in.</p>",
+        "marcador_id": 2,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 3,
+        "titulo": "sequi",
+        "html": "<h1>in</h1><p><b>Sit.</b><i>Et.</i>Fugit nihil aliquid nostrum.</p>",
+        "marcador_id": 5,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 4,
+        "titulo": "rem",
+        "html": "<h1>est</h1><p><b>Esse.</b><i>Vero.</i>Cumque quas ut voluptas.</p>",
+        "marcador_id": 4,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 5,
+        "titulo": "aut",
+        "html": "<h1>quasi</h1><p><b>Ut.</b><i>Sint.</i>Ab fugit sunt aut quod.</p>",
+        "marcador_id": 3,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 6,
+        "titulo": "qui",
+        "html": "<h1>in</h1><p><b>Iure.</b><i>Eum.</i>Quia aut quia quo.</p>",
+        "marcador_id": 3,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 7,
+        "titulo": "aperiam",
+        "html": "<h1>maxime</h1><p><b>A.</b><i>Est.</i>Quia mollitia non quidem non.</p>",
+        "marcador_id": 2,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 8,
+        "titulo": "laudantium",
+        "html": "<h1>consequatur</h1><p><b>Vero.</b><i>Rem.</i>Quas a eos et.</p>",
+        "marcador_id": 7,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 9,
+        "titulo": "id",
+        "html": "<h1>eos</h1><p><b>Vel.</b><i>In.</i>Quia eligendi et labore.</p>",
+        "marcador_id": 1,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      },
+      {
+        "id": 10,
+        "titulo": "totam",
+        "html": "<h1>ex</h1><p><b>Quod.</b><i>Cum.</i>Minima vitae asperiores ea.</p>",
+        "marcador_id": 4,
+        "created_at": "2022-04-03 08:33:25",
+        "updated_at": "2022-04-03 08:33:25"
+      }
+    ]
+  }
