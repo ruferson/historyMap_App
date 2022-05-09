@@ -7,20 +7,22 @@ import Footer from "../../components/Footer";
 function MisMapas () {
     
     const [location, setLocation] = useLocation();
-    //const {listaMapas} = useMisMapas(1);
-    let listaMapas = [["img1", "Mapa 1", "Desc 1"], ["img2", "Mapa 2", "Desc 2"], ["img3", "Mapa 3", "Desc 3"], ["img4", "Mapa 4", "Desc 4"]];
+    const {listaMapas} = useMisMapas(1);
+    //let listaMapas = [["img1", "Mapa 1", "Desc 1"], ["img2", "Mapa 2", "Desc 2"], ["img3", "Mapa 3", "Desc 3"], ["img4", "Mapa 4", "Desc 4"]];
 
     function action() {
         setLocation("/crear")
     }
 
     function mapearMisMapas(mapa, key){
-        return <MapaClick mapImage={mapa[0]} mapName={mapa[1]} mapDesc={mapa[2]}></MapaClick>
+        return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
     }
 
     function devolverMisMapas(){
-        
-        return listaMapas.map(mapearMisMapas)
+        console.log(listaMapas.data)
+        if (listaMapas.data){
+            return listaMapas.data.map(mapearMisMapas)
+        }
     }
     
     function puedeCrear(){

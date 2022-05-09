@@ -15,7 +15,7 @@ class AddMarcadorIdToEventosTable extends Migration
     {
         Schema::disableForeignKeyConstraints();
         Schema::table('eventos', function (Blueprint $table) {
-            $table->foreign('marcador_id')->references('id')->on('marcadores')->onDelete('cascade');
+            $table->foreign('marcador_id', 'eventos_marcador_id_foreign')->references('id')->on('marcadores')->onDelete('cascade');
         });
         Schema::enableForeignKeyConstraints();
     }
