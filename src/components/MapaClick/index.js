@@ -13,7 +13,7 @@ function MapaClick(props) {
                 <div className="card-body">
                     <h4 className="card-title">{props.mapName}</h4>
                     <p className="card-text">{props.mapDesc}</p>
-                    <Button className="btn-primary" onClick={()=>{setLocation("/ver/"+(Math.round(Math.random()*(3-1)+1)))}}>Ver</Button>
+                    <Button className="btn-primary" onClick={()=>{setLocation("/ver/"+props.mapID)}}>Ver</Button>
                 </div>
             </div>
         </div>

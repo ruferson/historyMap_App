@@ -14,12 +14,14 @@ function MapasPublicos () {
     }
 
     function mapearMisMapas(mapa, key){
-        return <MapaClick mapImage={mapa[0]} mapName={mapa[1]} mapDesc={mapa[2]}></MapaClick>
+        return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
     }
 
     function devolverMisMapas(){
-        
-        return listaMapas.map(mapearMisMapas)
+        console.log(listaMapas.data)
+        if (listaMapas.data){
+            return listaMapas.data.map(mapearMisMapas)
+        }
     }
     
     function puedeCrear(){

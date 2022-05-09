@@ -13,117 +13,55 @@ function Login () {
         setLocation("/dashboard")
     }
 
-    const [estado, setEstado] = useState({
-        email: "",
-        password: "",
-        msg: "",
-        isLoading: false,
-        redirect: false,
-        errMsgEmail: "",
-        errMsgPwd: "",
-        errMsg: "",
-      }) 
+    const [email, setEmail] = useState("");
+    const [password, setPasswd] = useState("");
+    const [msg, setMsg] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [redirect, setRedirect] = useState(false);
+    const [errMsgEmail, setErrEmail] = useState("");
+    const [errMsgPwd, setErrPwd] = useState("");
+    const [errMsg, setErrMsg] = useState("");
 
-    function onChangehandler (e) {
-      let name = e.target.name;
-      let value = e.target.value;
-      let data = {};
-      data[name] = value;
-      setEstado(data);
-    };
+    function onEmailChange (e) {
+        setEmail(e.target.value)
+    }
+
+    function onPasswdChange (e) {
+        setPasswd(e.target.value)
+    }
   
     function onSignInHandler () {
-    setEstado({
-        email: estado.email,
-        password: estado.password,
-        msg: estado.msg,
-        isLoading: true,
-        redirect: estado.redirect,
-        errMsgEmail: estado.errMsgEmail,
-        errMsgPwd: estado.errMsgPwd,
-        errMsg: estado.errMsg,
-        });
+      setLoading(true);
       axios
-        .post("http://localhost:8000/api/user-login", {
-          email: estado.email,
-          password: estado.password,
+        .post("http://127.0.0.1:8000/api/tokens/create", {
+          email: email,
+          password: password,
         })
         .then((response) => {
-          setEstado({
-            email: estado.email,
-            password: estado.password,
-            msg: estado.msg,
-            isLoading: false,
-            redirect: estado.redirect,
-            errMsgEmail: estado.errMsgEmail,
-            errMsgPwd: estado.errMsgPwd,
-            errMsg: estado.errMsg,
-          });
+          setLoading(false);
           if (response.data.status === 200) {
               localStorage.setItem("isLoggedIn", true);
               localStorage.setItem("userData", JSON.stringify(response.data.data));
-            setEstado({
-                email: estado.email,
-                password: estado.password,
-                msg: response.data.message,
-                isLoading: estado.isLoading,
-                redirect: true,
-                errMsgEmail: estado.errMsgEmail,
-                errMsgPwd: estado.errMsgPwd,
-                errMsg: estado.errMsg,
-            });    
+              setMsg(response.data.message);
+              setRedirect(true);
           }
           if (
             response.data.status === "failed" &&
             response.data.success === undefined
           ) {
-            setEstado({
-                email: estado.email,
-                password: estado.password,
-                msg: estado.msg,
-                isLoading: estado.isLoading,
-                redirect: estado.redirect,
-                errMsgEmail: response.data.validation_error.email,
-                errMsgPwd: response.data.validation_error.password,
-                errMsg: estado.errMsg,
-            });
+            setErrEmail(response.data.validation_error.email);
+            setErrPwd(response.data.validation_error.password);
             setTimeout(() => {
-                setEstado({
-                    email: estado.email,
-                    password: estado.password,
-                    msg: estado.msg,
-                    isLoading: estado.isLoading,
-                    redirect: estado.redirect,
-                    errMsgEmail: "",
-                    errMsgPwd: "",
-                    errMsg: estado.errMsg,
-                });
+                setErrEmail("");
+                setErrPwd("");
             }, 2000);
           } else if (
             response.data.status === "failed" &&
             response.data.success === false
           ) {
-            setEstado({
-                email: estado.email,
-                password: estado.password,
-                msg: estado.msg,
-                isLoading: estado.isLoading,
-                redirect: estado.redirect,
-                errMsgEmail: estado.errMsgEmail,
-                errMsgPwd: estado.errMsgPwd,
-                errMsg: response.data.message,
-            });
+            setErrMsg(response.data.message);
             setTimeout(() => {
-                setEstado({
-                    email: estado.email,
-                    password: estado.password,
-                    msg: estado.msg,
-                    isLoading: estado.isLoading,
-                    redirect: estado.redirect,
-                    errMsgEmail: estado.errMsgEmail,
-                    errMsgPwd: estado.errMsgPwd,
-                    errMsg: "" 
-                });
+                setErrMsg(""); 
             }, 2000);
           }
         })
@@ -133,14 +71,13 @@ function Login () {
     };
 
   
-      if (estado.redirect) {
+      if (redirect) {
         setLocation("/dashboard")
       }
       const login = localStorage.getItem("isLoggedIn");
       if (login) {
         setLocation("/dashboard")
       }
-      const isLoading = estado.isLoading;
 
       return (
         <div>
@@ -152,11 +89,11 @@ function Login () {
                 type="email"
                 name="email"
                 placeholder="correo electrónico"
-                value={estado.email}
-                onChange={onChangehandler}
+                value={email}
+                onChange={onEmailChange}
               />
-              <span className="text-danger">{estado.msg}</span>
-              <span className="text-danger">{estado.errMsgEmail}</span>
+              <span className="text-danger">{msg}</span>
+              <span className="text-danger">{errMsgEmail}</span>
             </FormGroup>
             <FormGroup>
               <Label for="password">Contraseña: </Label>
@@ -164,19 +101,19 @@ function Login () {
                 type="password"
                 name="password"
                 placeholder="contraseña"
-                value={estado.password}
-                onChange={onChangehandler}
+                value={password}
+                onChange={onPasswdChange}
               />
-              <span className="text-danger">{estado.errMsgPwd}</span>
+              <span className="text-danger">{errMsgPwd}</span>
             </FormGroup>
-            <p className="text-danger">{estado.errMsg}</p>
+            <p className="text-danger">{errMsg}</p>
             <Button
               className="text-center mb-4"
               color="success"
               onClick={onSignInHandler}
             >
               Iniciar sesión
-              {isLoading ? (
+              {loading ? (
                 <span
                   className="spinner-border spinner-border-sm ml-5"
                   role="status"
