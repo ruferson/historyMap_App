@@ -13,5 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post("register", [UserController::class, "userSignUp"]);
-Route::post("login", [UserController::class, "userLogin"]);
+Route::get('/', function () {
+    return ['Laravel' => app()->version()];
+});
+
+require __DIR__.'/auth.php';

@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {/*
         $user = new User();
         $user->name = "HMAPI admin";
         $user->email = "lordfadesta@gmail.com";
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $user->password = bcrypt('password');
         $user->remember_token = "HMAPI admin";
         $user->rol = "administrador";
-        $user->save();
+        $user->save();*/
 
         User::factory(20)->create();
         Mapa::factory(10)->create();

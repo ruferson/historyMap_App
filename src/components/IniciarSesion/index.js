@@ -29,45 +29,86 @@ function Login () {
     function onPasswdChange (e) {
         setPasswd(e.target.value)
     }
+
+    function validateEmail(email){
+        let reEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
+        if (reEmail.test(email)){
+            setErrEmail("")
+            return true;
+        } else {
+            setErrEmail("El e-mail no es correcto.")
+            return false;
+        }
+      }
+      /*function validatePassword(contraseña){
+        let reContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
+        if (reContraseña.test(contraseña)){
+            setErrPwd("")
+            return true;
+        } else {
+            setErrPwd("La contraseña necesita al menos: 8 caracteres, 1 letra mayúscula, y 1 letra minúscula.")
+            return false;
+        }
+      }*/
+    
+      function sonCorrectos(email, password){
+     
+        validateEmail(email)
+        //validatePassword(password)
+    
+        if (validateEmail(email) /*&& validatePassword(password)*/){
+            return true;
+        } else {
+            return false;
+        }
+        
+      }
   
     function onSignInHandler () {
-      setLoading(true);
-      axios
-        .post("http://127.0.0.1:8000/api/tokens/create", {
-          email: email,
-          password: password,
-        })
-        .then((response) => {
-          setLoading(false);
-          if (response.data.status === 200) {
-              localStorage.setItem("isLoggedIn", true);
-              localStorage.setItem("userData", JSON.stringify(response.data.data));
-              setMsg(response.data.message);
-              setRedirect(true);
-          }
-          if (
-            response.data.status === "failed" &&
-            response.data.success === undefined
-          ) {
-            setErrEmail(response.data.validation_error.email);
-            setErrPwd(response.data.validation_error.password);
-            setTimeout(() => {
-                setErrEmail("");
-                setErrPwd("");
-            }, 2000);
-          } else if (
-            response.data.status === "failed" &&
-            response.data.success === false
-          ) {
-            setErrMsg(response.data.message);
-            setTimeout(() => {
-                setErrMsg(""); 
-            }, 2000);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (sonCorrectos(email, password)){
+        setLoading(true);
+        axios
+            .post("http://127.0.0.1:8000/login", {
+                data: {
+                    email: email,
+                    password: password,
+                },
+                headers: {
+                    'x-csrf-token': document.head.getElementsByClassName("csrf").getAttribute('content')
+                }
+            })
+            .then((response) => {
+            setLoading(false);
+            if (response.data.status === 200) {
+                localStorage.setItem("isLoggedIn", true);
+                localStorage.setItem("userData", JSON.stringify(response.data.data));
+                setMsg(response.data.message);
+                setRedirect(true);
+            }
+            if (
+                response.data.status === "failed" &&
+                response.data.success === undefined
+            ) {
+                setErrEmail(response.data.validation_error.email);
+                setErrPwd(response.data.validation_error.password);
+                setTimeout(() => {
+                    setErrEmail("");
+                    setErrPwd("");
+                }, 2000);
+            } else if (
+                response.data.status === "failed" &&
+                response.data.success === false
+            ) {
+                setErrMsg(response.data.message);
+                setTimeout(() => {
+                    setErrMsg(""); 
+                }, 2000);
+            }
+            })
+            .catch((error) => {
+            console.log(error);
+            });
+      }
     };
 
   
