@@ -74,7 +74,7 @@ function Login () {
                     password: password,
                 },
                 headers: {
-                    'x-csrf-token': document.head.getElementsByClassName("csrf").getAttribute('content')
+                    'x-csrf-token': ""
                 }
             })
             .then((response) => {
