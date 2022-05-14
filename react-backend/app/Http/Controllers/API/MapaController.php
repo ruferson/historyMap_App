@@ -40,7 +40,7 @@ class MapaController extends Controller
      */
     public function indexPublicos()
     {
-        $mapasPublicos = MapaResource::collection(Mapa::where('privado', '>', 0)->paginate());
+        $mapasPublicos = MapaResource::collection(Mapa::where('privado', '=', 0)->paginate());
         return $mapasPublicos;
     }
 
