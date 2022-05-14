@@ -50,6 +50,7 @@ use Tqdev\PhpCrudApi\Config;
                 Route::apiResource("/mapas", MapaController::class);
                 Route::apiResource("/notificaciones", NotificacionController::class);
 
+                Route::get("/mapas/publicos", [MapaController::class, "indexPublicos"]);
                 Route::get("user/{email}", [UserController::class, "userDetail"]);
 
             });
@@ -58,5 +59,4 @@ use Tqdev\PhpCrudApi\Config;
     Route::get('migrate', function () {
         //Artisan::call('migrate', ["--force" => true ]);
         //Artisan::call('db:seed', ["--force" => true ]);
-        return "hola";
     });

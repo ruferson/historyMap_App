@@ -40,10 +40,7 @@ class MapaController extends Controller
      */
     public function indexPublicos()
     {
-        // if (!Gate::allows('userDetail-UserController', $email)) {
-        //    abort(403);
-        // }
-        $mapasPublicos = MapaResource::collection(Mapa::paginate());
+        $mapasPublicos = MapaResource::collection(Mapa::where('privado', '>', 0)->paginate());
         return $mapasPublicos;
     }
 
