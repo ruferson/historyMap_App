@@ -30,4 +30,9 @@ class Mapa extends Model
     {
         return $this->hasMany(Marcador::class, 'mapa_id');
     }
+
+    public function esMapaPrivado()
+    {
+        return $this->privado;
+    }
 }

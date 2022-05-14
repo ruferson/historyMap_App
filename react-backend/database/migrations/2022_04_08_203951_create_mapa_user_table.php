@@ -13,10 +13,11 @@ class CreateMapaUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('invitaciones', function (Blueprint $table) {
+        Schema::create('mapas_guardados', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('mapa_id')->unsigned();
+            $table->boolean('aceptado');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateMapaUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invitaciones');
+        Schema::dropIfExists('mapas_guardados');
     }
 }
