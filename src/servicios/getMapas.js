@@ -8,7 +8,7 @@ export function getMapas (userID) { //Con este servicio obtendremos un solo coct
   return fetch(apiURL, {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer 1|cCGFN1UPcPQTWtCXk7Di9hQi428u30QirHEyzb8A',
+      'Authorization': 'Bearer 2|BQiSUEetxSH9rNzmpSxYAzHGxea9t6lbtMbIEsmQ',
       'Content-Type': 'application/json'
     }
   })

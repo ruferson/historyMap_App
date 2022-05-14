@@ -68,14 +68,11 @@ function Login () {
       if (sonCorrectos(email, password)){
         setLoading(true);
         axios
-            .post("http://127.0.0.1:8000/login", {
+            .post("http://127.0.0.1:8000/api/login", {
                 data: {
                     email: email,
                     password: password,
                 },
-                headers: {
-                    'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]')
-                }
             })
             .then((response) => {
             setLoading(false);
