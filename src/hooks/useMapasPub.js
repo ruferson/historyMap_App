@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getMapasPrivados } from "../servicios/getMapasPrivados";
+import { getMapasPublicos } from "../servicios/getMapasPublicos";
 
-const useMisMapas = ({ userID } = { userID: 1 }) => {
+const useMapasPub = ({ userID } = { userID: 1 }) => {
 
     // Estado con la lista de Mapas que recuperamos de la REST API
     const [listaMapas, setListaMapas] = useState([]);
@@ -10,7 +10,7 @@ const useMisMapas = ({ userID } = { userID: 1 }) => {
 
         console.log("hola")
         // Usamos el servicio de obtención de posts que hemos creado
-        getMapasPrivados({ userID }).then(nextMapas => {
+        getMapasPublicos({ userID }).then(nextMapas => {
 
             //Cargamos los Mapas en el estado del componente
             setListaMapas(nextMapas);
@@ -25,4 +25,4 @@ const useMisMapas = ({ userID } = { userID: 1 }) => {
 
     return { listaMapas }
 }
-export default useMisMapas;
+export default useMapasPub;

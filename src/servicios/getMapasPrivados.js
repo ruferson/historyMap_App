@@ -1,5 +1,5 @@
 
-export function getMapas (userID) { //Con este servicio obtendremos un solo coctail a partir de su id.
+export function getMapasPrivados (userID) { //Con este servicio obtendremos un solo coctail a partir de su id.
 
   const apiURL = 'http://127.0.0.1:8000/api/mapas';
   console.log(apiURL)
@@ -8,7 +8,7 @@ export function getMapas (userID) { //Con este servicio obtendremos un solo coct
   return fetch(apiURL, {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer 2|BQiSUEetxSH9rNzmpSxYAzHGxea9t6lbtMbIEsmQ',
+      'Authorization': 'Bearer 1|loZiXRiubl4I5FHt8XmQRUdCOCFRUC5wh2Y5jRh4',
       'Content-Type': 'application/json'
     }
   })

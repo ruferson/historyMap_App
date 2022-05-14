@@ -79,6 +79,7 @@ function Login () {
             if (response.data.status === 200) {
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem("userData", JSON.stringify(response.data.data));
+                console.log(JSON.stringify(response.data.data))
                 setMsg(response.data.message);
                 setRedirect(true);
             }
