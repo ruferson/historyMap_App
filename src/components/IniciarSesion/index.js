@@ -69,35 +69,33 @@ function Login () {
         setLoading(true);
         axios
             .post("http://127.0.0.1:8000/api/login", {
-                data: {
-                    email: email,
-                    password: password,
-                },
+                email: email,
+                password: password,
             })
             .then((response) => {
             setLoading(false);
-            if (response.data.status === 200) {
+            if (response.status === 200) {
                 localStorage.setItem("isLoggedIn", true);
-                localStorage.setItem("userData", JSON.stringify(response.data.data));
-                console.log(JSON.stringify(response.data.data))
-                setMsg(response.data.message);
+                localStorage.setItem("userData", JSON.stringify(response.data));
+                console.log(JSON.stringify(response.data))
+                setMsg(response.message);
                 setRedirect(true);
             }
             if (
-                response.data.status === "failed" &&
-                response.data.success === undefined
+                response.status === "failed" &&
+                response.success === undefined
             ) {
-                setErrEmail(response.data.validation_error.email);
-                setErrPwd(response.data.validation_error.password);
+                setErrEmail(response.validation_error.email);
+                setErrPwd(response.validation_error.password);
                 setTimeout(() => {
                     setErrEmail("");
                     setErrPwd("");
                 }, 2000);
             } else if (
-                response.data.status === "failed" &&
-                response.data.success === false
+                response.status === "failed" &&
+                response.success === false
             ) {
-                setErrMsg(response.data.message);
+                setErrMsg(response.message);
                 setTimeout(() => {
                     setErrMsg(""); 
                 }, 2000);

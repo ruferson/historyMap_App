@@ -38,6 +38,10 @@ use Illuminate\Validation\ValidationException;
         ]);
     });
 
+    Route::post("login", [UserController::class, "userLogin"]);
+    Route::post("register", [UserController::class, "userSignUp"]);
+
+
     //Route::middleware('auth:sanctum')->
         Route::group(['middleware' => 'auth:sanctum'],function () {
             Route::group(['prefix' => '/'], function () {
@@ -59,4 +63,4 @@ use Illuminate\Validation\ValidationException;
         //Artisan::call('db:seed', ["--force" => true ]);
     });
 
-    require __DIR__.'/auth.php';
+

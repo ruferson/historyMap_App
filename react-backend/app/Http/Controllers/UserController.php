@@ -34,16 +34,7 @@ class UserController extends Controller
             "name" => "required",
             "email" => "required|email",
             "password" => "required",
-            "rol" => "required"
         ]);
-
-        $rol = $request->rol;
-
-        if ($rol != "alumno") {
-            if ($rol != "profesor") {
-                return response()->json(["status" => "failed", "success" => false, "message" => "Rol no válido. Roles válidos: alumno, profesor"]);
-            }
-        }
 
         if($validator->fails()) {
             return response()->json(["status" => "failed", "message" => "validation_error", "errors" => $validator->errors()]);
@@ -53,7 +44,6 @@ class UserController extends Controller
             "name" => $request->name,
             "email" => $request->email,
             "password" => md5($request->password),
-            "rol" => $request->rol
         );
 
         $user_status = User::where("email", $request->email)->first();
@@ -88,8 +78,7 @@ class UserController extends Controller
                            ], 401);
         }
 
-        $token = auth()->user()
-            ->createToken('auth_token')->plainTextToken;
+        $token = auth()->user()->createToken('auth_token')->plainTextToken;
         $user = auth()->user();
 
         $respon = [
