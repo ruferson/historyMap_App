@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
 import { useLocation } from "wouter";
 import './styles.css'
+import { getLogin } from "servicios/getLogin";
 
 
 function Login () {
@@ -13,6 +14,7 @@ function Login () {
         setLocation("/dashboard")
     }
 
+    const [response, setResponse] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPasswd] = useState("");
     const [msg, setMsg] = useState("");
@@ -67,6 +69,11 @@ function Login () {
     function onSignInHandler () {
       if (sonCorrectos(email, password)){
         setLoading(true);
+
+        getLogin({ email, password }).then(response => {
+            setResponse(response);
+        });
+        /*
         axios
             .post("http://127.0.0.1:8000/api/login", {
                 email: email,
@@ -78,7 +85,7 @@ function Login () {
                 localStorage.setItem("isLoggedIn", true);
                 localStorage.setItem("userData", JSON.stringify(response.data));
                 console.log(JSON.stringify(response.data))
-                setMsg(response.message);
+                setMsg(response.msg);
                 setRedirect(true);
             }
             if (
@@ -104,6 +111,7 @@ function Login () {
             .catch((error) => {
             console.log(error);
             });
+        */
       }
     };
 

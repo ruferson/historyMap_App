@@ -41,7 +41,6 @@ use Illuminate\Validation\ValidationException;
     Route::post("login", [UserController::class, "userLogin"]);
     Route::post("register", [UserController::class, "userSignUp"]);
 
-
     //Route::middleware('auth:sanctum')->
         Route::group(['middleware' => 'auth:sanctum'],function () {
             Route::group(['prefix' => '/'], function () {
@@ -53,7 +52,7 @@ use Illuminate\Validation\ValidationException;
                 Route::apiResource("/notificaciones", NotificacionController::class);
 
                 //Route::get("/mapas/publicos", [MapaController::class, "indexPublicos"]);
-                Route::get("user/{email}", [UserController::class, "userDetail"]);
+                //Route::get("user/{email}", [UserController::class, "userDetail"]);
 
             });
         });
