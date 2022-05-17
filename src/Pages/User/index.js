@@ -11,8 +11,8 @@ function User() {
 
     const [location, setLocation] = useLocation();
     const [modo, setModo] = useState("invitaciones");
-   
-    if (!JSON.parse(localStorage.getItem("userData")).isLogged){
+    
+    if (localStorage.getItem("isLoggedIn") === "false") {
         setLocation("/session")
     }
 

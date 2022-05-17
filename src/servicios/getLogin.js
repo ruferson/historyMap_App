@@ -5,15 +5,15 @@ export function getLogin (email, password) { //Con este servicio obtendremos un 
   console.log(apiURL)
   //Usamos la ID pasada por parámetro.
 
+  console.log(email+" "+password)
+
   return fetch(apiURL, {
     method: 'POST',
-    data: {
-      email: email,
-      password: password,
-    },
     headers: {
-      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({email: email, password: password})
   })
     .then(response => {
       const data = response.json();

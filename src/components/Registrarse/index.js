@@ -10,7 +10,7 @@ function Registrase ()  {
     const [location, setLocation] = useLocation();
   
     if (JSON.parse(localStorage.getItem("userData")).isLogged){
-      setLocation("/dashboard")
+
     }
   
     const [msg, setMsg] = useState("")
@@ -31,11 +31,11 @@ function Registrase ()  {
           console.log(data);
   
           axios.post(
-              "http://google.es",
+              "http://127.0.0.1:8000/api/register",
               data,
           )
           .then((response) => {
-              setMsg(response.data.message);
+              setMsg(response.message);
           });
           console.log(msg)
       } else {

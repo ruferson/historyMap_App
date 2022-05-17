@@ -3,7 +3,6 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
 import { useLocation } from "wouter";
 import './styles.css'
-import { getLogin } from "servicios/getLogin";
 
 
 function Login () {
@@ -11,10 +10,9 @@ function Login () {
     const [location, setLocation] = useLocation();
 
     if (JSON.parse(localStorage.getItem("userData")).isLogged){
-        setLocation("/dashboard")
+        
     }
 
-    const [response, setResponse] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPasswd] = useState("");
     const [msg, setMsg] = useState("");
@@ -31,54 +29,17 @@ function Login () {
     function onPasswdChange (e) {
         setPasswd(e.target.value)
     }
-
-    function validateEmail(email){
-        let reEmail = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g;
-        if (reEmail.test(email)){
-            setErrEmail("")
-            return true;
-        } else {
-            setErrEmail("El e-mail no es correcto.")
-            return false;
-        }
-      }
-      /*function validatePassword(contraseña){
-        let reContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
-        if (reContraseña.test(contraseña)){
-            setErrPwd("")
-            return true;
-        } else {
-            setErrPwd("La contraseña necesita al menos: 8 caracteres, 1 letra mayúscula, y 1 letra minúscula.")
-            return false;
-        }
-      }*/
-    
-      function sonCorrectos(email, password){
-     
-        validateEmail(email)
-        //validatePassword(password)
-    
-        if (validateEmail(email) /*&& validatePassword(password)*/){
-            return true;
-        } else {
-            return false;
-        }
-        
-      }
   
     function onSignInHandler () {
-      if (sonCorrectos(email, password)){
         setLoading(true);
-
-        getLogin({ email, password }).then(response => {
-            setResponse(response);
-        });
-        /*
         axios
             .post("http://127.0.0.1:8000/api/login", {
                 email: email,
                 password: password,
-            })
+            }, {
+                headers: {
+                'Content-Type': 'application/json'
+                }})
             .then((response) => {
             setLoading(false);
             if (response.status === 200) {
@@ -111,17 +72,15 @@ function Login () {
             .catch((error) => {
             console.log(error);
             });
-        */
-      }
     };
-
   
       if (redirect) {
-        setLocation("/dashboard")
+        setLocation("/")
       }
       const login = localStorage.getItem("isLoggedIn");
-      if (login) {
-        setLocation("/dashboard")
+      console.log(login)
+      if (login === "true") {
+        setLocation("/")
       }
 
       return (

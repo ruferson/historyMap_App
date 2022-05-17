@@ -8,7 +8,7 @@ function ConfigUsuario () {
     const [location, setLocation] = useLocation();
 
     function action() {
-        localStorage.setItem('userData', JSON.stringify({"isLogged":false}))
+        localStorage.setItem('isLoggedIn', false)
         setLocation("/session")
     }
     

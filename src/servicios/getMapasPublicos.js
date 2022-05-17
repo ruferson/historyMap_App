@@ -4,11 +4,12 @@ export function getMapasPublicos (userID) { //Con este servicio obtendremos un s
   const apiURL = 'http://127.0.0.1:8000/api/mapas/publicos';
   console.log(apiURL)
   //Usamos la ID pasada por parámetro.
+  console.log(localStorage.getItem('userData'))
 
   return fetch(apiURL, {
     method: 'GET',
     headers: {
-      'Authorization': 'Bearer 1|loZiXRiubl4I5FHt8XmQRUdCOCFRUC5wh2Y5jRh4',
+      'Authorization': 'Bearer 2|VZ5K6NxasAFUdU2Z4TIhnuM4PYPS11CrfsY0QSe2',
       'Content-Type': 'application/json'
     }
   })

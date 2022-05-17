@@ -3,11 +3,12 @@ import './App.css';
 import Ver from './Pages/Ver';
 import Crear from './Pages/Crear';
 import User from './Pages/User';
-import { Route } from 'wouter';
+import { Route, useLocation } from 'wouter';
 import Session from './Pages/Session';
 import Inicio from './Pages/Inicio';
 import Menu from './components/Menu';
-import {  useState } from 'react';
+import MenuNoLogged from './components/MenuNoLogged';
+import {  useEffect, useState } from 'react';
 import Cabezera from './components/Cabezera';
 import MisMapas from './Pages/MisMapas';
 
@@ -18,7 +19,7 @@ function App() {
 
   return (
     <div className="fondo">
-      <Menu isActive={isActive}/>
+      {localStorage.getItem("isLoggedIn") === "false" ? <MenuNoLogged isActive={isActive}/> : <Menu isActive={isActive}/>}
       
       <div className={"page-content "+isActive} id="content">
         <Cabezera isActive={isActive} setActive={setActive}/>

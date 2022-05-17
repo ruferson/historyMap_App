@@ -19,6 +19,10 @@ function Ver(props) {
     const [eventoID, setEventoID] = useState(1);
     //const [propietario, setPropietario] = useEsPropietario(JSON.parse(localStorage.getItem("userData")).user_id, mapaID)
     const [propietario, setPropietario] = useState(true)
+    
+    if (localStorage.getItem("isLoggedIn") === "false") {
+        setLocation("/session")
+    }
 
     function cambiarEvento(event){
         let id = event.target.options.id;

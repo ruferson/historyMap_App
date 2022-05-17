@@ -19,9 +19,9 @@ class MapaPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdministrator()) {
+
             return true;
-        }
+
     }
 
     /**

@@ -3,12 +3,16 @@ import { useLocation } from "wouter";
 import useMisMapas from "../../hooks/useMisMapas";
 import MapaClick from "../../components/MapaClick";
 import Footer from "../../components/Footer";
+import { useState } from "react";
 
 function MisMapas () {
     
     const [location, setLocation] = useLocation();
     const {listaMapas} = useMisMapas(1);
-    //let listaMapas = [["img1", "Mapa 1", "Desc 1"], ["img2", "Mapa 2", "Desc 2"], ["img3", "Mapa 3", "Desc 3"], ["img4", "Mapa 4", "Desc 4"]];
+    
+    if (localStorage.getItem("isLoggedIn") === "false") {
+        setLocation("/session")
+    }
 
     function action() {
         setLocation("/crear")
@@ -24,12 +28,6 @@ function MisMapas () {
             return listaMapas.data.map(mapearMisMapas)
         }
     }
-    
-    function puedeCrear(){
-        if (JSON.parse(localStorage.getItem("userData")).rol==="profesor"){
-            return <Button onClick={()=>action()}>Crear Mapa Nuevo</Button>
-        }
-    }
 
     return (<>
         <div className="pr-4 pl-4 pt-4">
@@ -37,7 +35,7 @@ function MisMapas () {
         <div className="row">
             {devolverMisMapas()}
         </div> <br />
-            {puedeCrear()} 
+        <Button onClick={()=>action()}>Crear Mapa Nuevo</Button>
         </div>
         <div className="footer-abajo"><Footer /></div>
         </>
