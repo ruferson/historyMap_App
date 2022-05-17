@@ -52,4 +52,4 @@ function MenuNoLogged(props) {
     );
 }
 
-export default Menu;
+export default MenuNoLogged;
