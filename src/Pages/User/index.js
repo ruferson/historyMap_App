@@ -40,7 +40,7 @@ function User() {
             <Button onClick={serProfesor}>Ser profesor</Button>
             <div className="row">
                 <div className="col-12">
-                    <p>¡Bienvenido, {JSON.parse(localStorage.getItem("userData")).content.user_name}!</p>
+                    <p>¡Bienvenido, {/*JSON.parse(localStorage.getItem("userData")).content.user_name*/}!</p>
                 </div>
                 <div className="ml-3">
                     <Button onClick={()=>setModo("invitaciones")}>Invitaciones <Badge>{/*getInvitaciones*/}1</Badge></Button>

@@ -26,40 +26,36 @@ function Login() {
     function onSignInHandler() {
         setLoading(true);
         axios
-            .post("http://127.0.0.1:8000/api/login", {
-                email: email,
-                password: password,
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((response) => {
+            .post("http://history.test:8000/api/tokens/create", {
+                        email: email,
+                        password: password,
+                })
+                .then((response) => {
+                console.log(response);
                 setLoading(false);
-                if (response.status === 200) {
+            if (response.status === 200) {
                     localStorage.setItem("isLoggedIn", true);
-                    localStorage.setItem("userData", JSON.stringify(response.data));
-                    console.log(JSON.stringify(response.data))
-                    setMsg(response.msg);
+                localStorage.setItem("userData", JSON.stringify(response.data));
+                console.log(JSON.stringify(response.data))
                     setRedirect(true);
                 }
                 if (
-                    response.status === "failed" &&
-                    response.success === undefined
+                response.status === "failed" &&
+                response.success === undefined
                 ) {
-                    setErrEmail(response.validation_error.email);
-                    setErrPwd(response.validation_error.password);
+                setErrEmail(response.validation_error.email);
+                setErrPwd(response.validation_error.password);
                     setTimeout(() => {
                         setErrEmail("");
                         setErrPwd("");
                     }, 2000);
                 } else if (
-                    response.status === "failed" &&
-                    response.success === false
+                response.status === "failed" &&
+                response.success === false
                 ) {
-                    setErrMsg(response.message);
+
                     setTimeout(() => {
-                        setErrMsg("");
+                        setErrMsg(""); 
                     }, 2000);
                 }
             })
