@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\NotificacionResource;
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificacionController extends Controller
 {
@@ -25,7 +26,9 @@ class NotificacionController extends Controller
      */
     public function index()
     {
-        return NotificacionResource::collection(Notificacion::paginate());
+        $usuario = Auth::user();
+        $usuarioNotificaciones = $usuario->usuario;
+        return NotificacionResource::collection($usuarioNotificaciones);
     }
 
     /**

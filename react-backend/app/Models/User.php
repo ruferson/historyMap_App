@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function mapasVisualizados()
     {
-        return $this->belongsToMany(Mapa::class, 'invitaciones');
+        return $this->belongsToMany(Mapa::class, 'mapas_guardados');
     }
 
     public function notificaciones()

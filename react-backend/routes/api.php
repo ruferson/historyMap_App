@@ -3,7 +3,8 @@
 use App\Http\Controllers\API\EventoController;
 use App\Http\Controllers\API\MarcadorController;
 use App\Http\Controllers\API\MapaController;
-use App\Http\Controllers\NotificacionController;
+use App\Http\Controllers\API\MapaGuardadoController;
+use App\Http\Controllers\API\NotificacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\MapaResource;
 use App\Models\Mapa;
@@ -50,10 +51,9 @@ use Illuminate\Validation\ValidationException;
                 Route::apiResource("/marcadores", MarcadorController::class);
                 Route::apiResource("/mapas", MapaController::class);
                 Route::apiResource("/notificaciones", NotificacionController::class);
+                Route::apiResource("/mapas-guardados", MapaGuardadoController::class);
 
                 Route::get("/user", [UserController::class, "userDetail"]);
-
-                //Route::get("/mapas/publicos", [MapaController::class, "indexPublicos"]);
                 //Route::get("user/{email}", [UserController::class, "userDetail"]);
 
             });

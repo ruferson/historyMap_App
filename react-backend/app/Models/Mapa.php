@@ -23,7 +23,7 @@ class Mapa extends Model
 
     public function usuariosVisualizadores()
     {
-        return $this->belongsToMany(User::class, 'invitaciones');
+        return $this->belongsToMany(User::class, 'mapas_guardados');
     }
 
     public function marcadores()
