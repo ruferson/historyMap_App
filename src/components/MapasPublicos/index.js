@@ -28,7 +28,7 @@ function MapasPublicos () {
         <div className="row">
             {devolverMisMapas()}
         </div> <br />
-        <Button onClick={()=>action()}>Crear Mapa Nuevo</Button>
+        {localStorage.getItem("isLoggedIn") !== "false" ? <Button onClick={()=>action()}>Crear Mapa Nuevo</Button> : <></>}
         </>
     );
 

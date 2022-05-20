@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { getMapasPublicos } from "../servicios/getMapasPublicos";
+import { getUserData } from "servicios/getUserData";
 
-const useMapasPub = () => {
+const useUserData = () => {
 
     // Estado con la lista de Mapas que recuperamos de la REST API
-    const [listaMapas, setListaMapas] = useState([]);
+    const [userData, setUserData] = useState([]);
 
     function obtenerMapas() {
 
         console.log("hola")
         // Usamos el servicio de obtención de posts que hemos creado
-        getMapasPublicos().then(nextMapas => {
+        getUserData().then(nextData => {
 
             //Cargamos los Mapas en el estado del componente
-            setListaMapas(nextMapas);
+            setUserData(nextData);
 
 
         });
@@ -23,6 +23,6 @@ const useMapasPub = () => {
     // para que solo se ejecute una vez
     useEffect(obtenerMapas);
 
-    return { listaMapas }
+    return { userData }
 }
-export default useMapasPub;
+export default useUserData;

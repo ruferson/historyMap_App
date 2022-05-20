@@ -8,7 +8,7 @@ export function getMapasPrivados () { //Con este servicio obtendremos un solo co
   return fetch(apiURL, {
     method: 'GET',
     headers: {
-      'Authorization': /*JSON.parse(localStorage.getItem("userData")).content.token_type+" "+JSON.parse(localStorage.getItem("userData")).content.access_token*/"",
+      'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
       'Content-Type': 'application/json'
     }
   })

@@ -51,6 +51,8 @@ use Illuminate\Validation\ValidationException;
                 Route::apiResource("/mapas", MapaController::class);
                 Route::apiResource("/notificaciones", NotificacionController::class);
 
+                Route::get("/user", [UserController::class, "userDetail"]);
+
                 //Route::get("/mapas/publicos", [MapaController::class, "indexPublicos"]);
                 //Route::get("user/{email}", [UserController::class, "userDetail"]);
 

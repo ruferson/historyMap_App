@@ -35,7 +35,7 @@ function Login() {
                 setLoading(false);
             if (response.status === 200) {
                     localStorage.setItem("isLoggedIn", true);
-                localStorage.setItem("userData", JSON.stringify(response.data));
+                localStorage.setItem("userToken", JSON.stringify(response.data));
                 console.log(JSON.stringify(response.data))
                     setRedirect(true);
                 }

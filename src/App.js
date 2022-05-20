@@ -16,13 +16,13 @@ import MisMapas from './Pages/MisMapas';
 function App() {
 
   const [isActive, setActive] = useState(true)
-  const [isLogged, setIsLogged] = useState(localStorage.getItem("isLoggedIn") !== "false");
+  const [isLogged, setIsLogged] = useState(localStorage.getItem("isLoggedIn") !== "true");
 
-  useEffect(() => {setIsLogged(localStorage.getItem("isLoggedIn") !== "false"); console.log("para el menu "+isLogged)}, [localStorage.getItem("isLoggedIn")])
+  useEffect(() => {setIsLogged(localStorage.getItem("isLoggedIn") !== "true"); console.log("para el menu "+isLogged)}, [localStorage.getItem("isLoggedIn")])
 
   return (
     <div className="fondo">
-      {isLogged ? <Menu isActive={isActive}/> : <MenuNoLogged isActive={isActive}/>}
+      {!isLogged ? <Menu isActive={isActive}/> : <MenuNoLogged isActive={isActive}/>}
       
       <div className={"page-content "+isActive} id="content">
         <Cabezera isActive={isActive} setActive={setActive}/>
