@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -98,18 +99,16 @@ class UserController extends Controller
     }
 
     // ------------------ [ User Detail ] ---------------------
-    public function userDetail($email, $local = false) {
+    public function userDetail() {
 
-        if (!$local) {
-            if (!Gate::allows('userDetail-UserController', $email)) {
-                abort(403);
-            }
-        }
+        $user = Auth::user();
 
-        $user = array();
-        if($email != "") {
-            $user = User::where("email", $email)->first();
-            return $user;
-        }
+        $respon = [
+            'user_name' => $user->name,
+            'user_email' => $user->email,
+            'user_id' => $user->id,
+        ];
+
+        return response()->json($respon, 200);
     }
 }

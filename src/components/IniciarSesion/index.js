@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
 import './styles.css'
+import useUserData from "hooks/useUserData";
 
 
 function Login() {
@@ -27,36 +28,54 @@ function Login() {
         setLoading(true);
         axios
             .post("http://history.test:8000/api/tokens/create", {
-                        email: email,
-                        password: password,
-                })
-                .then((response) => {
+                email: email,
+                password: password,
+            })
+            .then((response) => {
                 console.log(response);
                 setLoading(false);
-            if (response.status === 200) {
+                if (response.status === 200) {
                     localStorage.setItem("isLoggedIn", true);
-                localStorage.setItem("userToken", JSON.stringify(response.data));
-                console.log(JSON.stringify(response.data))
+                    localStorage.setItem("userToken", JSON.stringify(response.data));
+                    console.log(JSON.stringify(response.data))
                     setRedirect(true);
                 }
                 if (
-                response.status === "failed" &&
-                response.success === undefined
+                    response.status === "failed" &&
+                    response.success === undefined
                 ) {
-                setErrEmail(response.validation_error.email);
-                setErrPwd(response.validation_error.password);
+                    setErrEmail(response.validation_error.email);
+                    setErrPwd(response.validation_error.password);
                     setTimeout(() => {
                         setErrEmail("");
                         setErrPwd("");
                     }, 2000);
                 } else if (
-                response.status === "failed" &&
-                response.success === false
+                    response.status === "failed" &&
+                    response.success === false
                 ) {
 
                     setTimeout(() => {
-                        setErrMsg(""); 
+                        setErrMsg("");
                     }, 2000);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        let token = JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token
+        axios
+            .get("http://history.test:8000/api/user", {
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                setLoading(false);
+                if (response.status === 200) {
+                    localStorage.setItem("userData", JSON.stringify(response.data));
                 }
             })
             .catch((error) => {

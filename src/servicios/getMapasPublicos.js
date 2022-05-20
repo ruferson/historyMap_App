@@ -10,6 +10,8 @@ export function getMapasPublicos () { //Con este servicio obtendremos un solo co
   } else {
     token = ""
   }
+  console.log(token)
+  console.log(localStorage.getItem("userData"))
   
   return fetch(apiURL, {
     method: 'GET',
