@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
-import mockmapa1 from '../../mocks/map-1.json';
-import useMarkers from '../../hooks/useMarkers';
 import warIcon from '../../img/war.png'
 import birthIcon from '../../img/birth.png'
 import deathIcon from '../../img/death.png'
@@ -10,18 +8,21 @@ import constructionIcon from '../../img/construction.png'
 import discoveryIcon from '../../img/discovery.png'
 import defaultIcon from '../../img/default.png'
 import L from 'leaflet'
+import useMarcadores from 'hooks/useMarcadores';
 
 function Mapa(props) {
 
     const [creando, setCreando] = useState(props.crear);
-    const [myMarkers, setMyMarkers] = useState([])
-    //const [myMarkers, setMyMarkers] = useMarkers(1);
-    const [selectedPosition, setSelectedPosition] = useState("hola");
+    const { markers, loading } = useMarcadores(props.mapaID)
+    const [listaMarcadores, setListaMarcadores] = useState([])
+    const [selectedPosition, setSelectedPosition] = useState();
+
+    console.log(markers)
 
     function aniadirMarcador() {
-        let marcadores=myMarkers;
+        let marcadores=listaMarcadores;
         marcadores.push([selectedPosition, "construction"])
-        setMyMarkers(marcadores)
+        setListaMarcadores(marcadores)
     }
     useEffect(aniadirMarcador, [selectedPosition])
 
@@ -31,14 +32,18 @@ function Mapa(props) {
     useEffect(cambiarCreando, [props.crear])
 
     function ponerMarcadores() {
-        let marcadores=[];
-        for(let i=0; i<Object.keys(mockmapa1.records).length;i++){
-            let array = [[mockmapa1.records[i].x, mockmapa1.records[i].y], mockmapa1.records[i].tipo, mockmapa1.records[i].id]
-            marcadores.push(array);
+        console.log(loading)
+        console.log(markers)
+        if (!loading){
+            let marcadores=[];
+            for(let i=0; i<Object.keys(markers.data).length;i++){
+                let array = [[markers.data[i].x, markers.data[i].y], markers.data[i].tipo, markers.data[i].id]
+                marcadores.push(array);
+            }
+            setListaMarcadores(marcadores);
         }
-        setMyMarkers(marcadores);
     }
-    useEffect(ponerMarcadores, []);
+    useEffect(ponerMarcadores, [loading]);
 
     const Markers = () => {
         const map = useMapEvents({
@@ -134,7 +139,7 @@ function Mapa(props) {
       }
 
       function mapeoMarcadores() {
-          return myMarkers.map(LocationMarker)
+          return listaMarcadores.map(LocationMarker)
       }
 
     const position = [40.193795, -3.851789]

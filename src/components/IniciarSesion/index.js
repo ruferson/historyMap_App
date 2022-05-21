@@ -63,11 +63,11 @@ function Login() {
             .catch((error) => {
                 console.log(error);
             });
-        let token = JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token
+            console.log(JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token)
         axios
             .get("http://history.test:8000/api/user", {
                 headers: {
-                    'Authorization': token,
+                    'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
                     'Content-Type': 'application/json'
                 }
             })

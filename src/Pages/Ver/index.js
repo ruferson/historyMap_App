@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
 import mockmapa1 from '../../mocks/map-1.json';
 import mocktexto from '../../mocks/texto-1.json'
@@ -9,6 +9,8 @@ import { useLocation } from 'wouter';
 import Compartir from '../../components/Compartir';
 import useEsPropietario from '../../hooks/useEsPropietario';
 import Footer from '../../components/Footer';
+import useMapa from 'hooks/useMapa';
+import useMarcadores from 'hooks/useMarcadores';
 
 function Ver(props) {
 
@@ -17,12 +19,9 @@ function Ver(props) {
     const [mapName, setMapName] = useState("Aztecas")
     const [location, setLocation] = useLocation();
     const [eventoID, setEventoID] = useState(1);
-    //const [propietario, setPropietario] = useEsPropietario(JSON.parse(localStorage.getItem("userData")).user_id, mapaID)
-    const [propietario, setPropietario] = useState(true)
-    
-    if (localStorage.getItem("isLoggedIn") === "false") {
-        setLocation("/session")
-    }
+    //const { mapaDatos } = useMapa(mapaID);
+
+    useEffect(() => {setMapaID(props.params.id)}, [props.params.id]);
 
     function cambiarEvento(event){
         let id = event.target.options.id;
@@ -41,7 +40,7 @@ function Ver(props) {
     return (<>
         <div className="pl-4 pr-4 pt-3 text-white">
             <div className="">
-                {propietario && <Compartir mapName={mapName} mapaID={mapaID}></Compartir>}
+                {<Compartir mapName={mapName} mapaID={mapaID}></Compartir>}
                 <h1>{mapName}</h1> <br />
                 <div className="">
                     <Mapa cambiarEvento={cambiarEvento} crear={false} id={mapaID}></Mapa>

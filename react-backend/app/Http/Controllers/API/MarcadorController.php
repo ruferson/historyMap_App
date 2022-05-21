@@ -29,6 +29,12 @@ class MarcadorController extends Controller
         return MarcadorResource::collection(Marcador::paginate());
     }
 
+    public function indexMapa($mapaID)
+    {
+        $marcadoresMapa = MarcadorResource::collection(Marcador::where('mapa_id', '=', $mapaID)->paginate());
+        return $marcadoresMapa;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
