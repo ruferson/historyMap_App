@@ -44,7 +44,7 @@ class NotificacionPolicy
      */
     public function view(User $user, Notificacion $notificacion)
     {
-        return true;
+        return $notificacion->idUsu == $user->id;
     }
 
     /**

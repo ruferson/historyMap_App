@@ -27,7 +27,7 @@ class NotificacionController extends Controller
     public function index()
     {
         $usuario = Auth::user();
-        $usuarioNotificaciones = $usuario->usuario;
+        $usuarioNotificaciones = $usuario->notificaciones;
         return NotificacionResource::collection($usuarioNotificaciones);
     }
 
