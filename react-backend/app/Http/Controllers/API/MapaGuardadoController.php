@@ -40,7 +40,7 @@ class MapaGuardadoController extends Controller
         $aceptado = substr($content, strpos($content, 'aceptado=') + 9, 1);
         $ahora = new DateTime();
 
-        DB::insert('insert into mapas_guardados (user_id, mapa_id, aceptado, created_at, updated_at) values (?, ?, ?)', [$user->id, $mapaId, $aceptado, $ahora->format('Y-m-d H:i:s'), $ahora->format('Y-m-d H:i:s')]);
+        DB::insert('insert into mapas_guardados (user_id, mapa_id, aceptado, created_at, updated_at) values (?, ?, ?, ?, ?)', [$user->id, $mapaId, $aceptado, $ahora->format('Y-m-d H:i:s'), $ahora->format('Y-m-d H:i:s')]);
         $maxId = DB::select('select MAX(id) as max from mapas_guardados');
         return DB::select('select * from mapas_guardados where id = ' . $maxId[0]->max);
     }
