@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 import { getMapa } from "servicios/getMapa";
 
-const useMapa = ({ mapaID } = { mapaID: 1 }) => {
+const useMapa = ( mapaID ) => {
 
     // Estado con la lista de Mapas que recuperamos de la REST API
     const [mapaDatos, setMapa] = useState();
+    const [loading, setLoading] = useState(true)
 
     function obtenerMapas() {
 
         console.log("hola")
         // Usamos el servicio de obtención de posts que hemos creado
         getMapa(mapaID).then(nextMapa => {
-
+            console.log(nextMapa)
             //Cargamos los Mapas en el estado del componente
             setMapa(nextMapa);
+            setLoading(true)
 
 
         });
@@ -23,6 +25,6 @@ const useMapa = ({ mapaID } = { mapaID: 1 }) => {
     // para que solo se ejecute una vez
     useEffect(obtenerMapas, [mapaID]);
 
-    return { mapaDatos }
+    return { mapaDatos, loading }
 }
 export default useMapa;
