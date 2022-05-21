@@ -18,7 +18,7 @@ class Mapa extends Model
 
     public function usuarioCreador()
     {
-        return $this->belongsTo(User::class, 'usuario_id');
+        return $this->belongsTo(User::class, 'usuario_id', 'id');
     }
 
     public function usuariosVisualizadores()
