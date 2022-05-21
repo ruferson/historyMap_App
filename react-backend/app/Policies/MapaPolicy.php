@@ -6,8 +6,6 @@ use App\Models\Mapa;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-use function PHPUnit\Framework\isNull;
-
 class MapaPolicy
 {
     use HandlesAuthorization;
@@ -47,9 +45,9 @@ class MapaPolicy
     public function view(User $user, Mapa $mapa)
     {
         $permiso = false;
-        $mapaCreador = $mapa->usuarioCreador();
-        if (!is_null($mapaCreador)) {
-            if ($mapaCreador->id == $user->id) {
+        $usuarioCreador = $mapa->usuarioCreador();
+        if (!is_null($usuarioCreador)) {
+            if ($usuarioCreador->id == $user->id) {
                 $permiso = true;
             }
         }else {
@@ -86,6 +84,9 @@ class MapaPolicy
     public function update(User $user, Mapa $mapa)
     {
         $userCreador = $mapa->usuarioCreador();
+        if (is_null($userCreador)) {
+            return false;
+        }
         return ($user->id == $userCreador->id);
     }
 
@@ -98,7 +99,11 @@ class MapaPolicy
      */
     public function delete(User $user, Mapa $mapa)
     {
-        return $mapa->usuarioCreador()->id == $user->id;
+        $userCreador = $mapa->usuarioCreador();
+        if (is_null($userCreador)) {
+            return false;
+        }
+        return $userCreador->id == $user->id;
     }
 
     /**

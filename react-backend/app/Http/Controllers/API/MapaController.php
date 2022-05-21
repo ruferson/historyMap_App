@@ -67,7 +67,7 @@ class MapaController extends Controller
      */
     public function show(Mapa $mapa)
     {
-        return new MapaResource($mapa);
+            return new MapaResource($mapa);
     }
 
     /**
