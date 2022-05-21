@@ -53,7 +53,7 @@ function Mapa(props) {
                         e.latlng.lat,
                         e.latlng.lng
                     ]);
-                    props.sendMarcador(e.latlng.lat, e.latlng.lng)
+                    props.sendMarcador(e.latlng.lat, e.latlng.lng, )
                     props.setCrear(false);
                 }
             },          

@@ -15,9 +15,7 @@ const useMapa = ( mapaID ) => {
             console.log(nextMapa)
             //Cargamos los Mapas en el estado del componente
             setMapa(nextMapa);
-            setLoading(true)
-
-
+            setLoading(false)
         });
     }
 
