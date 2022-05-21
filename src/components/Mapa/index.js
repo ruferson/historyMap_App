@@ -13,7 +13,7 @@ import useMarcadores from 'hooks/useMarcadores';
 function Mapa(props) {
 
     const [creando, setCreando] = useState(props.crear);
-    const { markers, loading } = useMarcadores(props.mapaID)
+    const { markers, loading } = useMarcadores(props.id)
     const [listaMarcadores, setListaMarcadores] = useState([])
     const [selectedPosition, setSelectedPosition] = useState();
 

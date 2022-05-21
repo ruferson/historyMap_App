@@ -4,7 +4,7 @@ use App\Http\Controllers\API\EventoController;
 use App\Http\Controllers\API\MarcadorController;
 use App\Http\Controllers\API\MapaController;
 use App\Http\Controllers\API\MapaGuardadoController;
-use App\Http\Controllers\API\NotificacionController;
+use App\Http\Controllers\NotificacionController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\MapaResource;
 use App\Models\Mapa;
