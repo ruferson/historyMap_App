@@ -48,7 +48,7 @@ class MapaPolicy
     {
         $permiso = false;
         $mapaCreador = $mapa->usuarioCreador();
-        if (!isNull($mapaCreador)) {
+        if (!is_null($mapaCreador)) {
             if ($mapaCreador->id == $user->id) {
                 $permiso = true;
             }
