@@ -21,7 +21,7 @@ function Ver(props) {
     const [eventoID, setEventoID] = useState(1);
     //const { mapaDatos } = useMapa(mapaID);
 
-    useEffect(() => {setMapaID(props.params.id)}, [props.params.id]);
+    //useEffect(() => {setMapaID(props.params.id)}, [props.params.id]);
 
     function cambiarEvento(event){
         let id = event.target.options.id;

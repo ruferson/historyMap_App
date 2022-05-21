@@ -45,10 +45,10 @@ function Mapa(props) {
     }
     useEffect(ponerMarcadores, [loading]);
 
-    const Markers = () => {
+    const CreandoMarkers = () => {
         const map = useMapEvents({
             click(e) {      
-                if (creando){                          
+                if (creando){                       
                     setSelectedPosition([
                         e.latlng.lat,
                         e.latlng.lng
@@ -144,17 +144,20 @@ function Mapa(props) {
 
     const position = [40.193795, -3.851789]
 
-    return (
+    return (<>
+        { !loading ?
         <div>
         <MapContainer center={position} zoom={2} >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <Markers/>
+            <CreandoMarkers/>
             {mapeoMarcadores()}
         </MapContainer>
         </div>
+        :
+        <></>}</>
     );
 }
 

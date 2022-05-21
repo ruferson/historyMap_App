@@ -9,13 +9,11 @@ const useMarcadores = ({ mapaID } = { mapaID: 1 }) => {
 
     function obtenerMarcadores() {
 
-        console.log("hola")
         // Usamos el servicio de obtención de posts que hemos creado
         getMarcadores(mapaID).then(nextMarcadores => {
+
+            setMarkers(nextMarcadores)
             setLoading(false)
-            console.log(nextMarcadores)
-            setMarkers(nextMarcadores);
-            console.log(markers)
         });
     }
 
