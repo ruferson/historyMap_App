@@ -45,6 +45,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function esAdministrador()
+    {
+        return $this->email == getenv('ADMIN_EMAIL');
+    }
+
     public function mapasCreados()
     {
         return $this->hasMany(Mapa::class, 'usuario_id');

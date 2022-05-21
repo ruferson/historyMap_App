@@ -6,8 +6,9 @@ use App\Models\Mapa;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MapaPolicy
+class MapaGuardadoPolicy
 {
+
     use HandlesAuthorization;
 
     /**
@@ -32,7 +33,7 @@ class MapaPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -44,18 +45,7 @@ class MapaPolicy
      */
     public function view(User $user, Mapa $mapa)
     {
-        $permiso = false;
-        if ($mapa->usuarioCreador()->id == $user->id) {
-            $permiso = true;
-        }else {
-            $usuarios = $mapa->usuariosVisualizadores();
-            foreach ($usuarios as $usuario) {
-                if ($usuario->id == $user->id) {
-                    $permiso = true;
-                }
-            }
-        }
-        return $permiso;
+        return false;
     }
 
     /**
@@ -66,7 +56,7 @@ class MapaPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -78,8 +68,7 @@ class MapaPolicy
      */
     public function update(User $user, Mapa $mapa)
     {
-        $userCreador = $mapa->usuarioCreador();
-        return ($user->id == $userCreador->id);
+        return false;
     }
 
     /**

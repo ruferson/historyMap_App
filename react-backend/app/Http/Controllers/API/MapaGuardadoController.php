@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MapaResource;
+use App\Models\Mapa;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,16 @@ use Illuminate\Support\Facades\DB;
 
 class MapaGuardadoController extends Controller
 {
+
+    /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Mapa::class, 'mapaGuardado');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -101,9 +112,6 @@ class MapaGuardadoController extends Controller
         $query = substr($query, 0, strlen($query) - 2) . ' where id = ' . $id;
         DB::update($query);
         return DB::select('select * from mapas_guardados where id = ' . $id);
-
-        //return json_encode($datos);
-        //DB::update('update mapas_guardados set votes = 100 where id = ?', $datos);
     }
 
     /**

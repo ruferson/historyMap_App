@@ -19,7 +19,7 @@ class NotificacionPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdministrator()) {
+        if ($user->esAdministrador()) {
             return true;
         }
     }
@@ -32,7 +32,7 @@ class NotificacionPolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -44,7 +44,7 @@ class NotificacionPolicy
      */
     public function view(User $user, Notificacion $notificacion)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -55,7 +55,7 @@ class NotificacionPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -67,7 +67,7 @@ class NotificacionPolicy
      */
     public function update(User $user, Notificacion $notificacion)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -79,7 +79,7 @@ class NotificacionPolicy
      */
     public function delete(User $user, Notificacion $notificacion)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -91,7 +91,7 @@ class NotificacionPolicy
      */
     public function restore(User $user, Notificacion $notificacion)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -103,6 +103,6 @@ class NotificacionPolicy
      */
     public function forceDelete(User $user, Notificacion $notificacion)
     {
-        return false;
+        return true;
     }
 }

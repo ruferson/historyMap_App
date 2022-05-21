@@ -32,7 +32,7 @@ class MarcadorPolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -44,7 +44,7 @@ class MarcadorPolicy
      */
     public function view(User $user, Marcador $marcador)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -55,7 +55,7 @@ class MarcadorPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -67,7 +67,7 @@ class MarcadorPolicy
      */
     public function update(User $user, Marcador $marcador)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -79,7 +79,7 @@ class MarcadorPolicy
      */
     public function delete(User $user, Marcador $marcador)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -91,7 +91,7 @@ class MarcadorPolicy
      */
     public function restore(User $user, Marcador $marcador)
     {
-        return false;
+        return true;
     }
 
     /**
@@ -103,6 +103,6 @@ class MarcadorPolicy
      */
     public function forceDelete(User $user, Marcador $marcador)
     {
-        return false;
+        return true;
     }
 }
