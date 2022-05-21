@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Notificacion;
 use App\Models\User;
+use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class NotificacionPolicy
@@ -19,6 +20,7 @@ class NotificacionPolicy
      */
     public function before(User $user, $ability)
     {
+        throw new Exception("sfd");
         if ($user->esAdministrador()) {
             return true;
         }

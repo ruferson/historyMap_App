@@ -47,7 +47,9 @@ class MapaPolicy
     {
         $permiso = false;
         $usuarioCreador = $mapa->usuarioCreador;
-        if ($usuarioCreador->id == $user->id) {
+        if ($mapa->privado == 0) {
+            $permiso = true;
+        }else if ($usuarioCreador->id == $user->id) {
             $permiso = true;
         }else {
             $usuarios = $mapa->usuariosVisualizadores;
