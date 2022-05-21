@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Mapa;
 use App\Models\User;
+use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MapaPolicy
@@ -45,13 +46,11 @@ class MapaPolicy
     public function view(User $user, Mapa $mapa)
     {
         $permiso = false;
-        $usuarioCreador = $mapa->usuarioCreador();
-        if (!is_null($usuarioCreador)) {
-            if ($usuarioCreador->id == $user->id) {
-                $permiso = true;
-            }
+        $usuarioCreador = $mapa->usuarioCreador;
+        if ($usuarioCreador->id == $user->id) {
+            $permiso = true;
         }else {
-            $usuarios = $mapa->usuariosVisualizadores();
+            $usuarios = $mapa->usuariosVisualizadores;
             if (is_array($usuarios)) {
                 foreach ($usuarios as $usuario) {
                     if ($usuario->id == $user->id) {
@@ -83,10 +82,7 @@ class MapaPolicy
      */
     public function update(User $user, Mapa $mapa)
     {
-        $userCreador = $mapa->usuarioCreador();
-        if (is_null($userCreador)) {
-            return false;
-        }
+        $userCreador = $mapa->usuarioCreador;
         return ($user->id == $userCreador->id);
     }
 
@@ -99,10 +95,7 @@ class MapaPolicy
      */
     public function delete(User $user, Mapa $mapa)
     {
-        $userCreador = $mapa->usuarioCreador();
-        if (is_null($userCreador)) {
-            return false;
-        }
+        $userCreador = $mapa->usuarioCreador;
         return $userCreador->id == $user->id;
     }
 
