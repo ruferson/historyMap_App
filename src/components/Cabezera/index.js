@@ -17,8 +17,8 @@ function Cabezera (props) {
                 <ToggleMenu isActive={props.isActive} setActive={props.setActive} />
             </div>
             <a href="/"><img src={logo} className="float-right logo"/></a><br/>
-            <p>¡Bienvenido, {/*localStorage.getItem("isLoggedIn") === "true" ? JSON.parse(localStorage.getItem("userData")).content.user_name : "invitado"*/}!</p>
-            <h1 className="pl-5 pb-4">{getLocalization()}</h1>
+            <p className="pt-5 pl-3">¡Bienvenido, {localStorage.getItem("isLoggedIn") === "true" ? JSON.parse(localStorage.getItem("userData")).user_name : "invitado"}!</p>
+            <h1 className="pl-3 pb-4">{getLocalization()}</h1>
         </div>
     );
 

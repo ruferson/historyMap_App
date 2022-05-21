@@ -19,7 +19,7 @@ function Crear() {
         switch (paso) {
             case 1:
                 return (
-                    <CrearPaso1 setPaso={setPaso} />
+                    <CrearPaso1 setPaso={setPaso} setMapaID={setMapaID} />
                 )
             case 2:
                 return (
