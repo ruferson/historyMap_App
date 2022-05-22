@@ -37,11 +37,27 @@ function Login() {
                 setLoading(false);
                 if (response.status === 200) {
                     localStorage.setItem("isLoggedIn", true);
-                    token = JSON.stringify(response.data);
-                    token = JSON.parse(token.token_type)+" "+JSON.parse(token.access_token);
                     localStorage.setItem("userToken", JSON.stringify(response.data));
+                    token = JSON.stringify(response.data);
                     console.log(JSON.stringify(response.data))
-                    setRedirect(true);
+                    axios
+                        .get("http://history.test:8000/api/user", {
+                            headers: {
+                                'Authorization': JSON.parse(token).token_type+" "+JSON.parse(token).access_token,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then((response) => {
+                            console.log(response);
+                            setLoading(false);
+                            if (response.status === 200) {
+                                localStorage.setItem("userData", JSON.stringify(response.data));
+                                setRedirect(true);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                 }
                 if (
                     response.status === "failed" &&
@@ -65,24 +81,7 @@ function Login() {
             })
             .catch((error) => {
                 console.log(error);
-            });
-        axios
-            .get("http://history.test:8000/api/user", {
-                headers: {
-                    'Authorization': token,
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((response) => {
-                console.log(response);
-                setLoading(false);
-                if (response.status === 200) {
-                    localStorage.setItem("userData", JSON.stringify(response.data));
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            });        
     };
 
     if (redirect) {
