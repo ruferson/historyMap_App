@@ -19,13 +19,9 @@ class MarcadorPolicy
      */
     public function before(User $user, $ability)
     {
-<<<<<<< HEAD
         if ($user->esAdministrador()) {
             return true;
         }
-=======
-
->>>>>>> baf1a98996f3b20f2c6d0caec6ff8b7bf3cbfd34
     }
 
     /**
@@ -71,7 +67,20 @@ class MarcadorPolicy
      */
     public function update(User $user, Marcador $marcador)
     {
-        return true;
+        $permiso = false;
+        $mapas = $user->mapasCreados;
+        foreach ($mapas as $mapa) {
+            if($mapa->id == $marcador->mapa_id){
+                $permiso = true;
+            }
+        }
+        $mapas = $user->mapasVisualizados;
+        foreach ($mapas as $mapa) {
+            if($mapa->id == $marcador->mapa_id){
+                $permiso = true;
+            }
+        }
+        return $permiso;
     }
 
     /**

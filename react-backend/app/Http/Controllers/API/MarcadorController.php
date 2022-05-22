@@ -73,7 +73,7 @@ class MarcadorController extends Controller
             $marcador->save();
             return new MarcadorResource($marcador);
         }else{
-            return new http_response_code(403);
+            return new response('Forbidden',403);
         }
     }
 
@@ -97,7 +97,9 @@ class MarcadorController extends Controller
      */
     public function update(Request $request, Marcador $marcador)
     {
-        $marcadorData = json_decode($request->getContent(), true);
+        $contenido = $request->getContent();
+        //$contenido->strpos();
+        $marcadorData = json_decode($contenido, true);
         $marcador->update($marcadorData);
 
         return new MarcadorResource($marcador);
