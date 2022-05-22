@@ -26,6 +26,7 @@ function Login() {
 
     function onSignInHandler() {
         setLoading(true);
+        let token;
         axios
             .post("http://history.test:8000/api/tokens/create", {
                 email: email,
@@ -36,6 +37,8 @@ function Login() {
                 setLoading(false);
                 if (response.status === 200) {
                     localStorage.setItem("isLoggedIn", true);
+                    token = JSON.stringify(response.data);
+                    token = JSON.parse(token.token_type)+" "+JSON.parse(token.access_token);
                     localStorage.setItem("userToken", JSON.stringify(response.data));
                     console.log(JSON.stringify(response.data))
                     setRedirect(true);
@@ -63,11 +66,10 @@ function Login() {
             .catch((error) => {
                 console.log(error);
             });
-            console.log(JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token)
         axios
             .get("http://history.test:8000/api/user", {
                 headers: {
-                    'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                    'Authorization': token,
                     'Content-Type': 'application/json'
                 }
             })

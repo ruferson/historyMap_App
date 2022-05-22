@@ -10,6 +10,12 @@ function MisNotificaciones(props) {
     const { listaNotificaciones, loading } = useNotificaciones();
     const [notificaciones, setNotificaciones] = useState([])
 
+    useEffect(()=> {
+        if (!loading) {
+            props.setNotificaciones(listaNotificaciones.data.length)
+        }
+    }, [loading])
+
     function mapearMisNotificaciones(notificacion, key){
         return <Notificacion url={notificacion.url} noteName={notificacion.type} noteDesc={notificacion.description}></Notificacion>
     }

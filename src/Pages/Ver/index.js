@@ -18,6 +18,10 @@ function Ver(props) {
     const [eventoID, setEventoID] = useState(1);
     const { mapaDatos, loading } = useMapa(mapaID);
 
+    if (localStorage.getItem("isLoggedIn") === "false") {
+        setLocation("/session")
+    }
+
     //useEffect(() => {setMapaID(props.params.id)}, [props.params.id]);
 
     function cambiarEvento(event){

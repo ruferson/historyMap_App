@@ -34,12 +34,6 @@ function MenuNoLogged(props) {
             </div>
 
             <ul className="nav flex-column mb-0">
-                <li className="nav-item border-top" onClick={() => {setLocation("/")}}>
-                <span className={"nav-link text-white cursor-link hover-select "+selected[0]}>
-                            <i className="fa mr-3 fa-fw"></i>
-                            <strong className="h3">Mapas Públicos</strong>
-                        </span>
-                </li>
                 <li className="nav-item border-top"  onClick={() => {setLocation("/session")}}>
                 <span className={"nav-link text-white cursor-link hover-select "+selected[1]}>
                             <i className="fa mr-3 fa-fw"></i>
