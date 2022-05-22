@@ -17,11 +17,9 @@ function Mapa(props) {
     const [listaMarcadores, setListaMarcadores] = useState([])
     const [selectedPosition, setSelectedPosition] = useState();
 
-    console.log(markers)
-
     function aniadirMarcador() {
         let marcadores=listaMarcadores;
-        marcadores.push([selectedPosition, "construction"])
+        marcadores.push([selectedPosition, "default"])
         setListaMarcadores(marcadores)
     }
     useEffect(aniadirMarcador, [selectedPosition])
@@ -32,8 +30,6 @@ function Mapa(props) {
     useEffect(cambiarCreando, [props.crear])
 
     function ponerMarcadores() {
-        console.log(loading)
-        console.log(markers)
         if (!loading){
             let marcadores=[];
             for(let i=0; i<Object.keys(markers.data).length;i++){
@@ -53,7 +49,7 @@ function Mapa(props) {
                         e.latlng.lat,
                         e.latlng.lng
                     ]);
-                    props.sendMarcador(e.latlng.lat, e.latlng.lng, )
+                    props.sendMarcador(e.latlng.lat, e.latlng.lng)
                     props.setCrear(false);
                 }
             },          

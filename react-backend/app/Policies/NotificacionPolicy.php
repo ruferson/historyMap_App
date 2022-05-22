@@ -20,7 +20,6 @@ class NotificacionPolicy
      */
     public function before(User $user, $ability)
     {
-        throw new Exception("sfd");
         if ($user->esAdministrador()) {
             return true;
         }

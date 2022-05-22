@@ -7,7 +7,7 @@ function MapaClick(props) {
     const [location, setLocation] = useLocation();
 
     return (
-        <div className="col-3 text-center">
+        <div className="col-3 mb-3 text-center">
             <div className="card">
                 <img className="card-img-top" src={props.mapImage} alt="Card image" />
                 <div className="card-body">

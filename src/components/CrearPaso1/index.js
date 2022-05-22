@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React, { useState } from 'react';
 import './styles.css'
 import { Button, Input, Label } from 'reactstrap';
 import Footer from '../Footer';
@@ -6,10 +6,11 @@ import axios from "axios";
 
 function CrearPaso1(props) {
 
+    const [esPrivado, setEsPrivado] = useState(false);
+
     function sendMapa(){
         let name = document.getElementById("nombre").value
         let img = document.getElementById("img").value
-        let esPrivado = document.getElementById("privado").value==="true" ? true : false;
         if (name!==null && img!==null) {
             axios
                 .post("http://history.test:8000/api/mapas", {
@@ -26,8 +27,7 @@ function CrearPaso1(props) {
                 .then((response) => {
                     console.log(response);
                     if (response.status === 201) {
-                        console.log(response.data.data.id)
-                        props.setMapaID(response.data.id)
+                        props.setMapaID(response.data.data.id)
                         props.setPaso(2)
                     }
                 })
@@ -55,30 +55,32 @@ function CrearPaso1(props) {
                 id="img"
                 placeholder="url"
             /> <br/>
-            <label className="radio-inline pr-3">
-                <input
+            <Label className="radio-inline mr-5">
+                <Input
                     type="radio"
                     name="privado"
                     id="privado"
-                    checked
+                    defaultChecked
                     value={true}
+                    onChange={() => {setEsPrivado(true)}}
                     className="pr-1"
                 />
                 Privado
-            </label>
-            <label className="radio-inline">
-                <input
+            </Label>
+            <Label className="radio-inline">
+                <Input
                     type="radio"
                     name="privado"
                     id="privado"
                     value={false}
+                    onChange={() => {setEsPrivado(false)}}
                     className="pr-1"
                 />
                 Público
-            </label><br/>
+            </Label><br/>
             <Button className="float-left btn-success" onClick={sendMapa}>Continuar</Button>
         </div>
-                <div className="footer-abajo">
+                <div className="">
                     <Footer/>
                 </div>
             </>
