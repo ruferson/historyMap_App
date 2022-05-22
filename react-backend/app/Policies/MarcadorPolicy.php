@@ -74,12 +74,6 @@ class MarcadorPolicy
                 $permiso = true;
             }
         }
-        $mapas = $user->mapasVisualizados;
-        foreach ($mapas as $mapa) {
-            if($mapa->id == $marcador->mapa_id){
-                $permiso = true;
-            }
-        }
         return $permiso;
     }
 
@@ -92,7 +86,14 @@ class MarcadorPolicy
      */
     public function delete(User $user, Marcador $marcador)
     {
-        return true;
+        $permiso = false;
+        $mapas = $user->mapasCreados;
+        foreach ($mapas as $mapa) {
+            if($mapa->id == $marcador->mapa_id){
+                $permiso = true;
+            }
+        }
+        return $permiso;
     }
 
     /**

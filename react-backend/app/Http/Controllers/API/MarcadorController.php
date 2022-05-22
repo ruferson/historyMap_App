@@ -63,12 +63,6 @@ class MarcadorController extends Controller
                 $permiso = true;
             }
         }
-        $mapas = $usuario->mapasVisualizados;
-        foreach ($mapas as $mapa) {
-            if($mapa->id == $marcador->mapa_id){
-                $permiso = true;
-            }
-        }
         if ($permiso) {
             $marcador->save();
             return new MarcadorResource($marcador);
