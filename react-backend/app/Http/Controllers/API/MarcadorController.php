@@ -98,7 +98,9 @@ class MarcadorController extends Controller
     public function update(Request $request, Marcador $marcador)
     {
         $contenido = $request->getContent();
-        //$contenido->strpos();
+        $mapaIdLocation = strpos($contenido, 'mapa_id');
+        $finalLocation = strpos($contenido, '}', $mapaIdLocation);
+        //throw new Exception($contenido);
         $marcadorData = json_decode($contenido, true);
         $marcador->update($marcadorData);
 
