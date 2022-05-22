@@ -3,9 +3,15 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MapaResource;
 use App\Http\Resources\MarcadorResource;
+use App\Models\Mapa;
 use App\Models\Marcador;
+use Exception;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class MarcadorController extends Controller
 {
@@ -29,10 +35,12 @@ class MarcadorController extends Controller
         return MarcadorResource::collection(Marcador::paginate());
     }
 
-    public function indexMapa($mapaID)
+    public function indexMapa(Mapa $mapa) // Necesita proteccion con policies
     {
-        $marcadoresMapa = MarcadorResource::collection(Marcador::where('mapa_id', '=', $mapaID)->paginate());
-        return $marcadoresMapa;
+        $marcadoresMapa = $mapa->marcadores();
+        return MarcadorResource::collection($marcadoresMapa->paginate());
+        //$marcadoresMapa = MarcadorResource::collection(Marcador::where('mapa_id', '=', $mapaId)->paginate());
+        //return $marcadoresMapa;
     }
 
     /**
@@ -43,11 +51,30 @@ class MarcadorController extends Controller
      */
     public function store(Request $request)
     {
+        $usuario = Auth::user();
+
         $marcador = json_decode($request->getContent(), true);
+        $marcador = new Marcador($marcador);
 
-        $marcador = Marcador::create($marcador);
-
-        return new MarcadorResource($marcador);
+        $permiso = false;
+        $mapas = $usuario->mapasCreados;
+        foreach ($mapas as $mapa) {
+            if($mapa->id == $marcador->mapa_id){
+                $permiso = true;
+            }
+        }
+        $mapas = $usuario->mapasVisualizados;
+        foreach ($mapas as $mapa) {
+            if($mapa->id == $marcador->mapa_id){
+                $permiso = true;
+            }
+        }
+        if ($permiso) {
+            $marcador->save();
+            return new MarcadorResource($marcador);
+        }else{
+            return new http_response_code(403);
+        }
     }
 
     /**

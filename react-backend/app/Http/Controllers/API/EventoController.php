@@ -55,6 +55,18 @@ class EventoController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Evento  $evento
+     * @return \Illuminate\Http\Response
+     */
+    public function showFromMarcadorId($marcadorId)
+    {
+        $evento = Evento::where('marcador_id', '=', $marcadorId);
+        return new EventoResource($evento);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

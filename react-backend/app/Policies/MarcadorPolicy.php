@@ -19,7 +19,7 @@ class MarcadorPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdministrator()) {
+        if ($user->esAdministrador()) {
             return true;
         }
     }
@@ -32,7 +32,7 @@ class MarcadorPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -44,7 +44,7 @@ class MarcadorPolicy
      */
     public function view(User $user, Marcador $marcador)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -91,7 +91,7 @@ class MarcadorPolicy
      */
     public function restore(User $user, Marcador $marcador)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -103,6 +103,6 @@ class MarcadorPolicy
      */
     public function forceDelete(User $user, Marcador $marcador)
     {
-        return true;
+        return false;
     }
 }

@@ -53,13 +53,12 @@ class MapaPolicy
             $permiso = true;
         }else {
             $usuarios = $mapa->usuariosVisualizadores;
-            if (is_array($usuarios)) {
-                foreach ($usuarios as $usuario) {
-                    if ($usuario->id == $user->id) {
-                        $permiso = true;
-                    }
+            foreach ($usuarios as $usuario) {
+                if ($usuario->id == $user->id) {
+                    $permiso = true;
                 }
             }
+
         }
         return $permiso;
     }

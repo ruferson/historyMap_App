@@ -46,7 +46,8 @@ use Illuminate\Validation\ValidationException;
         Route::group(['middleware' => 'auth:sanctum'],function () {
             Route::group(['prefix' => '/'], function () {
                 Route::get("/mapas/publicos", [MapaController::class, "indexPublicos"]);
-                Route::get("/marcadores/{mapaID}", [MarcadorController::class, 'indexMapa']);
+                Route::get("/marcadores/{mapa}", [MarcadorController::class, 'indexMapa']);
+                Route::get("/eventos/{marcadorId}", [EventoController::class, 'showFromMarcadorId']);
 
                 Route::apiResource("/eventos", EventoController::class);
                 Route::apiResource("/marcadores", MarcadorController::class)->parameters(['marcadores' => 'marcador']);
