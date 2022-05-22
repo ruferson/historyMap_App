@@ -45,7 +45,7 @@ class NotificacionPolicy
      */
     public function view(User $user, Notificacion $notificacion)
     {
-        return $notificacion->idUsu == $user->id;
+        return $notificacion->idUsu === $user->id;
     }
 
     /**
@@ -68,7 +68,7 @@ class NotificacionPolicy
      */
     public function update(User $user, Notificacion $notificacion)
     {
-        return true;
+        return $notificacion->idUsu == $user->id;
     }
 
     /**
@@ -80,7 +80,7 @@ class NotificacionPolicy
      */
     public function delete(User $user, Notificacion $notificacion)
     {
-        return true;
+        return $notificacion->idUsu == $user->id;
     }
 
     /**
@@ -92,7 +92,7 @@ class NotificacionPolicy
      */
     public function restore(User $user, Notificacion $notificacion)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -104,6 +104,6 @@ class NotificacionPolicy
      */
     public function forceDelete(User $user, Notificacion $notificacion)
     {
-        return true;
+        return false;
     }
 }
