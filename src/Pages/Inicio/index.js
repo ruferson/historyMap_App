@@ -10,7 +10,7 @@ function Inicio () {
             <h1 className="text-white">Mapas públicos</h1><br/>
             <MapasPublicos/>
         </div>
-        <div className="footer-abajo"><Footer /></div>
+        <div className=""><Footer /></div>
         </>
     );
   }

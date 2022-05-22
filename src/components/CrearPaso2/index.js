@@ -3,11 +3,13 @@ import Mapa from '../Mapa';
 import Escribir from '../Escribir';
 import { Button } from 'reactstrap';
 import Footer from '../Footer';
+import axios from "axios";
 
 function CrearPaso2(props) {
 
     const [crear, setCrear] = useState(false);
     const [eventoID, setEventoID] = useState(null);
+    console.log(props.mapaID)
 
     function cambiarEvento(event){
         let id = event.target.options.id;
@@ -23,22 +25,25 @@ function CrearPaso2(props) {
     }
 
     function sendMarcador(x, y){
-        let XHRdelMARKER = new XMLHttpRequest();
-        let url = "enviarHTML";
-    
-        // open a connection
-        XHRdelMARKER.open("POST", url, true);
-
-        // Set the request header i.e. which type of content you are sending
-        XHRdelMARKER.setRequestHeader("Content-Type", "application/json");
-
-        // Converting JSON data to string
-        let data = JSON.stringify({ "x":x, "y":y, "mapa_id": props.mapaID });
-
-        console.log(data);  
-
-        // Sending data with the request
-        XHRdelMARKER.send(data);
+        let data = JSON.stringify({ "x":x, "y":y, "tipo": "default", "mapa_id": props.mapaID });
+        console.log(data)
+        axios
+            .post("http://history.test:8000/api/marcadores", 
+                data
+            , {
+                headers: {
+                    'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.status === 201) {
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     function sendHTML(titulo, html, tipo){
@@ -47,25 +52,25 @@ function CrearPaso2(props) {
         } else if (html=== null || titulo==="") {
             alert("¡Has dejado un campo VACÍO!")
         } else {
+            let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": eventoID });
 
-            // Creating a XHRdelHTML object
-            let XHRdelHTML = new XMLHttpRequest();
-            let url = "enviarHTML";
-        
-            // open a connection
-            XHRdelHTML.open("POST", url, true);
-
-            // Set the request header i.e. which type of content you are sending
-            XHRdelHTML.setRequestHeader("Content-Type", "application/json");
-
-            // Converting JSON data to string
-            let data = JSON.stringify({ "titulo": titulo, "html": html, "tipo": tipo, "marcador_id": eventoID });
-
-            console.log(eventoID)
-            console.log(data);
-
-            // Sending data with the request
-            XHRdelHTML.send(data);
+            axios
+            .post("http://history.test:8000/api/eventos", 
+                data
+            , {
+                headers: {
+                    'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.status === 201) {
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         }
     }
 

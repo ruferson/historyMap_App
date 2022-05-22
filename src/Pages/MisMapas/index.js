@@ -37,7 +37,7 @@ function MisMapas () {
         </div> <br />
         <Button onClick={()=>action()}>Crear Mapa Nuevo</Button>
         </div>
-        <div className="footer-abajo"><Footer /></div>
+        <div className=""><Footer /></div>
         </>
     );
 

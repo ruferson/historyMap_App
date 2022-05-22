@@ -7,7 +7,7 @@ function Notificacion(props) {
     const [location, setLocation] = useLocation();
 
     return (
-        <div className="col-12 text-left">
+        <div className="col-12 mb-2 text-left">
             <div className="card">
                 <div className="card-body">
                 <Button className="btn-primary float-right" onClick={()=>{setLocation(props.url)}}>Ver</Button>

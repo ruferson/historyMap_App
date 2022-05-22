@@ -19,9 +19,13 @@ class MarcadorPolicy
      */
     public function before(User $user, $ability)
     {
+<<<<<<< HEAD
         if ($user->esAdministrador()) {
             return true;
         }
+=======
+
+>>>>>>> baf1a98996f3b20f2c6d0caec6ff8b7bf3cbfd34
     }
 
     /**
