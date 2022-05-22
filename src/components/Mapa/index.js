@@ -13,16 +13,9 @@ import useMarcadores from 'hooks/useMarcadores';
 function Mapa(props) {
 
     const [creando, setCreando] = useState(props.crear);
-    const { markers, loading } = useMarcadores(props.id)
+    const { markers, loading } = useMarcadores(props.id, props.update)
     const [listaMarcadores, setListaMarcadores] = useState([])
     const [selectedPosition, setSelectedPosition] = useState();
-
-    function aniadirMarcador() {
-        let marcadores=listaMarcadores;
-        marcadores.push([selectedPosition, "default"])
-        setListaMarcadores(marcadores)
-    }
-    useEffect(aniadirMarcador, [selectedPosition])
 
     function cambiarCreando(){
         setCreando(props.crear)
@@ -33,10 +26,11 @@ function Mapa(props) {
         if (!loading){
             let marcadores=[];
             for(let i=0; i<Object.keys(markers.data).length;i++){
-                let array = [[markers.data[i].x, markers.data[i].y], markers.data[i].tipo, markers.data[i].id]
+                let array = markers.data[i]
                 marcadores.push(array);
             }
             setListaMarcadores(marcadores);
+            console.log(listaMarcadores)
         }
     }
     useEffect(ponerMarcadores, [loading]);
@@ -59,7 +53,7 @@ function Mapa(props) {
     }
 
     function LocationMarker(marcador, key) {
-        let position = marcador[0];
+        console.log(marcador)
         let myIcon = L.icon({
             iconUrl: defaultIcon,
             iconRetinaUrl: defaultIcon,
@@ -67,7 +61,7 @@ function Mapa(props) {
             popupAnchor: [10, -44],
             iconSize: [30, 30],
           });
-        switch (marcador[1]){
+        switch (marcador.tipo){
             case "war":
                 myIcon = L.icon({
                     iconUrl: warIcon,
@@ -125,9 +119,9 @@ function Mapa(props) {
         }
         return position === null ? null : (
           <div>
-            <Marker id={marcador[2]} eventHandlers={{ click: props.cambiarEvento }} key={key} position={position} icon={myIcon}>
+            <Marker id={marcador.id} eventHandlers={{ click: props.cambiarMarcador }} key={key} position={[marcador.x, marcador.y]} icon={myIcon}>
                 <Popup>
-                    <h3>{marcador[1]}</h3>
+                    <h3>{marcador.tipo}</h3>
                 </Popup>
             </Marker>
           </div>

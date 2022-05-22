@@ -4,20 +4,31 @@ import Escribir from '../Escribir';
 import { Button } from 'reactstrap';
 import Footer from '../Footer';
 import axios from "axios";
+import useEvento from 'hooks/useEvento';
 
 function CrearPaso2(props) {
 
     const [crear, setCrear] = useState(false);
-    const [eventoID, setEventoID] = useState(null);
-    console.log(props.mapaID)
+    const [marcadorID, setMarcadorID] = useState(null);
+    const [update, setUpdate] = useState(0);
+    const [html, setHTML] = useState();
+    const [titulo, setTitulo] = useState()
+    const [tipo, setTipo] = useState()
+    const { evento, loading } = useEvento(marcadorID, update);
 
-    function cambiarEvento(event){
+    function cambiarMarcador(event){
         let id = event.target.options.id;
-        if (!id<2){
-            id=2;
-        }  
-        setEventoID(id);
+        console.log(id)
+        setMarcadorID(id);
     }
+
+    useEffect(() => {
+        if (evento !== null){
+            html=evento.html;
+            titulo=evento.titulo;
+            tipo=evento.tipo;
+        }
+    }, [evento])
 
     function cambiarCrear(){
         setCrear(!crear)
@@ -39,24 +50,17 @@ function CrearPaso2(props) {
             .then((response) => {
                 console.log(response);
                 if (response.status === 201) {
+                    setUpdate(update+1)
                 }
             })
             .catch((error) => {
                 console.log(error);
             });
-    }
-
-    function sendHTML(titulo, html, tipo){
-        if (eventoID===null){
-            alert("¡NO has selecionnado un marcador!")
-        } else if (html=== null || titulo==="") {
-            alert("¡Has dejado un campo VACÍO!")
-        } else {
-            let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": eventoID });
-
-            axios
+            let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id": marcadorID });
+            let correct=true;
+        axios
             .post("http://history.test:8000/api/eventos", 
-                data
+                data2
             , {
                 headers: {
                     'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
@@ -66,12 +70,79 @@ function CrearPaso2(props) {
             .then((response) => {
                 console.log(response);
                 if (response.status === 201) {
+                } else {
+                    correct=false;
                 }
             })
             .catch((error) => {
                 console.log(error);
             });
+    }
+
+    function sendHTML(titulo, html, type){
+        if (marcadorID===null){
+            alert("¡NO has selecionnado un marcador!")
+        } else if (html=== null || titulo==="") {
+            alert("¡Has dejado un campo VACÍO!")
+        } else {
+            let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
+            let correct=true;
+            axios
+                .post("http://history.test:8000/api/eventos", 
+                    data
+                , {
+                    headers: {
+                        'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => {
+                    console.log(response);
+                    if (response.status === 201) {
+                    } else {
+                        correct=false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            axios
+                .put("http://history.test:8000/api/marcadores/"+marcadorID, 
+                    {tipo: type}
+                , {
+                    headers: {
+                        'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => {
+                    console.log(response);
+                    if (response.status === 200) {
+                    } else {
+                        correct=false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+                
+                console.log(correct)
+                if (correct){
+                    setUpdate(update+1)
+                    alert("¡Has creado un evento!")
+                }
+                //mandar alerta de creado
+
         }
+    }
+
+    function alertaCreado(){
+        return (
+            <div class="alert alert-info alert-dismissible fade in notificacion">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>¡Hecho!</strong> ¡Evento creado, y asignado al marcador seleccionado!
+            </div>
+        )
     }
 
    return (
@@ -80,10 +151,11 @@ function CrearPaso2(props) {
             <Button className="float-left btn-success mr-5" onClick={cambiarCrear}>Añadir Marcador</Button>
             
             <div className="">
-                <Mapa sendMarcador={sendMarcador} cambiarEvento={cambiarEvento} crear={crear} setCrear={setCrear}></Mapa>
+                <Mapa sendMarcador={sendMarcador} cambiarMarcador={cambiarMarcador} crear={crear} setCrear={setCrear} id={props.mapaID} update={update}
+                    changeHTML={setHTML} changeTitulo={setTitulo} changeTipo={setTipo}></Mapa>
             </div> 
             <div className="">
-                <Escribir sendHTML={sendHTML}></Escribir>
+                <Escribir sendHTML={sendHTML} html={html} titulo={titulo} tipo={tipo}></Escribir>
             </div><br/><br/>
         </div>
             <Footer/>

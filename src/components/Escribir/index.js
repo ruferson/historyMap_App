@@ -1,12 +1,19 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import RichTextEditor from 'react-rte';
 import { Button, Form, Input, Label } from 'reactstrap';
 
 function Escribir(props) {
 
     const [html, setHTML] = useState(null)
-    const [state, setState] = useState(RichTextEditor.createEmptyValue())
+    console.log(props.html !== undefined)
+    const [state, setState] = useState(props.html !== undefined ? RichTextEditor.createValueFromString(props.html, "html") : RichTextEditor.createEmptyValue())
   
+    useEffect(()=>{
+        if (props.html !== undefined) {
+            setState(RichTextEditor.createValueFromString(props.html, "html"))
+        }
+    }, [props.html]);
+
     function onChange (value) {
       setState(value);
       setHTML(value.toString('html'));
@@ -53,6 +60,7 @@ function Escribir(props) {
                     name="titulo"
                     id="titulo"
                     placeholder="título"
+                    value={props.titulo !== null ? props.tiulo : ""}
                 /><br/>
                 <Label for="text"><h3>Texto:</h3></Label>
                 <RichTextEditor toolbarConfig={toolbarConfig}
@@ -61,11 +69,12 @@ function Escribir(props) {
                 /><br/>
                 <label for="tipo"><h3>Tipo:</h3></label> <br/>
                 <select name="tipo" id="tipo">
-                    <option value="war">Guerra</option>
-                    <option value="death">Muerte</option>
-                    <option value="birth">Nacimiento</option>
-                    <option value="discovery">Descubrimiento</option>
-                    <option value="construction">Construcción</option>
+                    {props.tipo === "default" ? <option value="default" selected>--Elige un tipo--</option> : <option value="default">--Elige un tipo--</option>}
+                    {props.tipo === "war" ? <option value="war" selected>Guerra</option> : <option value="war">Guerra</option>}
+                    {props.tipo === "death" ? <option value="death" selected>Muerte</option> : <option value="death">Muerte</option>}
+                    {props.tipo === "birth" ? <option value="birth" selected>Nacimiento</option> : <option value="birth">Nacimiento</option>}
+                    {props.tipo === "discovery" ? <option value="discovery" selected>Descubrimiento</option> : <option value="discovery">Descubrimiento</option>}
+                    {props.tipo === "construction" ? <option value="construction" selected>Construcción</option> : <option value="construction">Construcción</option>}
                 </select> {/*ponerIconoEvento*/} <br/><br/>
                 <Button  className="btn-success" onClick={enviarHTML}>Enviar</Button>
             </Form>

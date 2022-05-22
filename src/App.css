@@ -12,6 +12,12 @@
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
+.notificacion {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+
 .logo {
     width: 15%;
     position: absolute;
