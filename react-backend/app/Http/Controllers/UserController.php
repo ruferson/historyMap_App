@@ -29,7 +29,40 @@ class UserController extends Controller
 
         return new UserResource($user);
     }
+    public function userSignUp(Request $request) {
+        $permiso = true;
+        $nombre = $request->name;
+        $email = $request->email;
+        $contrasenya = $request->password;
 
+        if (!isset($nombre) || trim($nombre, ' ') == "") {
+            $permiso = false;
+        }else if (!isset($email) || trim($email, ' ') == "") {
+            $permiso = false;
+        }else if (!isset($contrasenya) || trim($contrasenya, ' ') == "") {
+            $permiso = false;
+        }
+
+        $user_status = User::where("email", $email)->first();
+
+        if(!is_null($user_status)) {
+           return response()->json(["status" => "failed", "success" => false, "message" => "Ooops! Email ya registrado anteriormente"]);
+        }
+
+        if ($permiso) {
+            $user = new User();
+            $user->name = $nombre;
+            $user->email = $email;
+            $user->password = md5($contrasenya);
+            $user->save();
+            if(!is_null($user)) {
+                return response()->json(["status" => $this->status_code, "success" => true, "message" => "Registro completado correctamente", "data" => $user]);
+            }
+        }else{
+            return response()->json(["status" => "failed", "success" => false, "message" => "Fallo al registrar"]);
+        }
+    }
+    /*
     public function userSignUp(Request $request) {
         $validator = Validator::make($request->all(), [
             "name" => "required",
@@ -63,7 +96,7 @@ class UserController extends Controller
             return response()->json(["status" => "failed", "success" => false, "message" => "Fallo al registrar"]);
         }
     }
-
+    */
 
     // ------------ [ User Login ] -------------------
     public function userLogin(Request $request) {
