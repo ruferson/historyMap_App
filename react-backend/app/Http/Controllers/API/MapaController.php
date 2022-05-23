@@ -7,6 +7,7 @@ use App\Http\Resources\MapaResource;
 use App\Models\Mapa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MapaController extends Controller
 {
@@ -40,7 +41,7 @@ class MapaController extends Controller
      */
     public function indexPublicos()
     {
-        $mapasPublicos = MapaResource::collection(Mapa::where('privado', '=', 0)->all());
+        $mapasPublicos = MapaResource::collection(Mapa::where('privado', '=', 0)->paginate(DB::select("select max(id) as max from mapas")[0]->max));
         return $mapasPublicos;
     }
 
