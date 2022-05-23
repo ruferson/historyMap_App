@@ -26,7 +26,7 @@ class EventoController extends Controller
      */
     public function index()
     {
-        return EventoResource::collection(Evento::paginate());
+        return EventoResource::collection(Evento::all());
     }
 
     /**
