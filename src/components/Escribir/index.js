@@ -84,7 +84,7 @@ function Escribir(props) {
                     name="titulo"
                     id="titulo"
                     placeholder="título"
-                    value={titulo !== null ? titulo : ""}
+                    value={titulo}
                     onChange={onChangeTitulo}
                 /><br/>
                 <Label for="text"><h3>Texto:</h3></Label>
