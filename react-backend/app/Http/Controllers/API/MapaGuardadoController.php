@@ -12,16 +12,6 @@ use Illuminate\Support\Facades\DB;
 
 class MapaGuardadoController extends Controller
 {
-
-    /**
-     * Create the controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->authorizeResource(Mapa::class, 'mapaGuardado');
-    }
     /**
      * Display a listing of the resource.
      *

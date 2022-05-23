@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Evento;
 use App\Models\User;
+use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class EventoPolicy
@@ -81,9 +82,9 @@ class EventoPolicy
      */
     public function update(User $user, Evento $evento)
     {
-        $marcadorEnlazado = $evento->marcadorEnlazado();
-        $mapaOrigen = $marcadorEnlazado->mapaEnlazado();
-        $usuarioCreador = $mapaOrigen->usuarioCreador();
+        $marcadorEnlazado = $evento->marcadorEnlazado;
+        $mapaOrigen = $marcadorEnlazado->mapaEnlazado;
+        $usuarioCreador = $mapaOrigen->usuarioCreador;
         return $user->id == $usuarioCreador->id;
     }
 

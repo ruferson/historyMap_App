@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Mapa;
 use App\Models\User;
+use Exception;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MapaGuardadoPolicy
@@ -20,6 +21,7 @@ class MapaGuardadoPolicy
      */
     public function before(User $user, $ability)
     {
+        throw new Exception("asd");
         if ($user->esAdministrador()) {
             return true;
         }
