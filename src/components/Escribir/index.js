@@ -4,17 +4,33 @@ import { Button, Form, Input, Label } from 'reactstrap';
 
 function Escribir(props) {
 
-    const [html, setHTML] = useState(null)
-    console.log(props.html !== undefined)
-    const [state, setState] = useState(props.html !== undefined ? RichTextEditor.createValueFromString(props.html, "html") : RichTextEditor.createEmptyValue())
+    const [html, setHTML] = useState(null);
+    const [state, setState] = useState(props.html !== undefined ? RichTextEditor.createValueFromString(props.html, "html") : RichTextEditor.createEmptyValue());
+    const [tipo, setTipo] = useState(props.tipo !== undefined ? props.tipo : "default")
+    const [titulo, setTitulo] = useState(props.titulo !== undefined ? props.titulo : "")
   
+    console.log(props)
+
     useEffect(()=>{
+        console.log(props)
         if (props.html !== undefined) {
             setState(RichTextEditor.createValueFromString(props.html, "html"))
         }
     }, [props.html]);
+    useEffect(()=>{
+        console.log(props)
+        if (props.tipo !== undefined) {
+            setTipo(props.tipo)
+        }
+    }, [props.tipo]);
+    useEffect(()=>{
+        console.log(props)
+        if (props.titulo !== undefined) {
+            setTitulo(props.titulo)
+        }
+    }, [props.titulo]);
 
-    function onChange (value) {
+    function onChangeHTML (value) {
       setState(value);
       setHTML(value.toString('html'));
     };
@@ -51,6 +67,14 @@ function Escribir(props) {
         props.sendHTML(titulo, html, tipo)
     }
 
+    function onChangeTitulo(value) {
+        setTitulo(value)
+    }
+
+    function onChangeTipo(value) {
+        setTipo(value)
+    }
+
     return (
         <div>
             <Form className="" method="post" name="formulario">
@@ -60,21 +84,22 @@ function Escribir(props) {
                     name="titulo"
                     id="titulo"
                     placeholder="título"
-                    value={props.titulo !== null ? props.tiulo : ""}
+                    value={titulo !== null ? titulo : ""}
+                    onChange={onChangeTitulo}
                 /><br/>
                 <Label for="text"><h3>Texto:</h3></Label>
                 <RichTextEditor toolbarConfig={toolbarConfig}
                     value={state}
-                    onChange={onChange}
+                    onChange={onChangeHTML}
                 /><br/>
                 <label for="tipo"><h3>Tipo:</h3></label> <br/>
-                <select name="tipo" id="tipo">
-                    {props.tipo === "default" ? <option value="default" selected>--Elige un tipo--</option> : <option value="default">--Elige un tipo--</option>}
-                    {props.tipo === "war" ? <option value="war" selected>Guerra</option> : <option value="war">Guerra</option>}
-                    {props.tipo === "death" ? <option value="death" selected>Muerte</option> : <option value="death">Muerte</option>}
-                    {props.tipo === "birth" ? <option value="birth" selected>Nacimiento</option> : <option value="birth">Nacimiento</option>}
-                    {props.tipo === "discovery" ? <option value="discovery" selected>Descubrimiento</option> : <option value="discovery">Descubrimiento</option>}
-                    {props.tipo === "construction" ? <option value="construction" selected>Construcción</option> : <option value="construction">Construcción</option>}
+                <select name="tipo" id="tipo" onChange={onChangeTipo}>
+                    {tipo === "default" ? <option value="default" selected>--Elige un tipo--</option> : <option value="default">--Elige un tipo--</option>}
+                    {tipo === "war" ? <option value="war" selected>Guerra</option> : <option value="war">Guerra</option>}
+                    {tipo === "death" ? <option value="death" selected>Muerte</option> : <option value="death">Muerte</option>}
+                    {tipo === "birth" ? <option value="birth" selected>Nacimiento</option> : <option value="birth">Nacimiento</option>}
+                    {tipo === "discovery" ? <option value="discovery" selected>Descubrimiento</option> : <option value="discovery">Descubrimiento</option>}
+                    {tipo === "construction" ? <option value="construction" selected>Construcción</option> : <option value="construction">Construcción</option>}
                 </select> {/*ponerIconoEvento*/} <br/><br/>
                 <Button  className="btn-success" onClick={enviarHTML}>Enviar</Button>
             </Form>

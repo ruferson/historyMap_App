@@ -17,16 +17,15 @@ function CrearPaso2(props) {
     const { evento, loading } = useEvento(marcadorID, update);
 
     function cambiarMarcador(event){
-        let id = event.target.options.id;
-        console.log(id)
-        setMarcadorID(id);
+        setUpdate(update+1)
+        setTipo(event.target.options.tipo)
+        setMarcadorID(event.target.options.id);
     }
 
     useEffect(() => {
         if (evento !== null){
-            html=evento.html;
-            titulo=evento.titulo;
-            tipo=evento.tipo;
+            setHTML(evento.data.html);
+            setTitulo(evento.data.titulo);
         }
     }, [evento])
 
@@ -90,25 +89,51 @@ function CrearPaso2(props) {
         } else {
             let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
             let correct=true;
-            axios
-                .post("http://history.test:8000/api/eventos", 
-                    data
-                , {
-                    headers: {
-                        'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then((response) => {
-                    console.log(response);
-                    if (response.status === 201) {
-                    } else {
-                        correct=false;
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            if (titulo !== null) {
+                console.log("haciendo put")
+                axios
+                    .put("http://history.test:8000/api/eventos", 
+                        data
+                    , {
+                        headers: {
+                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        if (response.status === 201) {
+                            setUpdate(update+1)
+                        } else {
+                            correct=false;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                console.log("haciendo post")
+                axios
+                    .post("http://history.test:8000/api/eventos", 
+                        data
+                    , {
+                        headers: {
+                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        if (response.status === 201) {
+                            setUpdate(update+1)
+                        } else {
+                            correct=false;
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
             axios
                 .put("http://history.test:8000/api/marcadores/"+marcadorID, 
                     {tipo: type}
@@ -134,8 +159,7 @@ function CrearPaso2(props) {
                     setUpdate(update+1)
                     alert("¡Has creado un evento!")
                 }
-                //mandar alerta de creado
-
+            //mandar alerta de creado
         }
     }
 

@@ -9,6 +9,7 @@ import discoveryIcon from '../../img/discovery.png'
 import defaultIcon from '../../img/default.png'
 import L from 'leaflet'
 import useMarcadores from 'hooks/useMarcadores';
+import Ajax from 'components/Ajax';
 
 function Mapa(props) {
 
@@ -119,7 +120,7 @@ function Mapa(props) {
         }
         return position === null ? null : (
           <div>
-            <Marker id={marcador.id} eventHandlers={{ click: props.cambiarMarcador }} key={key} position={[marcador.x, marcador.y]} icon={myIcon}>
+            <Marker id={marcador.id} tipo={marcador.tipo} eventHandlers={{ click: props.cambiarMarcador }} key={key} position={[marcador.x, marcador.y]} icon={myIcon}>
                 <Popup>
                     <h3>{marcador.tipo}</h3>
                 </Popup>
@@ -146,8 +147,7 @@ function Mapa(props) {
             {mapeoMarcadores()}
         </MapContainer>
         </div>
-        :
-        <></>}</>
+        : <Ajax/>}</>
     );
 }
 
