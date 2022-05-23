@@ -45,20 +45,23 @@ class EventoPolicy
      */
     public function view(User $user, Evento $evento)
     {
-        $marcadorEnlazado = $evento->marcadorEnlazado();
-        $mapaOrigen = $marcadorEnlazado->mapaEnlazado();
+        $marcadorEnlazado = $evento->marcadorEnlazado;
+        $mapaOrigen = $marcadorEnlazado->mapaEnlazado;
+        $usuarioCreador = $mapaOrigen->usuarioCreador;
+        $usuariosVisualizadores = $mapaOrigen->usuariosVisualizadores;
         $permiso = false;
-
-        $usuarioCreador = $mapaOrigen->usuarioCreador();
-        if ($usuarioCreador->id == $user->id) {
+        if ($mapaOrigen->esMapaPrivado == 0) {
             $permiso = true;
-        }
-        $usuariosVisualizadores = $mapaOrigen->usuariosVisualizadores();
-        foreach ($usuariosVisualizadores as $usuario) {
-            if ($usuario->id == $user->id) {
-                $permiso = true;
+        }else if ($usuarioCreador->id == $user->id) {
+            $permiso = true;
+        }else{
+            foreach ($usuariosVisualizadores as $usuario) {
+                if ($usuario->id == $user->id) {
+                    $permiso = true;
+                }
             }
         }
+
         return $permiso;
     }
 

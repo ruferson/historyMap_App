@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MarcadorController extends Controller
@@ -37,6 +38,11 @@ class MarcadorController extends Controller
 
     public function indexMapa(Mapa $mapa) // Necesita proteccion con policies
     {
+
+        if (! Gate::allows('show-marcadores-from-mapa', $mapa)) {
+            abort(403);
+        }
+
         $marcadoresMapa = $mapa->marcadores;
         return MarcadorResource::collection($marcadoresMapa);
         //$marcadoresMapa = MarcadorResource::collection(Marcador::where('mapa_id', '=', $mapaId)->paginate());

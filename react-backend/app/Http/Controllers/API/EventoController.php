@@ -8,6 +8,7 @@ use App\Models\Evento;
 use App\Models\Marcador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class EventoController extends Controller
 {
@@ -64,7 +65,11 @@ class EventoController extends Controller
      */
     public function showFromMarcadorId(Marcador $marcadorId)
     {
-        $evento = $marcadorId->eventos[0];
+        if (! Gate::allows('show-evento-from-marcador', $marcadorId)) {
+            abort(403);
+        }
+
+        $evento = $marcadorId->evento;
         return new EventoResource($evento);
     }
 
