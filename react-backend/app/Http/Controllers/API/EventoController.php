@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EventoResource;
 use App\Models\Evento;
+use App\Models\Marcador;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,9 +62,9 @@ class EventoController extends Controller
      * @param  \App\Models\Evento  $evento
      * @return \Illuminate\Http\Response
      */
-    public function showFromMarcadorId($marcadorId)
+    public function showFromMarcadorId(Marcador $marcadorId)
     {
-        $evento = Evento::where('marcador_id', '=', $marcadorId);
+        $evento = $marcadorId->eventos[0];
         return new EventoResource($evento);
     }
 

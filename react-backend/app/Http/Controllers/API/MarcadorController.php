@@ -37,7 +37,7 @@ class MarcadorController extends Controller
 
     public function indexMapa(Mapa $mapa) // Necesita proteccion con policies
     {
-        $marcadoresMapa = $mapa->marcadores();
+        $marcadoresMapa = $mapa->marcadores;
         return MarcadorResource::collection($marcadoresMapa);
         //$marcadoresMapa = MarcadorResource::collection(Marcador::where('mapa_id', '=', $mapaId)->paginate());
         //return $marcadoresMapa;
