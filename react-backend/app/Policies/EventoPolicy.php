@@ -32,7 +32,7 @@ class EventoPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -44,7 +44,10 @@ class EventoPolicy
      */
     public function view(User $user, Evento $evento)
     {
-        return true;
+        $marcadorEnlazado = $evento->marcadorEnlazado();
+        $mapaOrigen = $marcadorEnlazado->mapaEnlazado();
+        $usuarioCreador = $mapaOrigen->usuarioCreador();
+        return $user->id == $usuarioCreador->id;
     }
 
     /**
@@ -67,7 +70,10 @@ class EventoPolicy
      */
     public function update(User $user, Evento $evento)
     {
-        return true;
+        $marcadorEnlazado = $evento->marcadorEnlazado();
+        $mapaOrigen = $marcadorEnlazado->mapaEnlazado();
+        $usuarioCreador = $mapaOrigen->usuarioCreador();
+        return $user->id == $usuarioCreador->id;
     }
 
     /**
@@ -79,7 +85,10 @@ class EventoPolicy
      */
     public function delete(User $user, Evento $evento)
     {
-        return true;
+        $marcadorEnlazado = $evento->marcadorEnlazado();
+        $mapaOrigen = $marcadorEnlazado->mapaEnlazado();
+        $usuarioCreador = $mapaOrigen->usuarioCreador();
+        return $user->id == $usuarioCreador->id;
     }
 
     /**
@@ -91,7 +100,7 @@ class EventoPolicy
      */
     public function restore(User $user, Evento $evento)
     {
-        return true;
+        return false;
     }
 
     /**
@@ -103,6 +112,6 @@ class EventoPolicy
      */
     public function forceDelete(User $user, Evento $evento)
     {
-        return true;
+        return false;
     }
 }
