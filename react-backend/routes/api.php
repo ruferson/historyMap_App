@@ -37,7 +37,6 @@ use Illuminate\Validation\ValidationException;
         ]);
     });
 
-    Route::post("login", [UserController::class, "userLogin"]);
     Route::post("register", [UserController::class, "userSignUp"]);
 
     //Route::middleware('auth:sanctum')->
