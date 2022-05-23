@@ -6,12 +6,14 @@ use App\Models\Evento;
 use App\Models\Mapa;
 use App\Models\Marcador;
 use App\Models\Notificacion;
+use App\Models\User;
 use App\Policies\EventoPolicy;
 use App\Policies\MapaPolicy;
 use App\Policies\MarcadorPolicy;
 use App\Policies\NotificacionPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -41,6 +43,30 @@ class AuthServiceProvider extends ServiceProvider
             return config('app.frontend_url')."/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
         });
 
-        //
+        Gate::define('show-evento-from-marcador', function (User $user, Marcador $marcador) {
+            $mapaOrigen = $marcador->mapaEnlazado;
+            $usuarioCreador = $mapaOrigen->usuarioCreador;
+            return $user->id === $usuarioCreador->id;
+        });
+
+
+        Gate::define('show-marcadores-from-mapa', function (User $user, Mapa $mapa) {
+            $permiso = false;
+            $mapaOrigen = $mapa->mapaEnlazado;
+            $usuarioCreador = $mapaOrigen->usuarioCreador;
+            $usuariosVisualizadores = $mapaOrigen->usuariosVisualizadores;
+            if ($mapa->esMapaPrivado == 0) {
+                $permiso = true;
+            }else if ($usuarioCreador->id == $user->id) {
+                $permiso = true;
+            }else{
+                foreach ($usuariosVisualizadores as $usuario) {
+                    if ($usuario->id == $user->id) {
+                        $permiso = true;
+                    }
+                }
+            }
+            return $permiso;
+        });
     }
 }

@@ -23,8 +23,8 @@ class Marcador extends Model
         return $this->belongsTo(Mapa::class, 'mapa_id');
     }
 
-    public function eventos()
+    public function evento()
     {
-        return $this->hasMany(Evento::class, 'marcador_id');
+        return $this->hasOne(Evento::class, 'marcador_id');
     }
 }
