@@ -1,7 +1,7 @@
 
 export function getEvento (ID) { //Con este servicio obtendremos un solo coctail a partir de su id.
 
-  const apiURL = 'http://127.0.0.1:8000/api/eventos/'+ID;
+  const apiURL = 'http://127.0.0.1:8000/api/eventos-marcador/'+ID;
   console.log(apiURL)
   //Usamos la ID pasada por parámetro.
   let token;

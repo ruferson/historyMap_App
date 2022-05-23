@@ -1,7 +1,7 @@
 
 export function getMarcadores (mapaID) { //Con este servicio obtendremos un solo coctail a partir de su id.
 
-  const apiURL = 'http://127.0.0.1:8000/api/marcadores/'+mapaID;
+  const apiURL = 'http://127.0.0.1:8000/api/marcadores-mapa/'+mapaID;
   console.log(apiURL)
   //Usamos la ID pasada por parámetro.
   let token;

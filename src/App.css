@@ -18,6 +18,14 @@
   right: 10px;
 }
 
+.ajax {
+  width: 100px;
+}
+.centrar {
+  display: flex;
+  justify-content: center;
+}
+
 .logo {
     width: 15%;
     position: absolute;

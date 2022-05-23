@@ -8,34 +8,46 @@ function CrearPaso1(props) {
 
     const [esPrivado, setEsPrivado] = useState(false);
 
+    function validateURL(url){
+        let regex = /^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif))$/i;
+        if (regex.test(url)){
+            return true;
+        } else {
+            alert("¡URL de imagen no válida!")
+            return false;
+        }
+    }
+
     function sendMapa(){
         let name = document.getElementById("nombre").value
         let img = document.getElementById("img").value
-        if (name!==null && img!==null) {
-            axios
-                .post("http://history.test:8000/api/mapas", {
-                    nombre: name,
-                    link_imagen: img,
-                    usuario_id: JSON.parse(localStorage.getItem("userData")).user_id,
-                    privado: esPrivado,
-                }, {
-                    headers: {
-                        'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then((response) => {
-                    console.log(response);
-                    if (response.status === 201) {
-                        props.setMapaID(response.data.data.id)
-                        props.setPaso(2)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        } else {
-            alert("¡Pon un nombre!")
+        if (validateURL(img)) {
+            if (name!==null && img!==null) {
+                axios
+                    .post("http://history.test:8000/api/mapas", {
+                        nombre: name,
+                        link_imagen: img,
+                        usuario_id: JSON.parse(localStorage.getItem("userData")).user_id,
+                        privado: esPrivado,
+                    }, {
+                        headers: {
+                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        if (response.status === 201) {
+                            props.setMapaID(response.data.data.id)
+                            props.setPaso(2)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            } else {
+                alert("¡Uno de los datos está vacío!")
+            }
         }
     }
 

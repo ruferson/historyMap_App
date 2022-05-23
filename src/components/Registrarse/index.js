@@ -2,21 +2,17 @@ import React, { useState } from "react";
 import { Button, Form, Label, Input } from "reactstrap";
 import axios from "axios";
 import "./styles.css";
-import {  useLocation } from "wouter";
 
 function Registrase ()  {
 
-  
-    const [location, setLocation] = useLocation();
-  
-    if (JSON.parse(localStorage.getItem("userData")).isLogged){
-
-    }
-  
     const [msg, setMsg] = useState("")
     const [errorNombre, setErrorNombre] = useState("")
     const [errorEmail, setErrorEmail] = useState("")
     const [errorPswd, setErrorPswd] = useState("")
+    const [redirect, setRedirect] = useState(false);
+    const [errMsgEmail, setErrEmail] = useState("");
+    const [errMsgPwd, setErrPwd] = useState("");
+    const [errMsg, setErrMsg] = useState("");
   
   
     function onSubmitHandler (e) {
@@ -26,22 +22,89 @@ function Registrase ()  {
           let nombre=document.getElementById("name").value
           let email=document.getElementById("email").value
           let contraseña=document.getElementById("password").value
-          let data = JSON.stringify({"nombre":nombre, "email":email, "contraseña":contraseña})
+          let data = JSON.stringify({"name":nombre,"email":email,"password":contraseña})
   
           console.log(data);
   
-          axios.post(
-              "http://history.test:8000/api/register",
+          axios
+            .post("http://history.test:8000/api/register",
               data,
-          )
-          .then((response) => {
-              setMsg(response.message);
-          });
-          console.log(msg)
+            )
+            .then((response) => {
+                let token;
+                if (response.status === 200) {
+                    console.log(response)
+                    axios
+                        .post("http://history.test:8000/api/tokens/create", {
+                            email: email,
+                            password: contraseña,
+                        })
+                        .then((response) => {
+                            console.log(response);
+                            if (response.status === 200) {
+                                localStorage.setItem("isLoggedIn", true);
+                                localStorage.setItem("userToken", JSON.stringify(response.data));
+                                token = JSON.stringify(response.data);
+                                console.log(JSON.stringify(response.data))
+                                axios
+                                    .get("http://history.test:8000/api/user", {
+                                        headers: {
+                                            'Authorization': JSON.parse(token).token_type+" "+JSON.parse(token).access_token,
+                                            'Content-Type': 'application/json'
+                                        }
+                                    })
+                                    .then((response) => {
+                                        console.log(response);
+                                        if (response.status === 200) {
+                                            localStorage.setItem("userData", JSON.stringify(response.data));
+                                            setRedirect(true);
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
+                            }
+                            if (
+                                response.status === "failed" &&
+                                response.success === undefined
+                            ) {
+                                setErrEmail(response.validation_error.email);
+                                setErrPwd(response.validation_error.password);
+                                setTimeout(() => {
+                                    setErrEmail("");
+                                    setErrPwd("");
+                                }, 2000);
+                            } else if (
+                                response.status === "failed" &&
+                                response.success === false
+                            ) {
+
+                                setTimeout(() => {
+                                    setErrMsg("");
+                                }, 2000);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
       } else {
           setMsg("Hay errores en el formulario")
       }
     };
+
+    if (redirect) {
+        window.location.href = "/";
+    }
+    const login = localStorage.getItem("isLoggedIn");
+    console.log(login)
+    if (login === "true") {
+        window.location.href = "/";
+    }
   
   
     function validateName(name){
@@ -86,6 +149,7 @@ function Registrase ()  {
       validatePassword(contraseña)
   
       if (validateName(nombre) && validateEmail(email) && validatePassword(contraseña)){
+          alert("hola")
           return true;
       } else {
           return false;

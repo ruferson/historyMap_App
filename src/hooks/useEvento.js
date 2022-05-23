@@ -13,8 +13,6 @@ const useEvento = ( eventoID, update ) => {
             setLoading(true)
             // Usamos el servicio de obtención de posts que hemos creado
             getEvento(eventoID).then(nextEvento => {
-                console.log(update)
-                console.log(nextEvento)
                 setEvento(nextEvento)
                 setLoading(false)
             });
