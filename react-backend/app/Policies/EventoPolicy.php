@@ -46,8 +46,19 @@ class EventoPolicy
     {
         $marcadorEnlazado = $evento->marcadorEnlazado();
         $mapaOrigen = $marcadorEnlazado->mapaEnlazado();
+        $permiso = false;
+
         $usuarioCreador = $mapaOrigen->usuarioCreador();
-        return $user->id == $usuarioCreador->id;
+        if ($usuarioCreador->id == $user->id) {
+            $permiso = true;
+        }
+        $usuariosVisualizadores = $mapaOrigen->usuariosVisualizadores();
+        foreach ($usuariosVisualizadores as $usuario) {
+            if ($usuario->id == $user->id) {
+                $permiso = true;
+            }
+        }
+        return $permiso;
     }
 
     /**
