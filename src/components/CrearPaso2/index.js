@@ -35,7 +35,6 @@ function CrearPaso2(props) {
     }
 
     function sendMarcador(x, y){
-        let nuevoMarker;
         let data = JSON.stringify({ "x":x, "y":y, "tipo": "default", "mapa_id": props.mapaID });
         console.log(data)
         console.log(localStorage.getItem("userData"))
@@ -51,29 +50,27 @@ function CrearPaso2(props) {
             .then((response) => {
                 console.log(response);
                 if (response.status === 201) {
-                    setUpdate(update+1)
-                    nuevoMarker = response.data.id
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-            let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id": nuevoMarker });
-            let correct=true;
-        axios
-            .post("http://history.test:8000/api/eventos", 
-                data2
-            , {
-                headers: {
-                    'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((response) => {
-                console.log(response);
-                if (response.status === 201) {
-                } else {
-                    correct=false;
+                    let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id":response.data.data.id });
+                    console.log(data2)
+                    axios
+                        .post("http://history.test:8000/api/eventos", 
+                            data2
+                        , {
+                            headers: {
+                                'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then((response) => {
+                            console.log(response);
+                            if (response.status === 201) {
+                                setUpdate(update+1)
+                            } else {
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                 }
             })
             .catch((error) => {

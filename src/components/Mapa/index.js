@@ -31,7 +31,6 @@ function Mapa(props) {
                 marcadores.push(array);
             }
             setListaMarcadores(marcadores);
-            console.log(listaMarcadores)
         }
     }
     useEffect(ponerMarcadores, [loading]);
@@ -54,7 +53,6 @@ function Mapa(props) {
     }
 
     function LocationMarker(marcador, key) {
-        console.log(marcador)
         let myIcon = L.icon({
             iconUrl: defaultIcon,
             iconRetinaUrl: defaultIcon,
