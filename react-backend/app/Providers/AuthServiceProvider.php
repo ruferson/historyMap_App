@@ -11,6 +11,7 @@ use App\Policies\EventoPolicy;
 use App\Policies\MapaPolicy;
 use App\Policies\MarcadorPolicy;
 use App\Policies\NotificacionPolicy;
+use Exception;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -52,10 +53,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('show-marcadores-from-mapa', function (User $user, Mapa $mapa) {
             $permiso = false;
-            $mapaOrigen = $mapa->mapaEnlazado;
-            $usuarioCreador = $mapaOrigen->usuarioCreador;
-            $usuariosVisualizadores = $mapaOrigen->usuariosVisualizadores;
-            if ($mapa->esMapaPrivado == 0) {
+            $usuarioCreador = $mapa->usuarioCreador;
+            $usuariosVisualizadores = $mapa->usuariosVisualizadores;
+            if ($mapa->esMapaPrivado()) {
                 $permiso = true;
             }else if ($usuarioCreador->id == $user->id) {
                 $permiso = true;
