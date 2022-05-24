@@ -60,7 +60,7 @@ class MapaGuardadoController extends Controller
     public function show($id)
     {
         $user = Auth::user();
-        if (!Gate::allows('update-mapa-guardado', $user, $id)) {
+        if (!Gate::allows('show-mapa-guardado', $user, $id)) {
             abort(403);
         }
         return DB::select('select * from mapas_guardados where id = ' . $id);
@@ -89,24 +89,17 @@ class MapaGuardadoController extends Controller
         $query = $query . ' set ';
         foreach ($datos as $key => $value) {
             switch ($key) {
-                case 'id':
-                    $query = $query . $key . ' = ' . $value . ', ';
-                    break;
-                case 'user_id':
-                    $query = $query . $key . ' = ' . $value . ', ';
-                    break;
                 case 'mapa_id':
                     $query = $query . $key . ' = ' . $value . ', ';
                     break;
                 case 'aceptado':
                     $query = $query . $key . ' = ' . $value . ', ';
                     break;
-                case 'updated_at':
-                    $ahora = new DateTime();
-                    $query = $query . $key . ' = \'' . $ahora->format('Y-m-d H:i:s') . '\', ';
-                    break;
             }
         }
+
+        $ahora = new DateTime();
+        $query = $query . 'updated_at' . ' = \'' . $ahora->format('Y-m-d H:i:s') . '\', ';
 
         $query = substr($query, 0, strlen($query) - 2) . ' where id = ' . $id;
         DB::update($query);

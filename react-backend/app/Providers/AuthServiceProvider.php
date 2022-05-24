@@ -77,7 +77,7 @@ class AuthServiceProvider extends ServiceProvider
             return $permiso;
         });
 
-        Gate::define('update-mapa-guardado', function (User $user, Mapa $mapa) {
+        Gate::define('show-mapa-guardado', function (User $user, Mapa $mapa) {
             $permiso = false;
             $usuariosVisualizadores = $mapa->usuariosVisualizadores;
             foreach ($usuariosVisualizadores as $usuario) {
