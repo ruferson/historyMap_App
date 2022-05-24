@@ -55,7 +55,7 @@ class AuthServiceProvider extends ServiceProvider
             $permiso = false;
             $usuarioCreador = $mapa->usuarioCreador;
             $usuariosVisualizadores = $mapa->usuariosVisualizadores;
-            if ($mapa->esMapaPrivado()) {
+            if (!$mapa->esMapaPrivado()) {
                 $permiso = true;
             }else if ($usuarioCreador->id == $user->id) {
                 $permiso = true;
@@ -64,6 +64,25 @@ class AuthServiceProvider extends ServiceProvider
                     if ($usuario->id == $user->id) {
                         $permiso = true;
                     }
+                }
+            }
+            return $permiso;
+        });
+
+        Gate::define('store-mapa-guardado', function (User $user, Mapa $mapa) {
+            $permiso = false;
+            if (!$mapa->esMapaPrivado()) {
+                $permiso = true;
+            }
+            return $permiso;
+        });
+
+        Gate::define('update-mapa-guardado', function (User $user, Mapa $mapa) {
+            $permiso = false;
+            $usuariosVisualizadores = $mapa->usuariosVisualizadores;
+            foreach ($usuariosVisualizadores as $usuario) {
+                if ($usuario->id == $user->id) {
+                    $permiso = true;
                 }
             }
             return $permiso;

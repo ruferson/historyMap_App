@@ -9,6 +9,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class MapaGuardadoController extends Controller
 {
@@ -19,7 +20,6 @@ class MapaGuardadoController extends Controller
      */
     public function index()
     {
-
         $usuario = Auth::user();
         $mapasGuardado = $usuario->mapasVisualizados;
 
@@ -34,10 +34,15 @@ class MapaGuardadoController extends Controller
      */
     public function store(Request $request)
     {
-        $content = $request->getContent();
         $user = Auth::user();
+        $content = $request->getContent();
 
         $mapaId = substr($content, strpos($content, 'mapa_id=') + 8, 1);
+
+        if (!Gate::allows('store-mapa-guardado', $user, $mapaId)) {
+            abort(403);
+        }
+
         $aceptado = substr($content, strpos($content, 'aceptado=') + 9, 1);
         $ahora = new DateTime();
 
@@ -54,6 +59,10 @@ class MapaGuardadoController extends Controller
      */
     public function show($id)
     {
+        $user = Auth::user();
+        if (!Gate::allows('update-mapa-guardado', $user, $id)) {
+            abort(403);
+        }
         return DB::select('select * from mapas_guardados where id = ' . $id);
     }
 
