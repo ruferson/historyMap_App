@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -40,12 +41,13 @@ class UserController extends Controller
         if($validator->fails()) {
             return response()->json(["status" => "failed", "message" => "validation_error", "errors" => $validator->errors()]);
         }
+        $ahora = new DateTime();
 
         $userDataArray = array(
             "name" => $request->name,
             "email" => $request->email,
             "password" => md5($request->password),
-            "email_verfied_at" => now(),
+            "email_verfied_at" => $ahora->format('Y-m-d H:i:s'),
             "remember_token" => Str::random(10),
         );
 
