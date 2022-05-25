@@ -22,13 +22,13 @@ function Registrase ()  {
           let nombre=document.getElementById("name").value
           let email=document.getElementById("email").value
           let contraseña=document.getElementById("password").value
-          let data = JSON.stringify({"name":nombre,"email":email,"password":contraseña})
+          let data = {"name":nombre,"email":email,"password":contraseña}
   
           console.log(data);
   
           axios
             .post("http://history.test:8000/api/register",
-              data,
+              data
             )
             .then((response) => {
                 let token;
@@ -160,7 +160,7 @@ function Registrase ()  {
   
       return (
         <div>
-            <h1>Registrarse</h1>
+            <h1 className="text-white">Registrarse</h1>
           <Form className="containers shadow" method="post" name="formulario" onSubmit={validateForm}>
           <Label for="name">Nombre completo: </Label>
           <Input

@@ -9,22 +9,21 @@ function Escribir(props) {
     const [tipo, setTipo] = useState(props.tipo !== undefined ? props.tipo : "default")
     const [titulo, setTitulo] = useState(props.titulo !== undefined ? props.titulo : "")
   
-    console.log(props)
-
     useEffect(()=>{
         console.log(props)
+    }, [props]);
+
+    useEffect(()=>{
         if (props.html !== undefined) {
             setState(RichTextEditor.createValueFromString(props.html, "html"))
         }
     }, [props.html]);
     useEffect(()=>{
-        console.log(props)
         if (props.tipo !== undefined) {
             setTipo(props.tipo)
         }
     }, [props.tipo]);
     useEffect(()=>{
-        console.log(props)
         if (props.titulo !== undefined) {
             setTitulo(props.titulo)
         }
@@ -67,18 +66,14 @@ function Escribir(props) {
         props.sendHTML(titulo, html, tipo)
     }
 
-    function onChangeTitulo(value) {
-        setTitulo(value)
-    }
-
-    function onChangeTipo(value) {
-        setTipo(value)
+    function onChangeTitulo(event) {
+        setTitulo(event.target.value)
     }
 
     return (
         <div>
             <Form className="" method="post" name="formulario">
-                <Label for="titulo"><h3>Título:</h3></Label>
+                <Label for="titulo"><h3 className="text-white">Título:</h3></Label>
                 <Input
                     type="text"
                     name="titulo"
@@ -87,13 +82,13 @@ function Escribir(props) {
                     value={titulo}
                     onChange={onChangeTitulo}
                 /><br/>
-                <Label for="text"><h3>Texto:</h3></Label>
+                <Label for="text"><h3 className="text-white">Texto:</h3></Label>
                 <RichTextEditor toolbarConfig={toolbarConfig}
                     value={state}
                     onChange={onChangeHTML}
                 /><br/>
-                <label for="tipo"><h3>Tipo:</h3></label> <br/>
-                <select name="tipo" id="tipo" onChange={onChangeTipo}>
+                <label for="tipo"><h3 className="text-white">Tipo:</h3></label> <br/>
+                <select name="tipo" id="tipo">
                     {tipo === "default" ? <option value="default" selected>--Elige un tipo--</option> : <option value="default">--Elige un tipo--</option>}
                     {tipo === "war" ? <option value="war" selected>Guerra</option> : <option value="war">Guerra</option>}
                     {tipo === "death" ? <option value="death" selected>Muerte</option> : <option value="death">Muerte</option>}

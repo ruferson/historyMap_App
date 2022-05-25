@@ -13,7 +13,7 @@ function CrearPaso2(props) {
     const [update, setUpdate] = useState(0);
     const [html, setHTML] = useState();
     const [titulo, setTitulo] = useState()
-    const [tipo, setTipo] = useState()
+    const [tipo, setTipo] = useState("default")
     const { evento, loading } = useEvento(marcadorID, update);
 
     function cambiarMarcador(event){
@@ -22,7 +22,13 @@ function CrearPaso2(props) {
         setMarcadorID(event.target.options.id);
     }
 
+    function cambiarMarcadorACreado(id){
+        setTipo("default")
+        setMarcadorID(id);
+    }
+
     useEffect(() => {
+        console.log(evento)
         if (evento !== null){
             setHTML(evento.data.html);
             setTitulo(evento.data.titulo);
@@ -50,6 +56,7 @@ function CrearPaso2(props) {
             .then((response) => {
                 console.log(response);
                 if (response.status === 201) {
+                    cambiarMarcadorACreado(response.data.data.id)
                     let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id":response.data.data.id });
                     console.log(data2)
                     axios
@@ -86,51 +93,26 @@ function CrearPaso2(props) {
         } else {
             let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
             let correct=true;
-            if (titulo !== null) {
-                console.log("haciendo put")
-                axios
-                    .put("http://history.test:8000/api/eventos", 
-                        data
-                    , {
-                        headers: {
-                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then((response) => {
-                        console.log(response);
-                        if (response.status === 201) {
-                            setUpdate(update+1)
-                        } else {
-                            correct=false;
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            } else {
-                console.log("haciendo post")
-                axios
-                    .post("http://history.test:8000/api/eventos", 
-                        data
-                    , {
-                        headers: {
-                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then((response) => {
-                        console.log(response);
-                        if (response.status === 201) {
-                            setUpdate(update+1)
-                        } else {
-                            correct=false;
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            }
+            axios
+                .put("http://history.test:8000/api/eventos/"+evento.data.id, 
+                    data
+                , {
+                    headers: {
+                        'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then((response) => {
+                    console.log(response);
+                    if (response.status === 201) {
+                        setUpdate(update+1)
+                    } else {
+                        correct=false;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             axios
                 .put("http://history.test:8000/api/marcadores/"+marcadorID, 
                     {tipo: type}

@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
+import { getMapasGuard } from "servicios/getMapasGuard";
 import { getMapasPrivados } from "../servicios/getMapasPrivados";
 
-const useMisMapas = () => {
+const useMapasGuard = () => {
 
     // Estado con la lista de Mapas que recuperamos de la REST API
-    const [listaMapasPriv, setListaMapasPriv] = useState([]);
-    const [loadingPriv, setLoadingPriv] = useState(true)
+    const [listaMapasGuard, setListaMapasGuard] = useState([]);
+    const [loadingGuard, setLoadingGuard] = useState(true)
 
     function obtenerMapas() {
 
-        setLoadingPriv(true)
+        setLoadingGuard(true)
         // Usamos el servicio de obtención de posts que hemos creado
-        getMapasPrivados().then(nextMapas => {
+        getMapasGuard().then(nextMapas => {
 
             //Cargamos los Mapas en el estado del componente
-            setListaMapasPriv(nextMapas);
-            setLoadingPriv(false)
+            setListaMapasGuard(nextMapas);
+            setLoadingGuard(false)
 
 
         });
@@ -25,6 +26,6 @@ const useMisMapas = () => {
     // para que solo se ejecute una vez
     useEffect(obtenerMapas, []);
 
-    return { listaMapasPriv, loadingPriv }
+    return { listaMapasGuard, loadingGuard }
 }
-export default useMisMapas;
+export default useMapasGuard;

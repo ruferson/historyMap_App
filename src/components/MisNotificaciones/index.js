@@ -26,7 +26,7 @@ function MisNotificaciones(props) {
 
     return (
         <div className="notificaciones">
-            <h1>Mis Notificaciones</h1><br />
+            <h1 className="text-white">Mis Notificaciones</h1><br />
             <div className="row">
                 {!loading ? devolverMisNotificaciones() : <></>}
             </div> 

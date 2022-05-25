@@ -11,7 +11,7 @@ function ConfigUsuario () {
     
     return (
         <div className="config">
-            <h1>Configuración de Usuario</h1><br/>
+            <h1 className="text-white">Configuración de Usuario</h1><br/>
             <CambiarDatosSesion></CambiarDatosSesion><br/>
             <Button onClick={()=>action()}>Cerrar sesión</Button>
         </div>

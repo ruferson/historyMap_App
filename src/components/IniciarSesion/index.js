@@ -63,24 +63,29 @@ function Login() {
                     response.status === "failed" &&
                     response.success === undefined
                 ) {
+                    setLoading(false)
                     setErrEmail(response.validation_error.email);
                     setErrPwd(response.validation_error.password);
                     setTimeout(() => {
                         setErrEmail("");
                         setErrPwd("");
                     }, 2000);
+                    alert("¡Ha habido un error!")
                 } else if (
                     response.status === "failed" &&
                     response.success === false
                 ) {
-
+                    setLoading(false)
                     setTimeout(() => {
                         setErrMsg("");
                     }, 2000);
+                    alert("¡Ha habido un error!")
                 }
             })
             .catch((error) => {
+                setLoading(false)
                 console.log(error);
+                alert("¡Ha habido un error!")
             });        
     };
 
@@ -95,7 +100,7 @@ function Login() {
 
     return (
         <div>
-            <h1>Iniciar Sesión</h1>
+            <h1 className="text-white">Iniciar Sesión</h1>
             <Form className="containers">
                 <FormGroup>
                     <Label for="email">E-Mail: </Label>

@@ -3,12 +3,14 @@ import { useLocation } from "wouter";
 import useMisMapas from "../../hooks/useMisMapas";
 import MapaClick from "../../components/MapaClick";
 import Footer from "../../components/Footer";
-import { useState } from "react";
+import Ajax from "components/Ajax";
+import useMapasGuard from "hooks/useMapasGuard";
 
 function MisMapas () {
     
     const [location, setLocation] = useLocation();
-    const {listaMapas} = useMisMapas(1);
+    const {listaMapasPriv, loadingPriv} = useMisMapas();
+    const {listaMapasGuard, loadingGuard} = useMapasGuard();
     
     if (localStorage.getItem("isLoggedIn") === "false") {
         setLocation("/session")
@@ -18,24 +20,35 @@ function MisMapas () {
         setLocation("/crear")
     }
 
-    function mapearMisMapas(mapa, key){
+    function mapearMapas(mapa, key){
         return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
     }
 
-    function devolverMisMapas(){
-        console.log(listaMapas.data)
-        if (listaMapas.data){
-            return listaMapas.data.map(mapearMisMapas)
+    function devolverMapasPriv(){
+        console.log(listaMapasPriv.data)
+        if (listaMapasPriv.data){
+            return listaMapasPriv.data.map(mapearMapas)
+        }
+    }
+
+    function devolverMapasGuard(){
+        console.log(listaMapasGuard.data)
+        if (listaMapasGuard.data){
+            return listaMapasGuard.data.map(mapearMapas)
         }
     }
 
     return (<>
         <div className="pr-4 pl-4 pt-4">
-        <h1 className="text-white">Mis Mapas</h1><br />
+        <h1 className="text-white">Mapas Creados</h1><br />
         <div className="row">
-            {devolverMisMapas()}
+            {loadingGuard ? <Ajax/> : devolverMapasPriv()}
         </div> <br />
-        <Button onClick={()=>action()}>Crear Mapa Nuevo</Button>
+        <Button onClick={()=>action()}>Crear Mapa Nuevo</Button> <br/><br/>
+        <h1 className="text-white">Mapas Guardados</h1><br />
+        <div className="row">
+            {loadingGuard ? <Ajax/> : devolverMapasGuard()}
+        </div> <br />
         </div>
         <div className=""><Footer /></div>
         </>
