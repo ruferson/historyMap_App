@@ -15,6 +15,11 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     private $status_code = 200;
+    
+    public function index()
+    {
+        return UserResource::collection(User::paginate(DB::select("select max(id) as max from users")[0]->max));
+    }
 
     /**
      * Update the specified resource in storage.
