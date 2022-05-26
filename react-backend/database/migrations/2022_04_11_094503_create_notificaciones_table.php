@@ -17,7 +17,7 @@ class CreateNotificacionesTable extends Migration
             $table->id();
             $table->string('type', 50);
             $table->string('description', 255);
-            $table->string('url', 255);
+            $table->string('url', 255)->nullable();
             $table->bigInteger('idUsu');
             $table->timestamps();
         });
