@@ -24,8 +24,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'remember_token',
-        'email_verified_at'
     ];
 
     /**
@@ -43,9 +41,9 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    /*protected $casts = [
+    protected $casts = [
         'email_verified_at' => 'datetime',
-    ];*/
+    ];
 
     public function esAdministrador()
     {
