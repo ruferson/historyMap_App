@@ -45,6 +45,7 @@ use Illuminate\Validation\ValidationException;
                 Route::get("/mapas/publicos", [MapaController::class, "indexPublicos"]);
                 Route::get("/marcadores-mapa/{mapa}", [MarcadorController::class, 'indexMapa']);
                 Route::get("/eventos-marcador/{marcadorId}", [EventoController::class, 'showFromMarcadorId']);
+                Route::get("/users", [UserController::class, 'index']);
 
                 Route::apiResource("/eventos", EventoController::class);
                 Route::apiResource("/marcadores", MarcadorController::class)->parameters(['marcadores' => 'marcador']);
