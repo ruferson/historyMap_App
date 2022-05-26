@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-    Route::middleware('auth:sanctum')->get('/user', [UserController::class, 'userDetail']);
-
     Route::post('/tokens/create', function (Request $request) {
 
         $request->validate([
