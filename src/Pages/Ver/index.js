@@ -12,8 +12,6 @@ import useMapa from 'hooks/useMapa';
 function Ver(props) {
 
     const [mapaID, setMapaID] = useState(props.params.id)
-    //const [mapName, setMapName] = useMapName(mapaID);
-    const [mapName, setMapName] = useState("Aztecas")
     const [location, setLocation] = useLocation();
     const [eventoID, setEventoID] = useState(1);
     const { mapaDatos, loading } = useMapa(mapaID);
@@ -41,7 +39,7 @@ function Ver(props) {
     return (<>{ !loading ?
         <div className="pl-4 pr-4 pt-3 text-white">
             <div className="">
-                {<Compartir mapName={mapName} mapaID={mapaID}></Compartir>}
+                {<Compartir mapName={mapaDatos.data.nombre} mapaID={mapaID}></Compartir>}
                 <h1>{mapaDatos.data.nombre}</h1> <br />
                 <div className="">
                     <Mapa cambiarEvento={cambiarEvento} crear={false} id={mapaID}></Mapa>

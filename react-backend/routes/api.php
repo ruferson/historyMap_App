@@ -6,8 +6,6 @@ use App\Http\Controllers\API\MapaController;
 use App\Http\Controllers\API\MapaGuardadoController;
 use App\Http\Controllers\API\NotificacionController;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\MapaResource;
-use App\Models\Mapa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -54,14 +52,9 @@ use Illuminate\Validation\ValidationException;
                 Route::apiResource("/mapas-guardados", MapaGuardadoController::class);
 
                 Route::get("/user", [UserController::class, "userDetail"]);
-                //Route::get("user/{email}", [UserController::class, "userDetail"]);
 
             });
         });
 
-    Route::get('migrate', function () {
-        //Artisan::call('migrate', ["--force" => true ]);
-        //Artisan::call('db:seed', ["--force" => true ]);
-    });
 
 

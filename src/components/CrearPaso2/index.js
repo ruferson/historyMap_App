@@ -5,6 +5,7 @@ import { Button } from 'reactstrap';
 import Footer from '../Footer';
 import axios from "axios";
 import useEvento from 'hooks/useEvento';
+import { Redirect } from 'wouter';
 
 function CrearPaso2(props) {
 
@@ -163,6 +164,7 @@ function CrearPaso2(props) {
             <div className="">
                 <Escribir sendHTML={sendHTML} html={html} titulo={titulo} tipo={tipo}></Escribir>
             </div><br/><br/>
+            <Button onClick={() => {window.location.href = "/ver/"+props.mapaID}}>Finalizar</Button>
         </div>
             <Footer/>
         </div>
