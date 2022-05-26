@@ -36,6 +36,7 @@ use Illuminate\Validation\ValidationException;
     });
 
     Route::post("register", [UserController::class, "userSignUp"]);
+    Route::put("update", [UserController::class, "update"]);
 
     //Route::middleware('auth:sanctum')->
         Route::group(['middleware' => 'auth:sanctum'],function () {

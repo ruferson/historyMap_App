@@ -10,6 +10,7 @@ function Registrase () {
   const [errorNombre, setErrorNombre] = useState("")
   const [errorEmail, setErrorEmail] = useState("")
   const [errorPswd, setErrorPswd] = useState("")
+  const [redirect, setRedirect] = useState(false);
 
 
   function onSubmitHandler (e) {
@@ -24,15 +25,60 @@ function Registrase () {
         console.log(data);
 
         axios
-        .post("http://google.es", data)
-        .then((response) => {
-            setMsg(response.data.message);
-        });
-        console.log(msg)
-    } else {
-        setMsg("Hay errores en el formulario")
-    }
+            .put("http://history.test:8000/api/update",
+              data
+            )
+            .then((response) => {
+                let token;
+                if (response.status === 200) {
+                    console.log(response)
+                    axios
+                        .post("http://history.test:8000/api/tokens/create", {
+                            email: email,
+                            password: contraseña,
+                        })
+                        .then((response) => {
+                            console.log(response);
+                            if (response.status === 200) {
+                                localStorage.setItem("isLoggedIn", true);
+                                localStorage.setItem("userToken", JSON.stringify(response.data));
+                                token = JSON.stringify(response.data);
+                                console.log(JSON.stringify(response.data))
+                                axios
+                                    .get("http://history.test:8000/api/user", {
+                                        headers: {
+                                            'Authorization': JSON.parse(token).token_type+" "+JSON.parse(token).access_token,
+                                            'Content-Type': 'application/json'
+                                        }
+                                    })
+                                    .then((response) => {
+                                        console.log(response);
+                                        if (response.status === 200) {
+                                            localStorage.setItem("userData", JSON.stringify(response.data));
+                                            setRedirect(true);
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+      } else {
+          setMsg("Hay errores en el formulario")
+      }
   };
+
+  if (redirect) {
+    window.location.href = "/";
+  }
 
 
   function validateName(name){

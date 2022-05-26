@@ -10,9 +10,6 @@ function Registrase ()  {
     const [errorEmail, setErrorEmail] = useState("")
     const [errorPswd, setErrorPswd] = useState("")
     const [redirect, setRedirect] = useState(false);
-    const [errMsgEmail, setErrEmail] = useState("");
-    const [errMsgPwd, setErrPwd] = useState("");
-    const [errMsg, setErrMsg] = useState("");
   
   
     function onSubmitHandler (e) {
@@ -63,25 +60,6 @@ function Registrase ()  {
                                     .catch((error) => {
                                         console.log(error);
                                     });
-                            }
-                            if (
-                                response.status === "failed" &&
-                                response.success === undefined
-                            ) {
-                                setErrEmail(response.validation_error.email);
-                                setErrPwd(response.validation_error.password);
-                                setTimeout(() => {
-                                    setErrEmail("");
-                                    setErrPwd("");
-                                }, 2000);
-                            } else if (
-                                response.status === "failed" &&
-                                response.success === false
-                            ) {
-
-                                setTimeout(() => {
-                                    setErrMsg("");
-                                }, 2000);
                             }
                         })
                         .catch((error) => {

@@ -57,7 +57,7 @@ class UserController extends Controller
                     }
                     break;
                 case 'password':
-                    $query = $query . $key . ' = ' . md5($value) . ', ';
+                    $query = $query . $key . ' = ' . bcrypt($value) . ', ';
                     break;
             }
         }
