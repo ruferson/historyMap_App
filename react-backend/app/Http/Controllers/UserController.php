@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     private $status_code = 200;
-    
+
     public function index()
     {
         return UserResource::collection(User::paginate(DB::select("select max(id) as max from users")[0]->max));
@@ -30,10 +31,42 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $userData = json_decode($request->getContent(), true);
-        $user->update($userData);
+        $datos = array();
+        $query = 'update users';
+        $content = $request->getContent();
+        $definiciones = substr_count($content, '=');
+        $inicio = 0;
+        $final = 0;
+        for ($i=1; $i <= $definiciones; $i++) {
+            $final = strpos($content, '=', $inicio) + 1;
+            $datos[substr($content, $inicio, $final - $inicio - 1 )] = substr($content, $final, (($definiciones-$i == 0)? strlen($content) - $final: strpos($content, '&', $final) - $final) );
+            $inicio = strpos($content, '&', $final) + 1;
+        }
+        $query = $query . ' set ';
+        foreach ($datos as $key => $value) {
+            switch ($key) {
+                case 'id':
+                    $query = $query . $key . ' = ' . $value . ', ';
+                    break;
+                case 'name':
+                    $query = $query . $key . ' = ' . $value . ', ';
+                    break;
+                case 'email':
+                    if (!$value == getenv('ADMIN_EMAIL')) {
+                        $query = $query . $key . ' = ' . $value . ', ';
+                    }
+                    break;
+                case 'password':
+                    $query = $query . $key . ' = ' . md5($value) . ', ';
+                    break;
+            }
+        }
 
-        return new UserResource($user);
+        $query = $query . 'updated_at' . ' = \'' . now() . '\', ';
+        $query = substr($query, 0, strlen($query) - 2) . ' where id = ' . $user->id;
+        DB::update($query);
+
+        return DB::select('select * from users where id = ' . $user->id);
     }
     public function userSignUp(Request $request) {
         $validator = Validator::make($request->all(), [

@@ -14,6 +14,7 @@ use App\Policies\NotificacionPolicy;
 use Exception;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
@@ -47,7 +48,12 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('show-evento-from-marcador', function (User $user, Marcador $marcador) {
             $mapaOrigen = $marcador->mapaEnlazado;
             $usuarioCreador = $mapaOrigen->usuarioCreador;
-            return $user->id === $usuarioCreador->id;
+
+            $permiso = $user->id === $usuarioCreador->id;
+            if ($user->esAdministrador()) {
+                $permiso = true;
+            }
+            return $permiso;
         });
 
 
@@ -55,7 +61,9 @@ class AuthServiceProvider extends ServiceProvider
             $permiso = false;
             $usuarioCreador = $mapa->usuarioCreador;
             $usuariosVisualizadores = $mapa->usuariosVisualizadores;
-            if (!$mapa->esMapaPrivado()) {
+            if ($user->esAdministrador()) {
+                $permiso = true;
+            }else if (!$mapa->esMapaPrivado()) {
                 $permiso = true;
             }else if ($usuarioCreador->id == $user->id) {
                 $permiso = true;
@@ -71,7 +79,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('store-mapa-guardado', function (User $user, Mapa $mapa) {
             $permiso = false;
-            if (!$mapa->esMapaPrivado()) {
+            if ($user->esAdministrador()) {
+                $permiso = true;
+            }else if (!$mapa->esMapaPrivado()) {
                 $permiso = true;
             }
             return $permiso;
@@ -79,9 +89,26 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('show-mapa-guardado', function (User $user, Mapa $mapa) {
             $permiso = false;
-            $usuariosVisualizadores = $mapa->usuariosVisualizadores;
-            foreach ($usuariosVisualizadores as $usuario) {
-                if ($usuario->id == $user->id) {
+            if ($user->esAdministrador()) {
+                $permiso = true;
+            }else{
+                $usuariosVisualizadores = $mapa->usuariosVisualizadores;
+                foreach ($usuariosVisualizadores as $usuario) {
+                    if ($usuario->id == $user->id) {
+                        $permiso = true;
+                    }
+                }
+            }
+            return $permiso;
+        });
+
+        Gate::define('delete-mapa-guardado', function (User $user, Mapa $mapa) {
+            $permiso = false;
+            if ($user->esAdministrador()) {
+                $permiso = true;
+            }else{
+                $usuarioCreador = $mapa->usuarioCreador;
+                if ($usuarioCreador->id == $user->id) {
                     $permiso = true;
                 }
             }

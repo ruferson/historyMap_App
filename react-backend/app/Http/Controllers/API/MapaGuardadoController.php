@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MapaResource;
 use App\Models\Mapa;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +74,7 @@ class MapaGuardadoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $datos = array();
         $query = 'update mapas_guardados';
@@ -95,15 +96,20 @@ class MapaGuardadoController extends Controller
                 case 'aceptado':
                     $query = $query . $key . ' = ' . $value . ', ';
                     break;
+                case 'user_id':
+                    if ($user->email == getenv('ADMIN_EMAIL')) {
+                        $query = $query . $key . ' = ' . $value . ', ';
+                    }
+                    break;
             }
         }
 
         $ahora = new DateTime();
         $query = $query . 'updated_at' . ' = \'' . $ahora->format('Y-m-d H:i:s') . '\', ';
 
-        $query = substr($query, 0, strlen($query) - 2) . ' where id = ' . $id;
+        $query = substr($query, 0, strlen($query) - 2) . ' where id = ' . $user->id;
         DB::update($query);
-        return DB::select('select * from mapas_guardados where id = ' . $id);
+        return DB::select('select * from mapas_guardados where id = ' . $user->id);
     }
 
     /**
@@ -114,6 +120,10 @@ class MapaGuardadoController extends Controller
      */
     public function destroy($id)
     {
+        $user = Auth::user();
+        if (!Gate::allows('delete-mapa-guardado', $user, $id)) {
+            abort(403);
+        }
         $resultado = DB::delete('delete from mapas_guardados where id = ' . $id);
         if ($resultado) {
             $respuesta = "El mapa guardado con id " . $id . " ha sido eliminado correctamente";
