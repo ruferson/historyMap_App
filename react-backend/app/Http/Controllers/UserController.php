@@ -45,8 +45,6 @@ class UserController extends Controller
             "name" => $request->name,
             "email" => $request->email,
             "password" => md5($request->password),
-            "email_verfied_at" => now(),
-            "remember_token" => Str::random(10),
         );
 
         $user_status = User::where("email", $request->email)->first();
@@ -56,8 +54,6 @@ class UserController extends Controller
         }
 
         $user = User::create($userDataArray);
-        $user->email_verified_at = now();
-        $user->save();
 
         if(!is_null($user)) {
             return response()->json(["status" => $this->status_code, "success" => true, "message" => "Registro completado correctamente", "data" => $user]);
