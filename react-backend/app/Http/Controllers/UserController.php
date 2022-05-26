@@ -82,7 +82,7 @@ class UserController extends Controller
         $userDataArray = array(
             "name" => $request->name,
             "email" => $request->email,
-            "password" => bcrypt($request->password),
+            "password" => md5($request->password),
         );
 
         $user_status = User::where("email", $request->email)->first();
