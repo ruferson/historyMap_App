@@ -37,8 +37,10 @@ class MapaGuardadoController extends Controller
     {
         $user = Auth::user();
         $content = $request->getContent();
-
-        $mapaId = substr($content, strpos($content, 'mapa_id=') + 8, 1);
+        
+        $mapaIdLoc = strpos($content, 'mapa_id=') + 8;
+        $mapaIdFinLoc = strpos($content, '&', $mapaIdLoc);
+        $mapaId = substr($content, $mapaIdLoc, ($mapaIdFinLoc == - 1)? strlen($content) - $mapaIdLoc : $mapaIdFinLoc - $mapaIdLoc);
 
         if (!Gate::allows('store-mapa-guardado', $user, $mapaId)) {
             abort(403);
