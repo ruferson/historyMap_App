@@ -12,8 +12,8 @@ function MapaClick(props) {
                 <img className="card-img-top" src={props.mapImage} alt="Card image" />
                 <div className="card-body">
                     <h4 className="card-title">{props.mapName}</h4>
-                    <p className="card-text">{props.mapDesc}</p>
                     <Button className="btn-primary" onClick={()=>{setLocation("/ver/"+props.mapID)}}>Ver</Button>
+                    <Button className="btn-primary" onClick={()=>{setLocation("/editar/"+props.mapID)}}>Editar</Button>
                 </div>
             </div>
         </div>

@@ -120,7 +120,7 @@ function Mapa(props) {
           <div>
             <Marker id={marcador.id} tipo={marcador.tipo} eventHandlers={{ click: props.cambiarMarcador }} key={key} position={[marcador.x, marcador.y]} icon={myIcon}>
                 <Popup>
-                    <h3>{marcador.tipo}</h3>
+                    <h3>{props.evento ? props.evento.data.titulo : ""}</h3>
                 </Popup>
             </Marker>
           </div>

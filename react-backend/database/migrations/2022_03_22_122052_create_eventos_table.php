@@ -17,7 +17,7 @@ class CreateEventosTable extends Migration
             $table->id();
             $table->string("titulo", 100);
             $table->text("html");
-            $table->bigInteger("marcador_id")->unsigned();
+            $table->bigInteger("marcador_id")->unsigned()->unique();
             $table->timestamps();
         });
     }

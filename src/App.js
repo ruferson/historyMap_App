@@ -11,6 +11,7 @@ import MenuNoLogged from './components/MenuNoLogged';
 import {  useEffect, useState } from 'react';
 import Cabezera from './components/Cabezera';
 import MisMapas from './Pages/MisMapas';
+import Editar from 'Pages/Editar';
 
 
 function App() {
@@ -46,7 +47,10 @@ function App() {
             component={Ver}
             path="/ver/:id">
         </Route>
-
+        <Route  
+            component={Editar}
+            path="/editar/:id">
+        </Route>
         <Route  
             component={Crear}
             path="/crear">

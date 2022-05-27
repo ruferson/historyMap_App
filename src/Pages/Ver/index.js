@@ -13,8 +13,11 @@ function Ver(props) {
 
     const [mapaID, setMapaID] = useState(props.params.id)
     const [location, setLocation] = useLocation();
-    const [eventoID, setEventoID] = useState(1);
+    const [marcadorID, setMarcadorID] = useState(0);
+    const [noClicked, setNoClicked] = useState(true);
+    const [tipo, setTipo] = useState("");
     const { mapaDatos, loading } = useMapa(mapaID);
+    const [evento, setEvento] = useState(null)
 
     if (localStorage.getItem("isLoggedIn") === "false") {
         setLocation("/session")
@@ -22,16 +25,10 @@ function Ver(props) {
 
     //useEffect(() => {setMapaID(props.params.id)}, [props.params.id]);
 
-    function cambiarEvento(event){
-        let id = event.target.options.id;
-        if (id>Object.keys(mocktexto.records).length-1){
-            id=Object.keys(mocktexto.records).length-1;
-        }  
-        setEventoID(id);
-    }
-
-    function anyadirAlDom(texto, elementoId){
-        document.getElementById(elementoId).innerHTML=texto;
+    function cambiarMarcador(event){
+        setNoClicked(false);
+        setTipo(event.target.options.tipo)
+        setMarcadorID(event.target.options.id);
     }
 
     console.log(mapaID)
@@ -42,10 +39,10 @@ function Ver(props) {
                 {<Compartir mapName={mapaDatos.data.nombre} mapaID={mapaID}></Compartir>}
                 <h1>{mapaDatos.data.nombre}</h1> <br />
                 <div className="">
-                    <Mapa cambiarEvento={cambiarEvento} crear={false} id={mapaID}></Mapa>
+                    <Mapa cambiarMarcador={cambiarMarcador} crear={false} id={mapaID} evento={evento}></Mapa>
                 </div> <br/>
                 <div className="">
-                    <Evento anyadirAlDom={anyadirAlDom} id={eventoID} titulo={mockmapa1.records[eventoID].description}></Evento>
+                    <Evento id={marcadorID} tipo={tipo} noClicked={noClicked} setEvento={setEvento}></Evento>
                 </div>
             </div>
             <br/>
