@@ -5,13 +5,14 @@ import Crear from './Pages/Crear';
 import User from './Pages/User';
 import { Route, useLocation } from 'wouter';
 import Session from './Pages/Session';
-import Inicio from './Pages/Inicio';
 import Menu from './components/Menu';
 import MenuNoLogged from './components/MenuNoLogged';
 import {  useEffect, useState } from 'react';
 import Cabezera from './components/Cabezera';
 import MisMapas from './Pages/MisMapas';
-import Editar from 'Pages/Editar';
+import Editar from './Pages/Editar';
+import Inicio from './Pages/Inicio';
+import Libres from './Pages/Libres';
 
 
 function App() {
@@ -30,6 +31,10 @@ function App() {
         <Route  
             component={Inicio}
             path="/">
+        </Route>
+        <Route  
+            component={Libres}
+            path="/libres">
         </Route>
         <Route  
             component={MisMapas}

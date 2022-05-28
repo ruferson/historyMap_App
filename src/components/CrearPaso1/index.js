@@ -88,7 +88,7 @@ function CrearPaso1(props) {
                     onChange={() => {setEsPrivado(false)}}
                     className="pr-1"
                 />
-                Público
+                Libre
             </Label><br/>
             <Button className="float-left btn-success" onClick={sendMapa}>Continuar</Button>
         </div>

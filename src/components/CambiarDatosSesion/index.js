@@ -3,7 +3,7 @@ import { Button, Form, Label, Input } from "reactstrap";
 import axios from "axios";
 import "./styles.css";
 
-function Registrase () {
+function CambiarDatosSesion () {
 
   
   const [msg, setMsg] = useState("")
@@ -18,23 +18,27 @@ function Registrase () {
     setMsg("")
     if (validateForm()){
         let nombre=document.getElementById("name").value
-        let email=document.getElementById("email").value
+        let elEmail=document.getElementById("email").value
         let contraseña=document.getElementById("password").value
-        let data = JSON.stringify({"nombre":nombre, "email":email, "contraseña":contraseña})
-
+        let data = "name="+nombre+"&email="+elEmail+"&password="+contraseña
         console.log(data);
 
         axios
-            .put("http://history.test:8000/api/update",
-              data
+            .put("http://history.test:8000/api/user/"+JSON.parse(localStorage.getItem("userData")).user_id,
+            data, {
+                headers: {
+                    'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+              }
             )
             .then((response) => {
+                console.log(response)
                 let token;
                 if (response.status === 200) {
-                    console.log(response)
                     axios
                         .post("http://history.test:8000/api/tokens/create", {
-                            email: email,
+                            email: elEmail,
                             password: contraseña,
                         })
                         .then((response) => {
@@ -171,4 +175,4 @@ function Registrase () {
     );
   }
 
-  export default Registrase;
+  export default CambiarDatosSesion;

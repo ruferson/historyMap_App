@@ -10,14 +10,14 @@ import Footer from '../../components/Footer';
 function User() {
 
     const [location, setLocation] = useLocation();
-    const [modo, setModo] = useState("invitaciones");
-    const [notificaciones, setNotificaciones] = useState("...");
+    /*const [modo, setModo] = useState("invitaciones");
+    const [notificaciones, setNotificaciones] = useState("...");*/
     
     if (localStorage.getItem("isLoggedIn") === "false") {
         setLocation("/session")
     }
 
-    function segunModo(){
+    /*function segunModo(){
         switch (modo) {
             case "invitaciones":
                 return <MisNotificaciones setNotificaciones={setNotificaciones}/>
@@ -39,6 +39,14 @@ function User() {
                 <div className="col-6" />
             </div>
                 {segunModo()}
+        </div>
+        <Footer/>
+        </>
+    );*/
+
+    return (<>
+        <div className="pl-4 pr-4 pt-3">
+            <ConfigUsuario />
         </div>
         <Footer/>
         </>

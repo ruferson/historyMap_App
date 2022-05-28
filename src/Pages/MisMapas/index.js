@@ -6,12 +6,12 @@ import Footer from "../../components/Footer";
 import Ajax from "components/Ajax";
 import useMapasGuard from "hooks/useMapasGuard";
 
-function MisMapas () {
-    
+function MisMapas() {
+
     const [location, setLocation] = useLocation();
-    const {listaMapasPriv, loadingPriv} = useMisMapas();
-    const {listaMapasGuard, loadingGuard} = useMapasGuard();
-    
+    const { listaMapasPriv, loadingPriv } = useMisMapas();
+    const { listaMapasGuard, loadingGuard } = useMapasGuard();
+
     if (localStorage.getItem("isLoggedIn") === "false") {
         setLocation("/session")
     }
@@ -20,40 +20,40 @@ function MisMapas () {
         setLocation("/crear")
     }
 
-    function mapearMapas(mapa, key){
+    function mapearMapas(mapa, key) {
         return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
     }
 
-    function devolverMapasPriv(){
+    function devolverMapasPriv() {
         console.log(listaMapasPriv.data)
-        if (listaMapasPriv.data){
+        if (listaMapasPriv.data) {
             return listaMapasPriv.data.map(mapearMapas)
         }
     }
 
-    function devolverMapasGuard(){
+    function devolverMapasGuard() {
         console.log(listaMapasGuard.data)
-        if (listaMapasGuard.data){
+        if (listaMapasGuard.data) {
             return listaMapasGuard.data.map(mapearMapas)
         }
     }
 
     return (<>
         <div className="pr-4 pl-4 pt-4">
-        <h1 className="text-white">Mapas Creados</h1><br />
-        <div className="row">
-            {loadingGuard ? <Ajax/> : devolverMapasPriv()}
-        </div> <br />
-        <Button onClick={()=>action()}>Crear Mapa Nuevo</Button> <br/><br/>
-        <h1 className="text-white">Mapas Guardados</h1><br />
-        <div className="row">
+            <h1 className="text-white">Mapas Creados</h1><br />
+            <div className="row">
+                {loadingGuard ? <Ajax /> : devolverMapasPriv()}
+            </div> <br />
+            <Button onClick={() => action()}>Crear Mapa Nuevo</Button> <br /><br />
+            {/*}<h1 className="text-white">Mapas Guardados</h1><br />
+            <div className="row">
             {loadingGuard ? <Ajax/> : devolverMapasGuard()}
-        </div> <br />
+        </div> <br />{*/}
         </div>
         <div className=""><Footer /></div>
-        </>
+    </>
     );
 
-   }
+}
 
-   export default MisMapas;
+export default MisMapas;

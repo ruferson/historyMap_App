@@ -232,7 +232,7 @@ function Editar(props) {
                     onChange={() => {setPrivado(0)}}
                     className="pr-1"
                 />
-                Público
+                Libre
             </Label></div><br/><br/>
             </div>
             <div className="">

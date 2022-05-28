@@ -49,15 +49,15 @@ class UserController extends Controller
                     $query = $query . $key . ' = ' . $value . ', ';
                     break;
                 case 'name':
-                    $query = $query . $key . ' = ' . $value . ', ';
+                    $query = $query . $key . ' = "' . $value . '", ';
                     break;
                 case 'email':
                     if (!$value == getenv('ADMIN_EMAIL')) {
-                        $query = $query . $key . ' = ' . $value . ', ';
+                        $query = $query . $key . ' = "' . $value . '", ';
                     }
                     break;
                 case 'password':
-                    $query = $query . $key . ' = ' . bcrypt($value) . ', ';
+                    $query = $query . $key . ' = "' . bcrypt($value) . '", ';
                     break;
             }
         }
