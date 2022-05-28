@@ -9,9 +9,6 @@ function Inicio () {
 
     const [location, setLocation] = useLocation();
 
-    if (localStorage.getItem("isLoggedIn") === "false") {
-        setLocation("/session")
-    }
 
     return (<>
         <div className="pl-4 pr-4 pt-3 text-white">

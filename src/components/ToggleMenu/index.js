@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles.css'
 
 function ToggleMenu(props) {
 
@@ -15,9 +16,10 @@ function ToggleMenu(props) {
     }
     
     return (
-        <button id="sidebarCollapse" type="button" onClick={() => {props.setActive(!props.isActive)}} className="btn btn-dark rounded-pill shadow-sm px-4 mb-4">
-            {texto(props.isActive)}
-        </button>
+        <label class="switch" id="sidebarCollapse">
+            <input type="checkbox" defaultChecked  onClick={() => {props.setActive(!props.isActive)}} />
+            <span class="slider"></span>
+        </label>
     );
 }
 
