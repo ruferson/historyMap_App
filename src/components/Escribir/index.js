@@ -4,8 +4,8 @@ import { Form, Input, Label } from 'reactstrap';
 
 function Escribir(props) {
 
-    const [html, setHTML] = useState(null);
     const [state, setState] = useState(props.html !== undefined ? RichTextEditor.createValueFromString(props.html, "html") : RichTextEditor.createEmptyValue());
+    const [html, setHTML] = useState(props.html !== undefined ? props.html : "");
     const [tipo, setTipo] = useState(props.tipo !== undefined ? props.tipo : "default")
     const [titulo, setTitulo] = useState(props.titulo !== undefined ? props.titulo : "")
   
@@ -72,7 +72,7 @@ function Escribir(props) {
 
     return (
         <div>
-            <Form className="" method="post" name="formulario">
+            <Form className="" onSubmit={(event)=>{event.preventDefault()}} name="formulario">
                 <Label for="titulo"><h3>Título:</h3></Label>
                 <Input
                     type="text"
