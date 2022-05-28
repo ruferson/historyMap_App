@@ -52,6 +52,10 @@ class AuthServiceProvider extends ServiceProvider
             $permiso = $user->id === $usuarioCreador->id;
             if ($user->esAdministrador()) {
                 $permiso = true;
+            }else if (!$mapa->esMapaPrivado()) {
+
+                $permiso = true;
+
             }
             return $permiso;
         });
