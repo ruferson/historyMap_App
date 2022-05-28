@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
-import './styles.css';
 import { useLocation } from 'wouter';
-import { Button } from 'reactstrap';
-import MisNotificaciones from '../../components/MisNotificaciones'
 import ConfigUsuario from '../../components/ConfigUsuario'
-import { Badge } from 'react-bootstrap';
 import Footer from '../../components/Footer';
 
 function User() {
@@ -44,12 +40,12 @@ function User() {
         </>
     );*/
 
-    return (<>
-        <div className="pl-4 pr-4 pt-3">
+    return (<div id="main">
+        <div className="pl-4 pr-4">
             <ConfigUsuario />
         </div>
         <Footer/>
-        </>
+        </div>
     );
 }
 

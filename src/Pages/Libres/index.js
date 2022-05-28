@@ -2,7 +2,6 @@ import React from "react";
 import { useLocation } from "wouter";
 import Footer from "../../components/Footer";
 import MapasPublicos from "../../components/MapasPublicos";
-import "./styles.css";
 
 function Libres () {
 
@@ -12,13 +11,13 @@ function Libres () {
         setLocation("/session")
     }
 
-    return (<>
-        <div className="pl-4 pr-4 pt-3">
-            <h1 className="text-white">Mapas Libres</h1><br/>
+    return (<div id="main">
+        <div className="pr-4 pl-4">
+            <h1>Mapas Libres</h1><br/>
             <MapasPublicos/>
         </div>
-        <div className=""><Footer /></div>
-        </>
+        <Footer />
+        </div>
     );
   }
 

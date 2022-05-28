@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Form, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
-import './styles.css'
-import useUserData from "hooks/useUserData";
 
 
 function Login() {
@@ -100,8 +98,9 @@ function Login() {
 
     return (
         <div>
-            <h1 className="text-white">Iniciar Sesión</h1>
-            <Form className="containers">
+            <h1>Iniciar Sesión</h1>
+            <br/>
+            <Form >
                 <FormGroup>
                     <Label for="email">E-Mail: </Label>
                     <Input
@@ -126,7 +125,7 @@ function Login() {
                     <span className="text-danger">{errMsgPwd}</span>
                 </FormGroup>
                 <p className="text-danger">{errMsg}</p>
-                <Button
+                <button
                     className="text-center mb-4"
                     color="success"
                     onClick={onSignInHandler}
@@ -141,7 +140,7 @@ function Login() {
                     ) : (
                         <span></span>
                     )}
-                </Button>
+                </button>
             </Form>
         </div>
     );

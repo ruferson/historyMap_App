@@ -29,10 +29,9 @@ function Ver(props) {
 
     console.log(mapaID)
 
-    return (<>{ !loading ?
-        <div className="pl-4 pr-4 pt-3 text-white">
+    return (<div id="main">{ !loading ?
+        <div className="pl-4 pr-4">
             <div className="">
-                {<Compartir mapName={mapaDatos.data.nombre} mapaID={mapaID}></Compartir>}
                 <h1>{mapaDatos.data.nombre}</h1> <br />
                 <div className="">
                     <Mapa cambiarMarcador={cambiarMarcador} crear={false} id={mapaID} evento={evento}></Mapa>
@@ -45,7 +44,7 @@ function Ver(props) {
         </div>
          : <></>}
         <Footer/>
-        </>
+        </div>
 
     );
 }

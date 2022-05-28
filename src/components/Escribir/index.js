@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import RichTextEditor from 'react-rte';
-import { Button, Form, Input, Label } from 'reactstrap';
+import { Form, Input, Label } from 'reactstrap';
 
 function Escribir(props) {
 
@@ -73,7 +73,7 @@ function Escribir(props) {
     return (
         <div>
             <Form className="" method="post" name="formulario">
-                <Label for="titulo"><h3 className="text-white">Título:</h3></Label>
+                <Label for="titulo"><h3>Título:</h3></Label>
                 <Input
                     type="text"
                     name="titulo"
@@ -82,12 +82,12 @@ function Escribir(props) {
                     value={titulo}
                     onChange={onChangeTitulo}
                 /><br/>
-                <Label for="text"><h3 className="text-white">Texto:</h3></Label>
+                <Label for="text"><h3>Texto:</h3></Label>
                 <RichTextEditor toolbarConfig={toolbarConfig}
                     value={state}
                     onChange={onChangeHTML}
                 /><br/>
-                <label for="tipo"><h3 className="text-white">Tipo:</h3></label> <br/>
+                <label for="tipo"><h3>Tipo:</h3></label> <br/>
                 <select name="tipo" id="tipo">
                     {tipo === "default" ? <option value="default" selected>--Elige un tipo--</option> : <option value="default">--Elige un tipo--</option>}
                     {tipo === "war" ? <option value="war" selected>Guerra</option> : <option value="war">Guerra</option>}
@@ -96,7 +96,7 @@ function Escribir(props) {
                     {tipo === "discovery" ? <option value="discovery" selected>Descubrimiento</option> : <option value="discovery">Descubrimiento</option>}
                     {tipo === "construction" ? <option value="construction" selected>Construcción</option> : <option value="construction">Construcción</option>}
                 </select> {/*ponerIconoEvento*/} <br/><br/>
-                <Button  className="btn-success" onClick={enviarHTML}>Enviar</Button>
+                <button onClick={enviarHTML}>Enviar</button>
             </Form>
         </div>
     );

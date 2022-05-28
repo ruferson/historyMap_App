@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import './styles.css'
-import { Button, Input, Label } from 'reactstrap';
+import { Input, Label } from 'reactstrap';
 import Footer from '../Footer';
 import axios from "axios";
+import './styles.css'
 
 function CrearPaso1(props) {
 
     const [esPrivado, setEsPrivado] = useState(false);
 
-    function validateURL(url){
+    function validateURL(url) {
         let regex = /^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif))$/i;
-        if (regex.test(url)){
+        if (regex.test(url)) {
             return true;
         } else {
             alert("¡URL de imagen no válida!")
@@ -18,11 +18,11 @@ function CrearPaso1(props) {
         }
     }
 
-    function sendMapa(){
+    function sendMapa() {
         let name = document.getElementById("nombre").value
         let img = document.getElementById("img").value
         if (validateURL(img)) {
-            if (name!==null && img!==null) {
+            if (name !== null && img !== null) {
                 axios
                     .post("http://history.test:8000/api/mapas", {
                         nombre: name,
@@ -31,7 +31,7 @@ function CrearPaso1(props) {
                         privado: esPrivado,
                     }, {
                         headers: {
-                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
+                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
                             'Content-Type': 'application/json'
                         }
                     })
@@ -51,51 +51,30 @@ function CrearPaso1(props) {
         }
     }
 
-   return (<>
-        <div className="centrado text-center pl-4 pr-4 pt-3 text-white">
+    return (<>
+        <div className="centrado text-center pl-4 pr-4 pt-3">
             <Label for="nombre"><h2>Nombre del Mapa:</h2></Label>
             <Input
                 type="text"
                 name="nombre"
                 id="nombre"
                 placeholder="nombre"
-            /> <br/>
+            /> <br />
             <Label for="img"><h2>URL de imagen:</h2></Label>
             <Input
                 type="text"
                 name="img"
                 id="img"
                 placeholder="url"
-            /> <br/>
-            <Label className="radio-inline mr-5">
-                <Input
-                    type="radio"
-                    name="privado"
-                    id="privado"
-                    defaultChecked
-                    value={true}
-                    onChange={() => {setEsPrivado(true)}}
-                    className="pr-1"
-                />
-                Privado
-            </Label>
-            <Label className="radio-inline">
-                <Input
-                    type="radio"
-                    name="privado"
-                    id="privado"
-                    value={false}
-                    onChange={() => {setEsPrivado(false)}}
-                    className="pr-1"
-                />
-                Libre
-            </Label><br/>
-            <Button className="float-left btn-success" onClick={sendMapa}>Continuar</Button>
+            /> <br />
+            <Label for="switch"><h2>Privado:</h2></Label> <br/>
+            <label class="switch" id="switch">
+                <input type="checkbox" onChange={() => { setEsPrivado(!esPrivado) }} />
+                <span class="slider round"></span>
+            </label> <br/>
+            <button className="float-left" onClick={sendMapa}>Continuar</button>
         </div>
-                <div className="">
-                    <Footer/>
-                </div>
-            </>
+    </>
     );
 }
 

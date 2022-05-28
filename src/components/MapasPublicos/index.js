@@ -1,5 +1,4 @@
 import Ajax from "components/Ajax";
-import { Button } from "reactstrap";
 import { useLocation } from "wouter";
 import useMapasPub from "../../hooks/useMapasPub";
 import MapaClick from "../MapaClick";
@@ -26,10 +25,9 @@ function MapasPublicos () {
 
     return (
         <>
-        
         {!loading ? <div className="row"> {devolverMisMapas()} </div> : <Ajax/>}
         <br />
-        {localStorage.getItem("isLoggedIn") !== "false" ? <Button onClick={()=>action()}>Crear Mapa Nuevo</Button> : <></>}
+        {localStorage.getItem("isLoggedIn") !== "false" ? <button onClick={()=>action()}>Crear Mapa Nuevo</button> : <></>}
         </>
     );
 

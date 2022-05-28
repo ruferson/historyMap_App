@@ -1,6 +1,5 @@
+import Footer from 'components/Footer';
 import React, { useState } from 'react';
-import './styles.css';
-import { Button } from 'reactstrap';
 import { useLocation } from 'wouter';
 import CrearPaso1 from '../../components/CrearPaso1';
 import CrearPaso2 from '../../components/CrearPaso2';
@@ -18,15 +17,20 @@ function Crear() {
     function segunPasos() {
         switch (paso) {
             case 1:
-                return (
+                return (<div id="main">
                     <CrearPaso1 setPaso={setPaso} setMapaID={setMapaID} />
+                    <br/>
+                    <Footer />
+                </div>
                 )
             case 2:
-                return (
+                return (<div id="main">
                     <CrearPaso2
                         setPaso={setPaso}
                         mapaID={mapaID}
-                    />
+                    /> <br/>
+                    <Footer />
+                </div>
                 )
         }
     }

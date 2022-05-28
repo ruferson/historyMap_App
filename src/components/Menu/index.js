@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import './styles.css'
 
 function Menu(props) {
 
     const [location, setLocation] = useLocation();
-    const [selected, setSelected] = useState(["", "", "", ""])
+    /*const [selected, setSelected] = useState(["", "", "", ""])
 
     function cambiarSelect (){
         switch (location){
@@ -79,7 +78,16 @@ function Menu(props) {
             </ul>
         </div>
         </>
-    );
+    );*/
+        
+        return (<ul>
+            <li><a href="#" onClick={() => {setLocation("/")}}>Inicio</a></li>
+            <li><a href="#" onClick={() => {setLocation("/libres")}}>Mapas Libres</a></li>
+            <li><a href="#" onClick={() => {setLocation("/misMapas")}}>Mis Mapas</a></li>
+            <li><a href="#" onClick={() => {setLocation("/perfil")}}>Perfil</a></li>
+            <li><a href="#" onClick={() => {setLocation("/crear")}}>Crear mapa</a></li>
+            </ul>
+        )
 }
 
 export default Menu;

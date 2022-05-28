@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Mapa from '../Mapa';
 import Escribir from '../Escribir';
-import { Button } from 'reactstrap';
 import Footer from '../Footer';
 import axios from "axios";
 import useEvento from 'hooks/useEvento';
-import { Redirect } from 'wouter';
 
 function CrearPaso2(props) {
 
@@ -93,7 +91,6 @@ function CrearPaso2(props) {
             alert("¡Has dejado un campo VACÍO!")
         } else {
             let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
-            let correct=true;
             axios
                 .put("http://history.test:8000/api/eventos/"+evento.data.id, 
                     data
@@ -107,8 +104,6 @@ function CrearPaso2(props) {
                     console.log(response);
                     if (response.status === 201) {
                         setUpdate(update+1)
-                    } else {
-                        correct=false;
                     }
                 })
                 .catch((error) => {
@@ -126,47 +121,26 @@ function CrearPaso2(props) {
                 .then((response) => {
                     console.log(response);
                     if (response.status === 200) {
-                    } else {
-                        correct=false;
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-                
-                console.log(correct)
-                if (correct){
-                    setUpdate(update+1)
-                    alert("¡Has creado un evento!")
-                }
-            //mandar alerta de creado
         }
     }
 
-    function alertaCreado(){
-        return (
-            <div class="alert alert-info alert-dismissible fade in notificacion">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>¡Hecho!</strong> ¡Evento creado, y asignado al marcador seleccionado!
-            </div>
-        )
-    }
-
    return (
-        <div className="row">
-        <div className="col-12 pl-4 pr-4 pt-3">
-            <Button className="float-left btn-success mr-5" onClick={cambiarCrear}>Añadir Marcador</Button>
+        <div className="pl-4 pr-4">
+            <button className="float-left mb-4" onClick={cambiarCrear}>Añadir Marcador</button>
             
-            <div className="">
+            <div>
                 <Mapa sendMarcador={sendMarcador} cambiarMarcador={cambiarMarcador} crear={crear} setCrear={setCrear} id={props.mapaID} update={update}
                     changeHTML={setHTML} changeTitulo={setTitulo} changeTipo={setTipo} evento={evento}></Mapa>
             </div> 
-            <div className="">
+            <div className="mt-5">
                 <Escribir sendHTML={sendHTML} html={html} titulo={titulo} tipo={tipo}></Escribir>
             </div><br/><br/>
-            <Button onClick={() => {window.location.href = "/ver/"+props.mapaID}}>Finalizar</Button>
-        </div>
-            <Footer/>
+            <button onClick={() => {window.location.href = "/ver/"+props.mapaID}}>Finalizar</button>
         </div>
     );
 }

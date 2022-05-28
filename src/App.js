@@ -1,12 +1,10 @@
 
-import './App.css';
+import './css/main.css';
 import Ver from './Pages/Ver';
 import Crear from './Pages/Crear';
 import User from './Pages/User';
 import { Route, useLocation } from 'wouter';
 import Session from './Pages/Session';
-import Menu from './components/Menu';
-import MenuNoLogged from './components/MenuNoLogged';
 import {  useEffect, useState } from 'react';
 import Cabezera from './components/Cabezera';
 import MisMapas from './Pages/MisMapas';
@@ -23,11 +21,9 @@ function App() {
   useEffect(() => {setIsLogged(localStorage.getItem("isLoggedIn") !== "true"); console.log("para el menu "+isLogged)}, [localStorage.getItem("isLoggedIn")])
 
   return (
-    <div className="fondo">
-      {!isLogged ? <Menu isActive={isActive}/> : <MenuNoLogged isActive={isActive}/>}
-      
-      <div className={"page-content "+isActive} id="content">
-        <Cabezera isActive={isActive} setActive={setActive}/>
+    <>
+      <Cabezera isActive={isActive} setActive={setActive}/>
+      <div id="wrapper">
         <Route  
             component={Inicio}
             path="/">
@@ -60,8 +56,8 @@ function App() {
             component={Crear}
             path="/crear">
         </Route>
-      </div>
-    </div>
+        </div>
+    </>
   );
 }
 

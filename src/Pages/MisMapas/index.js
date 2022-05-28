@@ -38,20 +38,16 @@ function MisMapas() {
         }
     }
 
-    return (<>
-        <div className="pr-4 pl-4 pt-4">
-            <h1 className="text-white">Mapas Creados</h1><br />
+    return (<div id="main">
+        <div className="pr-4 pl-4">
+            <h1>Mapas Creados</h1><br />
             <div className="row">
                 {loadingGuard ? <Ajax /> : devolverMapasPriv()}
             </div> <br />
-            <Button onClick={() => action()}>Crear Mapa Nuevo</Button> <br /><br />
-            {/*}<h1 className="text-white">Mapas Guardados</h1><br />
-            <div className="row">
-            {loadingGuard ? <Ajax/> : devolverMapasGuard()}
-        </div> <br />{*/}
+            <button onClick={() => action()}>Crear Mapa Nuevo</button> <br />
         </div>
         <div className=""><Footer /></div>
-    </>
+    </div>
     );
 
 }

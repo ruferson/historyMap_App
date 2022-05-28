@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Input, Label } from 'reactstrap';
+import { Input, Label } from 'reactstrap';
 import axios from "axios";
-import { Redirect, useLocation } from 'wouter';
 import useEvento from 'hooks/useEvento';
 import Mapa from 'components/Mapa';
 import Escribir from 'components/Escribir';
@@ -10,7 +9,6 @@ import useMapa from 'hooks/useMapa';
 
 function Editar(props) {
 
-    const [location, setLocation] = useLocation();
     const { mapaDatos, loading }  = useMapa(props.params.id)
     const [ mapaID, setMapaID ] = useState(0)
     const [crear, setCrear] = useState(false);
@@ -101,7 +99,6 @@ function Editar(props) {
     }
 
     function sendHTML(titulo, html, type){
-        let correct;
         if (marcadorID!==null){
             let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
             axios
@@ -117,8 +114,6 @@ function Editar(props) {
                     console.log(response);
                     if (response.status === 201) {
                         setUpdate(update+1)
-                    } else {
-                        correct=false;
                     }
                 })
                 .catch((error) => {
@@ -136,8 +131,6 @@ function Editar(props) {
                 .then((response) => {
                     console.log(response);
                     if (response.status === 200) {
-                    } else {
-                        correct=false;
                     }
                 })
                 .catch((error) => {
@@ -157,24 +150,12 @@ function Editar(props) {
                 .then((response) => {
                     console.log(response);
                     if (response.status === 200) {
-                    } else {
-                        correct=false;
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            //mandar alerta de creado
         
-    }
-
-    function alertaCreado(){
-        return (
-            <div class="alert alert-info alert-dismissible fade in notificacion">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>¡Hecho!</strong> ¡Evento creado, y asignado al marcador seleccionado!
-            </div>
-        )
     }
 
     function esPrivate(){
@@ -192,7 +173,7 @@ function Editar(props) {
    return (
         <div className="row">
         <div className="col-12 pl-4 pr-4 pt-3">
-            <Button className="float-left btn-success mr-5" onClick={cambiarCrear}>Añadir Marcador</Button>
+            <button className="float-left btn-success mr-5" onClick={cambiarCrear}>Añadir Marcador</button>
             
             <div className="">
                 <Mapa sendMarcador={sendMarcador} cambiarMarcador={cambiarMarcador} crear={crear} setCrear={setCrear} id={mapaID} update={update}
@@ -238,7 +219,7 @@ function Editar(props) {
             <div className="">
                 <Escribir sendHTML={sendHTML} html={html} titulo={titulo} tipo={tipo} esEdicion={true}></Escribir>
             </div><br/><br/>
-            <Button onClick={() => {window.location.href = "/ver/"+mapaID}}>Finalizar</Button>
+            <button onClick={() => {window.location.href = "/ver/"+mapaID}}>Finalizar</button>
         </div>
             <Footer/>
         </div>

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import './styles.css'
 
 function MenuNoLogged(props) {
 
     const [location, setLocation] = useLocation();
-    const [selected, setSelected] = useState(["", "", "", ""])
+    /*const [selected, setSelected] = useState(["", "", "", ""])
 
     function cambiarSelect (){
         switch (location){
@@ -49,7 +48,13 @@ function MenuNoLogged(props) {
             </ul>
         </div>
         </>
-    );
+    );*/
+
+    return (<ul>
+        <li><a href="#" onClick={() => {setLocation("/")}}>Inicio</a></li>
+        <li><a href="#" onClick={() => {setLocation("/session")}}>Iniciar Sesión</a></li>
+        </ul>
+    )
 }
 
 export default MenuNoLogged;

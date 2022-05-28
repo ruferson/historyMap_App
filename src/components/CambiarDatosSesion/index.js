@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Button, Form, Label, Input } from "reactstrap";
+import { Form, Label, Input } from "reactstrap";
 import axios from "axios";
-import "./styles.css";
 
 function CambiarDatosSesion () {
 
@@ -81,7 +80,7 @@ function CambiarDatosSesion () {
   };
 
   if (redirect) {
-    window.location.href = "/";
+    window.location.href = "/perfil";
   }
 
 
@@ -137,15 +136,15 @@ function CambiarDatosSesion () {
 
     return (
       <div>
-        <Form className="containers shadow" method="post" name="formulario" onSubmit={validateForm}>
-        <Label for="name">Nombre completo: </Label>
+        <Form method="post" name="formulario" onSubmit={validateForm}>
+        <Label for="name">Nombre Completo: </Label>
         <Input
             type="name"
             name="name"
             id="name"
             placeholder="nombre completo"
         />
-        <p className="text-warning">{errorNombre}</p>
+        <p className="text-danger font-italic">{errorNombre}</p>
         <Label for="email">E-Mail: </Label>
         <Input
             type="email"
@@ -153,7 +152,7 @@ function CambiarDatosSesion () {
             id="email"
             placeholder="correo electrónico"
         />
-        <p className="text-warning">{errorEmail}</p>
+        <p className="text-danger font-italic">{errorEmail}</p>
         <Label for="password">Contraseña: </Label>
         <Input
             type="password"
@@ -161,15 +160,14 @@ function CambiarDatosSesion () {
             id="password"
             placeholder="contraseña"
         />
-          <p className="text-warning">{errorPswd}</p>
-          <p className="text-white">{msg}</p>
-          <Button
+          <p className="text-danger font-italic">{errorPswd}</p>
+          <p className="text-danger font-weight-bold">{msg}</p>
+          <button
             className="text-center mb-4"
-            color="success"
             onClick={onSubmitHandler}
           >
             Guardar Cambios
-          </Button>
+          </button>
         </Form>
       </div>
     );

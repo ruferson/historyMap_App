@@ -21,6 +21,7 @@ export function getEvento (ID) { //Con este servicio obtendremos un solo coctail
     }
   })
     .then(response => {
+      console.log(response)
       const data = response.json();
       console.log(data)
       return data;
