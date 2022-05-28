@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './styles.css';
-import mockmapa1 from '../../mocks/map-1.json';
-import mocktexto from '../../mocks/texto-1.json'
 import Evento from '../../components/Evento';
 import Mapa from '../../components/Mapa';
 import { useLocation } from 'wouter';
@@ -22,8 +20,6 @@ function Ver(props) {
     if (localStorage.getItem("isLoggedIn") === "false") {
         setLocation("/session")
     }
-
-    //useEffect(() => {setMapaID(props.params.id)}, [props.params.id]);
 
     function cambiarMarcador(event){
         setNoClicked(false);
