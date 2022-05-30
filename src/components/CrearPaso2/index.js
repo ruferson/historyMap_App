@@ -27,7 +27,6 @@ function CrearPaso2(props) {
     }
 
     useEffect(() => {
-        console.log(evento)
         if (evento !== null) {
             setHTML(evento.data.html);
             setTitulo(evento.data.titulo);
@@ -36,13 +35,10 @@ function CrearPaso2(props) {
 
     function cambiarCrear() {
         setCrear(!crear)
-        console.log(crear)
     }
 
     function sendMarcador(x, y) {
         let data = JSON.stringify({ "x": x, "y": y, "tipo": "default", "mapa_id": props.mapaID });
-        console.log(data)
-        console.log(localStorage.getItem("userData"))
         axios
             .post("http://history.test:8000/api/marcadores",
                 data
@@ -53,11 +49,9 @@ function CrearPaso2(props) {
                     }
                 })
             .then((response) => {
-                console.log(response);
                 if (response.status === 201) {
                     cambiarMarcadorACreado(response.data.data.id)
                     let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id": response.data.data.id });
-                    console.log(data2)
                     axios
                         .post("http://history.test:8000/api/eventos",
                             data2
@@ -68,7 +62,6 @@ function CrearPaso2(props) {
                                 }
                             })
                         .then((response) => {
-                            console.log(response);
                             if (response.status === 201) {
                                 setUpdate(update + 1)
                             } else {
@@ -76,11 +69,13 @@ function CrearPaso2(props) {
                         })
                         .catch((error) => {
                             console.log(error);
+                            alert("¡Ha habido un error!")
                         });
                 }
             })
             .catch((error) => {
                 console.log(error);
+                alert("¡Ha habido un error!")
             });
     }
 
@@ -101,13 +96,11 @@ function CrearPaso2(props) {
                         }
                     })
                 .then((response) => {
-                    console.log(response);
                     if (response.status === 200) {
                         setUpdate(update + 1)
                     }
                 })
                 .catch((error) => {
-                    console.log(error);
                 });
             axios
                 .put("http://history.test:8000/api/marcadores/" + marcadorID,
@@ -119,21 +112,20 @@ function CrearPaso2(props) {
                         }
                     })
                 .then((response) => {
-                    console.log(response);
                     if (response.status === 200) {
                         setUpdate(update + 1)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
+                    alert("¡Ha habido un error!")
                 });
         }
     }
 
     return (
         <div className="pl-4 pr-4">
-            <button className="float-left mb-4" onClick={cambiarCrear}>Añadir Marcador</button>
-
+            <button className="mb-4 d-block" onClick={cambiarCrear}>Añadir Marcador</button>
             <div>
                 <Mapa sendMarcador={sendMarcador} cambiarMarcador={cambiarMarcador} crear={crear} setCrear={setCrear} id={props.mapaID} update={update}
                     changeHTML={setHTML} changeTitulo={setTitulo} changeTipo={setTipo} evento={evento}></Mapa>

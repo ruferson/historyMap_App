@@ -37,13 +37,11 @@ function Login() {
                     }
                 })
             .then((response) => {
-                console.log(response);
                 setLoading(false);
                 if (response.status === 200) {
                     localStorage.setItem("isLoggedIn", true);
                     localStorage.setItem("userToken", JSON.stringify(response.data));
                     token = JSON.stringify(response.data);
-                    console.log(JSON.stringify(response.data))
                     axios
                         .get("http://history.test:8000/api/user", {
                             headers: {
@@ -52,7 +50,6 @@ function Login() {
                             }
                         })
                         .then((response) => {
-                            console.log(response);
                             setLoading(false);
                             if (response.status === 200) {
                                 localStorage.setItem("userData", JSON.stringify(response.data));
@@ -61,6 +58,7 @@ function Login() {
                         })
                         .catch((error) => {
                             console.log(error);
+                            alert("¡Ha habido un error!")
                         });
                 }
                 if (
@@ -97,7 +95,6 @@ function Login() {
         window.location.href = "/";
     }*/
     const login = localStorage.getItem("isLoggedIn");
-    console.log(login)
     if (login === "true") {
         window.location.href = "/";
     }

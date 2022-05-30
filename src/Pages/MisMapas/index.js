@@ -25,14 +25,12 @@ function MisMapas() {
     }
 
     function devolverMapasPriv() {
-        console.log(listaMapasPriv.data)
         if (listaMapasPriv.data) {
             return listaMapasPriv.data.map(mapearMapas)
         }
     }
 
     function devolverMapasGuard() {
-        console.log(listaMapasGuard.data)
         if (listaMapasGuard.data) {
             return listaMapasGuard.data.map(mapearMapas)
         }

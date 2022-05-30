@@ -27,12 +27,11 @@ function Ver(props) {
         setMarcadorID(event.target.options.id);
     }
 
-    console.log(mapaID)
-
     return (<div id="main">{ !loading ?
         <div className="pl-4 pr-4">
             <div className="">
-                <h1>{mapaDatos.data.nombre}</h1> <br />
+                <h1 className="d-none d-sm-block">{mapaDatos.data.nombre}</h1>
+                <h2 className="d-sm-none">{mapaDatos.data.nombre}</h2><br />
                 <div className="">
                     <Mapa cambiarMarcador={cambiarMarcador} crear={false} id={mapaID} evento={evento}></Mapa>
                 </div> <br/>

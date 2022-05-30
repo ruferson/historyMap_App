@@ -8,10 +8,6 @@ function Escribir(props) {
     const [html, setHTML] = useState(props.html !== undefined ? props.html : "");
     const [tipo, setTipo] = useState(props.tipo !== undefined ? props.tipo : "default")
     const [titulo, setTitulo] = useState(props.titulo !== undefined ? props.titulo : "")
-  
-    useEffect(()=>{
-        console.log(props)
-    }, [props]);
 
     useEffect(()=>{
         if (props.html !== undefined) {

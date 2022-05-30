@@ -21,7 +21,6 @@ function Compartir(props) {
                 headers: { Authorization: JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token}
             })
             .then((response) => {
-                console.log(response);
                 if (response.status === 201) {
                     
                 }
@@ -30,11 +29,6 @@ function Compartir(props) {
                 console.log(error);
                 alert("¡Ha habido un error!")
             }); 
-    }
-
-
-    if(!loading){
-        console.log(listaUsers.data)
     }
 
     function mapping(user, key){

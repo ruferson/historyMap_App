@@ -17,7 +17,6 @@ function MapasPublicos () {
     }
 
     function devolverMisMapas(){
-        console.log(listaMapas.data)
         if (listaMapas.data){
             return listaMapas.data.map(mapearMisMapas)
         }

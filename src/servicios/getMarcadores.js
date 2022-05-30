@@ -1,18 +1,15 @@
 
-export function getMarcadores (mapaID) { //Con este servicio obtendremos un solo coctail a partir de su id.
+export function getMarcadores(mapaID) {
 
-  const apiURL = 'http://127.0.0.1:8000/api/marcadores-mapa/'+mapaID;
-  console.log(apiURL)
-  //Usamos la ID pasada por parámetro.
+  const apiURL = 'http://127.0.0.1:8000/api/marcadores-mapa/' + mapaID;
+
   let token;
-  if (localStorage.getItem('userToken') !== null){
-    token = JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token
+  if (localStorage.getItem('userToken') !== null) {
+    token = JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token
   } else {
     token = ""
   }
-  console.log(token)
-  console.log(localStorage.getItem("userData"))
-  
+
   return fetch(apiURL, {
     method: 'GET',
     headers: {
@@ -22,7 +19,6 @@ export function getMarcadores (mapaID) { //Con este servicio obtendremos un solo
   })
     .then(response => {
       const data = response.json();
-      console.log(data)
       return data;
-  })
+    })
 }

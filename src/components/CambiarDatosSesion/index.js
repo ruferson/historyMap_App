@@ -20,7 +20,6 @@ function CambiarDatosSesion () {
         let elEmail=document.getElementById("email").value
         let contraseña=document.getElementById("password").value
         let data = "name="+nombre+"&email="+elEmail+"&password="+contraseña
-        console.log(data);
 
         axios
             .put("http://history.test:8000/api/user/"+JSON.parse(localStorage.getItem("userData")).user_id,
@@ -32,7 +31,6 @@ function CambiarDatosSesion () {
               }
             )
             .then((response) => {
-                console.log(response)
                 let token;
                 if (response.status === 200) {
                     axios
@@ -41,12 +39,10 @@ function CambiarDatosSesion () {
                             password: contraseña,
                         })
                         .then((response) => {
-                            console.log(response);
                             if (response.status === 200) {
                                 localStorage.setItem("isLoggedIn", true);
                                 localStorage.setItem("userToken", JSON.stringify(response.data));
                                 token = JSON.stringify(response.data);
-                                console.log(JSON.stringify(response.data))
                                 axios
                                     .get("http://history.test:8000/api/user", {
                                         headers: {
@@ -55,24 +51,22 @@ function CambiarDatosSesion () {
                                         }
                                     })
                                     .then((response) => {
-                                        console.log(response);
                                         if (response.status === 200) {
                                             localStorage.setItem("userData", JSON.stringify(response.data));
                                             setRedirect(true);
                                         }
                                     })
                                     .catch((error) => {
-                                        console.log(error);
                                     });
                             }
                         })
                         .catch((error) => {
-                            console.log(error);
                         });
                 }
             })
             .catch((error) => {
                 console.log(error);
+                alert("¡Ha habido un error!")
             });
       } else {
           setMsg("Hay errores en el formulario")

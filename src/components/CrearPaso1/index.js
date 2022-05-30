@@ -36,7 +36,6 @@ function CrearPaso1(props) {
                         }
                     })
                     .then((response) => {
-                        console.log(response);
                         if (response.status === 201) {
                             props.setMapaID(response.data.data.id)
                             props.setPaso(2)
@@ -44,6 +43,7 @@ function CrearPaso1(props) {
                     })
                     .catch((error) => {
                         console.log(error);
+                        alert("¡Ha habido un error!")
                     });
             } else {
                 alert("¡Uno de los datos está vacío!")

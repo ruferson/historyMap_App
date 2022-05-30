@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
+import React, { useEffect } from 'react';
 import useNotificaciones from '../../hooks/useNotificaciones';
 import Notificacion from '../Notificacion';
-import './styles.css'
 
 function MisNotificaciones(props) {
 
-    const [location, setLocation] = useLocation();
     const { listaNotificaciones, loading } = useNotificaciones();
-    const [notificaciones, setNotificaciones] = useState([])
 
     useEffect(()=> {
         if (!loading) {

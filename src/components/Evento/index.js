@@ -7,7 +7,6 @@ function Evento(props) {
     const { evento, loading } = useEvento(props.id, 0);
 
     if (evento !== null) {
-        console.log(loading)
         props.setEvento(evento)
     }
 

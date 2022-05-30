@@ -8,7 +8,6 @@ function Mapa(props) {
 
     function LocationMarker(marcador, key) {
         let position = marcador[0];
-        console.log("mapeando"+position)
         return position === null ? null : (
           <div>
             <Marker id={key} eventHandlers={{ click: props.cambiarEvento }} key={key} position={position}>

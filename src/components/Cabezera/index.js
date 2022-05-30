@@ -2,33 +2,61 @@ import MenuNoLogged from "components/MenuNoLogged";
 import Menu from "components/Menu";
 import { useLocation } from "wouter";
 
-function Cabezera () {
-       
+function Cabezera() {
+
     const [location, setLocation] = useLocation();
 
-    /*return (
-        <div className="cabezera pb-3">
-            <div className="pt-5 pl-3">
-                <ToggleMenu isActive={props.isActive} setActive={props.setActive} />
-            </div>
-            <a href="/"><img src={logo} className="float-right logo"/></a><br/>
-            <p className="pt-5 pl-3">¡Bienvenido, {localStorage.getItem("isLoggedIn") === "true" ? JSON.parse(localStorage.getItem("userData")).user_name : "invitado"}!</p>
-        </div>
-    );*/
-
-    return (<header id="header">
-        <h1><a href="#" onClick={() => {setLocation("/")}}>HistoryMap</a></h1>
-        <nav class="links">
-            { localStorage.getItem("isLoggedIn") === "true" ? <Menu /> : <MenuNoLogged />}
-        </nav> { localStorage.getItem("isLoggedIn") !== "true" ?
-        <nav class="main">
-            <ul>
-                <li><a href="#">Iniciar Sesión</a></li>
-            </ul>
-        </nav> : <></>}
+    return (<>
+        <header className="d-none d-lg-flex" id="header">
+            <h1><a href="#" onClick={() => { setLocation("/") }}>HistoryMap</a></h1>
+            <nav className="links">
+                {localStorage.getItem("isLoggedIn") === "true" ? <Menu /> : <MenuNoLogged />}
+            </nav>
         </header>
+        <div className="d-lg-none">
+            <header id="header">
+                <h1><a href="#" onClick={() => { setLocation("/") }}>HistoryMap</a></h1>
+            </header>
+            <div id="menu">
+                <ul className="links">
+                    <li>
+                        <a href="#" onClick={() => { setLocation("/") }}>
+                            <h3>Inicio</h3>
+                        </a>
+                    </li>
+                {localStorage.getItem("isLoggedIn") !== "true" ?
+                    <li>
+                        <a href="#">
+                            <h3>Iniciar Sesión</h3>
+                        </a>
+                    </li> : <>
+                    <li>
+                        <a href="#" onClick={() => { setLocation("/libres") }}>
+                            <h3>Mapas Libres</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onClick={() => { setLocation("/misMapas") }}>
+                            <h3>Mis Mapas</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onClick={() => { setLocation("/perfil") }}>
+                            <h3>Perfil</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onClick={() => { setLocation("/crear") }}>
+                            <h3>Crear mapa</h3>
+                        </a>
+                    </li>
+                        </>}
+                </ul>
+            </div>
+        </div>
+    </>
     )
 
-   }
+}
 
-   export default Cabezera;
+export default Cabezera;
