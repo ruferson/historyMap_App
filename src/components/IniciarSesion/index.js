@@ -22,14 +22,20 @@ function Login() {
         setPasswd(e.target.value)
     }
 
-    function onSignInHandler() {
+    function onSignInHandler(e) {
+        e.preventDefault();
         setLoading(true);
         let token;
         axios
             .post("http://history.test:8000/api/tokens/create", {
                 email: email,
                 password: password,
-            })
+            },
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
             .then((response) => {
                 console.log(response);
                 setLoading(false);
@@ -41,7 +47,7 @@ function Login() {
                     axios
                         .get("http://history.test:8000/api/user", {
                             headers: {
-                                'Authorization': JSON.parse(token).token_type+" "+JSON.parse(token).access_token,
+                                'Authorization': JSON.parse(token).token_type + " " + JSON.parse(token).access_token,
                                 'Content-Type': 'application/json'
                             }
                         })
@@ -84,12 +90,12 @@ function Login() {
                 setLoading(false)
                 console.log(error);
                 alert("¡Ha habido un error!")
-            });        
+            });
     };
 
-    if (redirect) {
+    /*if (redirect) {
         window.location.href = "/";
-    }
+    }*/
     const login = localStorage.getItem("isLoggedIn");
     console.log(login)
     if (login === "true") {
@@ -99,7 +105,7 @@ function Login() {
     return (
         <div>
             <h1>Iniciar Sesión</h1>
-            <br/>
+            <br />
             <Form >
                 <FormGroup>
                     <Label for="email">E-Mail: </Label>
@@ -127,7 +133,6 @@ function Login() {
                 <p className="text-danger">{errMsg}</p>
                 <button
                     className="text-center mb-4"
-                    color="success"
                     onClick={onSignInHandler}
                 >
                     Iniciar sesión

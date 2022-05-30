@@ -167,7 +167,6 @@ function Registrase() {
                 <p className="text-white">{msg}</p>
                 <button
                     className="text-center mb-4"
-                    color="success"
                     onClick={onSubmitHandler}
                 >
                     Registrarse

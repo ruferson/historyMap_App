@@ -1,9 +1,4 @@
-import { Button } from "reactstrap";
 import { useLocation } from "wouter";
-import useMisMapas from "../../hooks/useMisMapas";
-import MapaClick from "../MapaClick";
-import ToggleMenu from "../ToggleMenu";
-import logo from '../../img/logo.png'
 
 function Footer (props) {
     

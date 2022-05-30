@@ -141,7 +141,7 @@ function Editar(props) {
         axios
             .put("http://history.test:8000/api/mapas/" + mapaID,
                 {
-                    esPrivado: esPrivado,
+                    privado: esPrivado,
                     nombre: nombre
                 }
                 , {
@@ -195,8 +195,8 @@ function Editar(props) {
                 </div><br /><br />
                 <button onClick={() => { window.location.href = "/ver/" + mapaID }}>Finalizar</button>
             </div>
-            <Footer />
         </div>
+        <Footer />
     </div>
     );
 }
