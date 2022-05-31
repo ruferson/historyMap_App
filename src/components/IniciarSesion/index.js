@@ -91,9 +91,9 @@ function Login() {
             });
     };
 
-    /*if (redirect) {
+    if (redirect) {
         window.location.href = "/";
-    }*/
+    }
     const login = localStorage.getItem("isLoggedIn");
     if (login === "true") {
         window.location.href = "/";
