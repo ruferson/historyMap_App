@@ -1,7 +1,7 @@
 
 export function getEvento (ID) {
 
-  const apiURL = 'http://127.0.0.1:8000/api/eventos-marcador/'+ID;
+  const apiURL = process.env.REACT_APP_BACKEND_URL+'/api/eventos-marcador/'+ID;
   
   let token;
   if (localStorage.getItem('userToken') !== null){

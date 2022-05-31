@@ -27,7 +27,7 @@ function Login() {
         setLoading(true);
         let token;
         axios
-            .post("http://history.test:8000/api/tokens/create", {
+            .post(process.env.REACT_APP_BACKEND_URL+"/api/tokens/create", {
                 email: email,
                 password: password,
             },
@@ -43,7 +43,7 @@ function Login() {
                     localStorage.setItem("userToken", JSON.stringify(response.data));
                     token = JSON.stringify(response.data);
                     axios
-                        .get("http://history.test:8000/api/user", {
+                        .get(process.env.REACT_APP_BACKEND_URL+"/api/user", {
                             headers: {
                                 'Authorization': JSON.parse(token).token_type + " " + JSON.parse(token).access_token,
                                 'Content-Type': 'application/json'

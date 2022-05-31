@@ -1,7 +1,7 @@
 
 export function getNotificaciones () { 
 
-    const apiURL = `http://127.0.0.1:8000/api/notificaciones`;
+    const apiURL = process.env.REACT_APP_BACKEND_URL+`/api/notificaciones`;
     
     let token;
     if (localStorage.getItem('userToken') !== null){

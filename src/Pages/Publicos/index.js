@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import Footer from "../../components/Footer";
 import MapasPublicos from "../../components/MapasPublicos";
 
-function Libres () {
+function Publicos () {
 
     const [location, setLocation] = useLocation();
 
@@ -13,7 +13,7 @@ function Libres () {
 
     return (<div id="main">
         <div className="pr-4 pl-4">
-            <h1>Mapas Libres</h1><br/>
+            <h1>Mapas Públicos</h1><br/>
             <MapasPublicos/>
         </div>
         <Footer />
@@ -21,4 +21,4 @@ function Libres () {
     );
   }
 
-  export default Libres;
+  export default Publicos;

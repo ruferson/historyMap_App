@@ -1,7 +1,7 @@
 
 export function getMapa (id) {
 
-  const apiURL = 'http://127.0.0.1:8000/api/mapas/'+id;
+  const apiURL = process.env.REACT_APP_BACKEND_URL+'/api/mapas/'+id;
 
   let token;
   if (localStorage.getItem('userToken') !== null){

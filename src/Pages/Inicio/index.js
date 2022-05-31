@@ -20,7 +20,7 @@ function Inicio () {
                 {localStorage.getItem("isLoggedIn") !== "false" ? <button onClick={()=>{setLocation("/crear")}}>Crear Mapa Nuevo</button>
                     : <button onClick={()=>{setLocation("/session")}}>Iniciar Sesión</button>}
             </div>
-            <div className=""><Footer /></div>
+            <div className="abajo"><Footer /></div>
         </div>
     );
   }

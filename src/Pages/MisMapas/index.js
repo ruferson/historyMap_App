@@ -4,13 +4,13 @@ import useMisMapas from "../../hooks/useMisMapas";
 import MapaClick from "../../components/MapaClick";
 import Footer from "../../components/Footer";
 import Ajax from "components/Ajax";
-import useMapasGuard from "hooks/useMapasGuard";
+import { useState } from "react";
 
 function MisMapas() {
 
     const [location, setLocation] = useLocation();
     const { listaMapasPriv, loadingPriv } = useMisMapas();
-    const { listaMapasGuard, loadingGuard } = useMapasGuard();
+    const [pagination, setPagination] = useState(0);
 
     if (localStorage.getItem("isLoggedIn") === "false") {
         setLocation("/session")
@@ -20,8 +20,36 @@ function MisMapas() {
         setLocation("/crear")
     }
 
+    function avanzar() {
+        if (!loadingPriv) {
+            if (listaMapasPriv.data.length - 1 > pagination) {
+                if (listaMapasPriv.data.length - 1 <= pagination + 6) {
+                    setPagination(listaMapasPriv.data.length - 1)
+                } else {
+                    setPagination(pagination + 6)
+                }
+            }
+        }
+        return null;
+    }
+
+    function atrasar() {
+        if (!loadingPriv) {
+            if (0 < pagination) {
+                if (0 >= pagination - 6) {
+                    setPagination(0)
+                } else {
+                    setPagination(pagination - 6)
+                }
+            }
+        }
+        return null;
+    }
+
     function mapearMapas(mapa, key) {
-        return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
+        if (key < (pagination + 6) && key >= pagination) {
+            return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
+        }
     }
 
     function devolverMapasPriv() {
@@ -30,19 +58,18 @@ function MisMapas() {
         }
     }
 
-    function devolverMapasGuard() {
-        if (listaMapasGuard.data) {
-            return listaMapasGuard.data.map(mapearMapas)
-        }
-    }
-
     return (<div id="main">
         <div className="pr-4 pl-4">
             <h1>Mapas Creados</h1><br />
-            <div className="row">
-                {loadingGuard ? <Ajax /> : devolverMapasPriv()}
-            </div> <br />
-            <button onClick={() => action()}>Crear Mapa Nuevo</button> <br />
+            {!loadingPriv ? <>
+                <div className="row">
+                    {devolverMapasPriv()}
+                </div> <br />
+                <button className="d-none d-md-flex" onClick={() => action()}>Crear Mapa Nuevo</button>
+                <button className="d-md-none button" onClick={() => action()}>Crear Mapa Nuevo</button>
+                <button className="float-right button" onClick={() => avanzar()}>Siguiente</button>
+                <button className="float-right button" onClick={() => atrasar()}>Anterior</button> <br /> </>
+                : <Ajax />}
         </div>
         <div className=""><Footer /></div>
     </div>

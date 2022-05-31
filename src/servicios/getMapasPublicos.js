@@ -1,7 +1,7 @@
 
 export function getMapasPublicos () {
 
-  const apiURL = 'http://127.0.0.1:8000/api/mapas/publicos';
+  const apiURL = process.env.REACT_APP_BACKEND_URL+'/api/mapas/publicos';
   let token;
   if (localStorage.getItem('userToken') !== null){
     token = JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token

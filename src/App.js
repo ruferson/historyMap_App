@@ -10,7 +10,7 @@ import Cabezera from './components/Cabezera';
 import MisMapas from './Pages/MisMapas';
 import Editar from './Pages/Editar';
 import Inicio from './Pages/Inicio';
-import Libres from './Pages/Libres';
+import Publicos from './Pages/Publicos';
 
 
 function App() {
@@ -18,10 +18,10 @@ function App() {
     const [isActive, setActive] = useState(true)
     const [isLogged, setIsLogged] = useState(localStorage.getItem("isLoggedIn") !== "true");
 
-    useEffect(() => { setIsLogged(localStorage.getItem("isLoggedIn") !== "true"); console.log("para el menu " + isLogged) }, [localStorage.getItem("isLoggedIn")])
+    useEffect(() => { setIsLogged(localStorage.getItem("isLoggedIn") !== "true") }, [localStorage.getItem("isLoggedIn")])
 
     return (
-        <>
+        <div className="fondo">
             <div id="wrapper">
                 <Cabezera isActive={isActive} setActive={setActive} />
                 <Route
@@ -29,8 +29,8 @@ function App() {
                     path="/">
                 </Route>
                 <Route
-                    component={Libres}
-                    path="/libres">
+                    component={Publicos}
+                    path="/publicos">
                 </Route>
                 <Route
                     component={MisMapas}
@@ -57,7 +57,7 @@ function App() {
                     path="/crear">
                 </Route>
             </div>
-        </>
+        </div>
     );
 }
 

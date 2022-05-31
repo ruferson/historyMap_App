@@ -6,10 +6,12 @@ import Mapa from 'components/Mapa';
 import Escribir from 'components/Escribir';
 import Footer from 'components/Footer';
 import useMapa from 'hooks/useMapa';
+import { useLocation } from 'wouter';
 
 function Editar(props) {
 
     const { mapaDatos, loading } = useMapa(props.params.id)
+    const [location, setLocation] = useLocation();
     const [mapaID, setMapaID] = useState(0)
     const [crear, setCrear] = useState(false);
     const [marcadorID, setMarcadorID] = useState(null);
@@ -20,6 +22,12 @@ function Editar(props) {
     const { evento, loadingEvent } = useEvento(marcadorID, update);
     const [esPrivado, setEsPrivado] = useState(false)
     const [nombre, setNombre] = useState("")
+
+    if (!loading){
+        if (mapaDatos.data.usuario_id !== JSON.parse(localStorage.getItem("userData")).user_id) {
+            setLocation("/")
+        }
+    }
 
     function cambiarMarcador(event) {
         setUpdate(update + 1)

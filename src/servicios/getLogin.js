@@ -1,7 +1,7 @@
 
 export function getLogin (email, password) {
 
-  const apiURL = 'http://127.0.0.1:8000/api/login';
+  const apiURL = process.env.REACT_APP_BACKEND_URL+'/api/login';
 
   return fetch(apiURL, {
     method: 'POST',

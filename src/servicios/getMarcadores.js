@@ -1,7 +1,7 @@
 
 export function getMarcadores(mapaID) {
 
-  const apiURL = 'http://127.0.0.1:8000/api/marcadores-mapa/' + mapaID;
+  const apiURL = process.env.REACT_APP_BACKEND_URL+'api/marcadores-mapa/' + mapaID;
 
   let token;
   if (localStorage.getItem('userToken') !== null) {

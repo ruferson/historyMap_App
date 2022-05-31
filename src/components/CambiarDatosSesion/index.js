@@ -22,7 +22,7 @@ function CambiarDatosSesion () {
         let data = "name="+nombre+"&email="+elEmail+"&password="+contraseña
 
         axios
-            .put("http://history.test:8000/api/user/"+JSON.parse(localStorage.getItem("userData")).user_id,
+            .put(process.env.REACT_APP_BACKEND_URL+"/api/user/"+JSON.parse(localStorage.getItem("userData")).user_id,
             data, {
                 headers: {
                     'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token,
@@ -34,7 +34,7 @@ function CambiarDatosSesion () {
                 let token;
                 if (response.status === 200) {
                     axios
-                        .post("http://history.test:8000/api/tokens/create", {
+                        .post(process.env.REACT_APP_BACKEND_URL+"/api/tokens/create", {
                             email: elEmail,
                             password: contraseña,
                         })
@@ -44,7 +44,7 @@ function CambiarDatosSesion () {
                                 localStorage.setItem("userToken", JSON.stringify(response.data));
                                 token = JSON.stringify(response.data);
                                 axios
-                                    .get("http://history.test:8000/api/user", {
+                                    .get(process.env.REACT_APP_BACKEND_URL+"/api/user", {
                                         headers: {
                                             'Authorization': JSON.parse(token).token_type+" "+JSON.parse(token).access_token,
                                             'Content-Type': 'application/json'

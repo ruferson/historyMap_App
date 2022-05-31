@@ -1,7 +1,7 @@
 
 export function getUserData () {
 
-    const apiURL = 'http://127.0.0.1:8000/api/user';
+    const apiURL = process.env.REACT_APP_BACKEND_URL+'/api/user';
     
     let token;
     if (localStorage.getItem('userToken') !== null){

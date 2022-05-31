@@ -21,14 +21,14 @@ function Registrase() {
             let data = { "name": nombre, "email": email, "password": contraseña }
 
             axios
-                .post("http://history.test:8000/api/register",
+                .post(process.env.REACT_APP_BACKEND_URL+"/api/register",
                     data
                 )
                 .then((response) => {
                     let token;
                     if (response.status === 200) {
                         axios
-                            .post("http://history.test:8000/api/tokens/create", {
+                            .post(process.env.REACT_APP_BACKEND_URL+"/api/tokens/create", {
                                 email: email,
                                 password: contraseña,
                             })
@@ -38,7 +38,7 @@ function Registrase() {
                                     localStorage.setItem("userToken", JSON.stringify(response.data));
                                     token = JSON.stringify(response.data);
                                     axios
-                                        .get("http://history.test:8000/api/user", {
+                                        .get(process.env.REACT_APP_BACKEND_URL+"/api/user", {
                                             headers: {
                                                 'Authorization': JSON.parse(token).token_type + " " + JSON.parse(token).access_token,
                                                 'Content-Type': 'application/json'
