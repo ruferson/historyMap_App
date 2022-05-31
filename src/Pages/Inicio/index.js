@@ -2,6 +2,7 @@
 import React from "react";
 import { useLocation } from "wouter";
 import Footer from "../../components/Footer";
+import logo from "../../img/logo.png"
 
 function Inicio () {
 
@@ -11,6 +12,7 @@ function Inicio () {
     return (
         <div id="main">
             <div className="pl-4 pr-4">
+                <img className="d-none d-md-flex float-right logo" src={logo}/>
                 <h1>Inicio</h1><br/>
                 <h3>¡Bienvenido a HistoryMap!</h3><br/>
                 <p>En esta pequeña red social podrás crear tus propios mapas con tus propios marcadores y eventos.</p>
