@@ -23,10 +23,10 @@ function MisMapas() {
     function avanzar() {
         if (!loadingPriv) {
             if (listaMapasPriv.data.length - 1 > pagination) {
-                if (listaMapasPriv.data.length - 1 <= pagination + 6) {
+                if (listaMapasPriv.data.length - 1 <= pagination + 3) {
                     setPagination(listaMapasPriv.data.length - 1)
                 } else {
-                    setPagination(pagination + 6)
+                    setPagination(pagination + 3)
                 }
             }
         }
@@ -36,10 +36,10 @@ function MisMapas() {
     function atrasar() {
         if (!loadingPriv) {
             if (0 < pagination) {
-                if (0 >= pagination - 6) {
+                if (0 >= pagination - 3) {
                     setPagination(0)
                 } else {
-                    setPagination(pagination - 6)
+                    setPagination(pagination - 3)
                 }
             }
         }
@@ -47,7 +47,7 @@ function MisMapas() {
     }
 
     function mapearMapas(mapa, key) {
-        if (key < (pagination + 6) && key >= pagination) {
+        if (key < (pagination + 3) && key >= pagination) {
             return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
         }
     }
