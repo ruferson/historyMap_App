@@ -15,7 +15,7 @@ function Inicio () {
                 <img className="d-none d-md-flex float-right logo" src={logo}/>
                 <h1>Inicio</h1><br/>
                 <h3>¡Bienvenido a HistoryMap!</h3><br/>
-                <p>En esta pequeña red social podrás crear tus propios mapas con tus propios marcadores y eventos.</p>
+                <p>En esta red social podrás crear tus propios mapas con tus propios marcadores y eventos.</p>
                 <p>¿Te gustaría marcar dónde ocurrieron los eventos más importantes de tu vida?</p>
                 <p>¿Te gustaría ayudar a tus alumnos a comprender mejor los más importantes eventos históricos?</p>
                 <p>¡Crea tu propio mapa ya!</p>
