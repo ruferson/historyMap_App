@@ -31,8 +31,8 @@ function Cabezera() {
                         </a>
                     </li> : <>
                     <li>
-                        <a href="#" onClick={() => { setLocation("/libres") }}>
-                            <h3>Mapas Libres</h3>
+                        <a href="#" onClick={() => { setLocation("/publicos") }}>
+                            <h3>Mapas Públicos</h3>
                         </a>
                     </li>
                     <li>
