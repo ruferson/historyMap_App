@@ -65,7 +65,7 @@ function MisMapas() {
                 <div className="row">
                     {devolverMapasPriv()}
                 </div> <br />
-                <button className="d-none d-md-flex" onClick={() => action()}>Crear Mapa Nuevo</button>
+                <button className="d-none d-md-inline" onClick={() => action()}>Crear Mapa Nuevo</button>
                 <button className="d-md-none button" onClick={() => action()}>Crear Mapa Nuevo</button>
                 <button className="float-right button" onClick={() => avanzar()}>Siguiente</button>
                 <button className="float-right button" onClick={() => atrasar()}>Anterior</button> <br /> </>

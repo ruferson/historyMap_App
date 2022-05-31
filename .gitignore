@@ -33,6 +33,8 @@ logs
 **/*.backup.*
 **/*.back.*
 
+*.backup
+
 .env
 node_modules
 bower_components
