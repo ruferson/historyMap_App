@@ -10,7 +10,7 @@ function MapaClick(props) {
     return (<>
         <div className="col-4 mb-3 text-center d-none d-lg-flex">
             <div className="card">
-                <div className="moduleItemIntrotext">
+                <div>
                     <img className="card-img-top" src={props.mapImage} alt="Card image" />
                 </div>
                 <div className="card-body">
@@ -24,7 +24,7 @@ function MapaClick(props) {
         </div>
         <div className="col-6 mb-3 text-center d-lg-none">
             <div className="card">
-                <div className="moduleItemIntrotext">
+                <div className="">
                     <img className="card-img-top" src={props.mapImage} alt="Card image" />
                 </div>
                 <div className="card-body">
