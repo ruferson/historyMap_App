@@ -22,8 +22,9 @@ function Editar(props) {
     const { evento, loadingEvent } = useEvento(marcadorID, update);
     const [esPrivado, setEsPrivado] = useState(false)
     const [nombre, setNombre] = useState("")
+    const [img, setImg] = useState("");
 
-    if (!loading){
+    if (!loading) {
         if (mapaDatos.data.usuario_id !== JSON.parse(localStorage.getItem("userData")).user_id) {
             setLocation("/")
         }
@@ -44,6 +45,7 @@ function Editar(props) {
         if (!loading) {
             setMapaID(mapaDatos.data.id)
             setNombre(mapaDatos.data.nombre)
+            setImg(mapaDatos.data.link_imagen)
         }
     }, [loading])
 
@@ -60,7 +62,7 @@ function Editar(props) {
 
     function sendMarcador(x, y) {
         let data = JSON.stringify({ "x": x, "y": y, "tipo": "default", "mapa_id": mapaID });
-        
+
         axios
             .post("http://history.test:8000/api/marcadores",
                 data
@@ -102,27 +104,51 @@ function Editar(props) {
     }
 
     function sendHTML(titulo, html, type) {
-        if (marcadorID !== null) {
-            let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
-            axios
-                .put("http://history.test:8000/api/eventos/" + evento.data.id,
-                    data
-                    , {
-                        headers: {
-                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-                            'Content-Type': 'application/json'
+        if (validateURL(img)) {
+            if (marcadorID !== null) {
+                let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
+                axios
+                    .put("http://history.test:8000/api/eventos/" + evento.data.id,
+                        data
+                        , {
+                            headers: {
+                                'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                    .then((response) => {
+                        if (response.status === 201) {
+                            setUpdate(update + 1)
                         }
                     })
-                .then((response) => {
-                    if (response.status === 201) {
-                        setUpdate(update + 1)
-                    }
-                })
-                .catch((error) => {
-                });
+                    .catch((error) => {
+                    });
+                axios
+                    .put("http://history.test:8000/api/marcadores/" + marcadorID,
+                        { tipo: type }
+                        , {
+                            headers: {
+                                'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                    .then((response) => {
+                        if (response.status === 200) {
+                            setUpdate(update + 1)
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        alert("¡Ha habido un error!")
+                    });
+            }
             axios
-                .put("http://history.test:8000/api/marcadores/" + marcadorID,
-                    { tipo: type }
+                .put("http://history.test:8000/api/mapas/" + mapaID,
+                    {
+                        privado: esPrivado,
+                        link_imagen: img,
+                        nombre: nombre
+                    }
                     , {
                         headers: {
                             'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
@@ -131,7 +157,6 @@ function Editar(props) {
                     })
                 .then((response) => {
                     if (response.status === 200) {
-                        setUpdate(update + 1)
                     }
                 })
                 .catch((error) => {
@@ -139,31 +164,25 @@ function Editar(props) {
                     alert("¡Ha habido un error!")
                 });
         }
-        axios
-            .put("http://history.test:8000/api/mapas/" + mapaID,
-                {
-                    privado: esPrivado,
-                    nombre: nombre
-                }
-                , {
-                    headers: {
-                        'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-                        'Content-Type': 'application/json'
-                    }
-                })
-            .then((response) => {
-                if (response.status === 200) {
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                alert("¡Ha habido un error!")
-            });
 
     }
 
     function onChangeNombre(event) {
         setNombre(event.target.value)
+    }
+
+    function onChangeImage(event) {
+        setImg(event.target.value)
+    }
+
+    function validateURL(url) {
+        let regex = /^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif))$/i;
+        if (regex.test(url)) {
+            return true;
+        } else {
+            alert("¡URL de imagen no válida!")
+            return false;
+        }
     }
 
     return (<div id="main">
@@ -183,6 +202,15 @@ function Editar(props) {
                         placeholder="nombre"
                         value={nombre}
                         onChange={onChangeNombre}
+                    /><br />
+                    <Label for="nombre"><h1>URL de la imagen:</h1></Label>
+                    <Input
+                        type="text"
+                        name="img"
+                        id="img"
+                        placeholder="img"
+                        value={img}
+                        onChange={onChangeImage}
                     /><br />
                     <h2>Privado:</h2><br />
                     <label class="switch" id="switch">

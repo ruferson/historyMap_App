@@ -3,6 +3,11 @@
   width: 100px;
 }
 
+.card-img-top {
+	max-height: 300px;
+	object-fit: cover;
+}
+
 #root {
 	background-image: url("../images/background.jpg");
 	background-repeat: no-repeat;
