@@ -40,7 +40,7 @@ function CrearPaso2(props) {
     function sendMarcador(x, y) {
         let data = JSON.stringify({ "x": x, "y": y, "tipo": "default", "mapa_id": props.mapaID });
         axios
-            .post("http://history.test:8000/api/marcadores",
+            .post(process.env.REACT_APP_BACKEND_URL+"/api/marcadores",
                 data
                 , {
                     headers: {
@@ -53,7 +53,7 @@ function CrearPaso2(props) {
                     cambiarMarcadorACreado(response.data.data.id)
                     let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id": response.data.data.id });
                     axios
-                        .post("http://history.test:8000/api/eventos",
+                        .post(process.env.REACT_APP_BACKEND_URL+"/api/eventos",
                             data2
                             , {
                                 headers: {
@@ -87,7 +87,7 @@ function CrearPaso2(props) {
         } else {
             let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
             axios
-                .put("http://history.test:8000/api/eventos/" + evento.data.id,
+                .put(process.env.REACT_APP_BACKEND_URL+"/api/eventos/" + evento.data.id,
                     data
                     , {
                         headers: {
@@ -103,7 +103,7 @@ function CrearPaso2(props) {
                 .catch((error) => {
                 });
             axios
-                .put("http://history.test:8000/api/marcadores/" + marcadorID,
+                .put(process.env.REACT_APP_BACKEND_URL+"/api/marcadores/" + marcadorID,
                     { tipo: type }
                     , {
                         headers: {

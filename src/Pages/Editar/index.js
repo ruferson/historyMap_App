@@ -64,7 +64,7 @@ function Editar(props) {
         let data = JSON.stringify({ "x": x, "y": y, "tipo": "default", "mapa_id": mapaID });
 
         axios
-            .post("http://history.test:8000/api/marcadores",
+            .post(process.env.REACT_APP_BACKEND_URL+"/api/marcadores",
                 data
                 , {
                     headers: {
@@ -77,7 +77,7 @@ function Editar(props) {
                     cambiarMarcadorACreado(response.data.data.id)
                     let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id": response.data.data.id });
                     axios
-                        .post("http://history.test:8000/api/eventos",
+                        .post(process.env.REACT_APP_BACKEND_URL+"/api/eventos",
                             data2
                             , {
                                 headers: {
@@ -108,7 +108,7 @@ function Editar(props) {
             if (marcadorID !== null) {
                 let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
                 axios
-                    .put("http://history.test:8000/api/eventos/" + evento.data.id,
+                    .put(process.env.REACT_APP_BACKEND_URL+"/api/eventos/" + evento.data.id,
                         data
                         , {
                             headers: {
@@ -124,7 +124,7 @@ function Editar(props) {
                     .catch((error) => {
                     });
                 axios
-                    .put("http://history.test:8000/api/marcadores/" + marcadorID,
+                    .put(process.env.REACT_APP_BACKEND_URL+"/api/marcadores/" + marcadorID,
                         { tipo: type }
                         , {
                             headers: {
@@ -143,7 +143,7 @@ function Editar(props) {
                     });
             }
             axios
-                .put("http://history.test:8000/api/mapas/" + mapaID,
+                .put(process.env.REACT_APP_BACKEND_URL+"/api/mapas/" + mapaID,
                     {
                         privado: esPrivado,
                         link_imagen: img,
