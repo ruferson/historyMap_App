@@ -13,7 +13,7 @@ function Cabezera() {
                 {localStorage.getItem("isLoggedIn") === "true" ? <Menu /> : <MenuNoLogged />}
             </nav>
         </header>
-        <div className="d-lg-none">
+        <div className="d-lg-none"> {/* TODO: Meter en un componente. */}
             <header id="header">
                 <h1><a href="#" onClick={() => { setLocation("/") }}>HistoryMap</a></h1>
             </header>
