@@ -24,7 +24,7 @@ function CrearPaso1(props) {
         if (validateURL(img)) {
             if (name !== null && img !== null) {
                 axios
-                    .post("http://history.test:8000/api/mapas", {
+                    .post(process.env.REACT_APP_BACKEND_URL+"/api/mapas", {
                         nombre: name,
                         link_imagen: img,
                         usuario_id: JSON.parse(localStorage.getItem("userData")).user_id,
