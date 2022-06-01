@@ -133,7 +133,7 @@ function CrearPaso2(props) {
             <div className="mt-5">
                 <Escribir sendHTML={sendHTML} html={html} titulo={titulo} tipo={tipo}></Escribir>
             </div><br /><br />
-            <button onClick={() => { setLocation("/ver/" + mapaID) }}>Finalizar</button>
+            <button onClick={() => { window.location.href = "/ver/" + props.mapaID }}>Finalizar</button>
         </div>
     );
 }
