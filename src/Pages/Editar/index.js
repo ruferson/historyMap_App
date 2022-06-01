@@ -157,6 +157,7 @@ function Editar(props) {
                     })
                 .then((response) => {
                     if (response.status === 200) {
+                        setUpdate(update + 1)
                     }
                 })
                 .catch((error) => {
