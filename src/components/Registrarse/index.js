@@ -123,7 +123,6 @@ function Registrase() {
         validatePassword(contraseña)
 
         if (validateName(nombre) && validateEmail(email) && validatePassword(contraseña)) {
-            alert("hola")
             return true;
         } else {
             return false;

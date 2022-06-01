@@ -1,11 +1,13 @@
-import { Button } from "reactstrap";
+import { useLocation } from "wouter";
 import CambiarDatosSesion from '../CambiarDatosSesion'
 
 function ConfigUsuario() {
 
+    const [location, setLocation] = useLocation();
+
     function action() {
         localStorage.setItem('isLoggedIn', false)
-        window.location.href = "/session";
+        setLocation("/session")
     }
 
     return (<>
