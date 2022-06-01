@@ -222,7 +222,7 @@ function Editar(props) {
                 <div className="">
                     <Escribir sendHTML={sendHTML} html={html} titulo={titulo} tipo={tipo} esEdicion={true}></Escribir>
                 </div><br /><br />
-                <button onClick={() => { window.location.href = "/ver/" + mapaID }}>Finalizar</button>
+                <button onClick={() => { setLocation("/ver/" + mapaID) }}>Finalizar</button>
             </div>
         </div>
         <Footer />
