@@ -12,7 +12,7 @@ function Editar(props) {
 
     const { mapaDatos, loading } = useMapa(props.params.id)
     const [location, setLocation] = useLocation();
-    const [mapaID, setMapaID] = useState(0)
+    const [mapaID, setMapaID] = useState(props.params.id)
     const [crear, setCrear] = useState(false);
     const [marcadorID, setMarcadorID] = useState(null);
     const [update, setUpdate] = useState(0);
