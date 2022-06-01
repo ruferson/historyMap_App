@@ -8,6 +8,10 @@
 	object-fit: cover;
 }
 
+.card {
+	width: 100%;
+}
+
 #root {
 	background-image: url("../images/background.jpg");
 	background-repeat: no-repeat;

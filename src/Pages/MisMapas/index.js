@@ -64,7 +64,7 @@ function MisMapas() {
 
     return (<div id="main">
         <div className="pr-4 pl-4">
-            <h1>Mapas Creados</h1><br />
+            <h1>Mapas Privados</h1><br />
             {!loadingPriv ? <>
                 <div className="row">
                     {devolverMapasPriv()}
