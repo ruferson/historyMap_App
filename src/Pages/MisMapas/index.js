@@ -24,7 +24,11 @@ function MisMapas() {
         if (!loadingPriv) {
             if (listaMapasPriv.data.length - 1 > pagination) {
                 if (listaMapasPriv.data.length - 1 <= pagination + 3) {
-                    setPagination(listaMapasPriv.data.length - 1)
+                    if (listaMapasPriv.data.length - 1 === pagination + 3) {
+                        setPagination(listaMapasPriv.data.length - 1)
+                    } else {
+
+                    }
                 } else {
                     setPagination(pagination + 3)
                 }

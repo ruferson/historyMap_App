@@ -16,9 +16,13 @@ function MapasPublicos() {
 
     function avanzar() {
         if (!loading) {
-            if (listaMapas.data.length-1 > pagination) {
-                if (listaMapas.data.length-1 <= pagination + 3) {
-                    setPagination(listaMapas.data.length-1)
+            if (listaMapas.data.length - 1 > pagination) {
+                if (listaMapas.data.length - 1 <= pagination + 3) {
+                    if (listaMapas.data.length - 1 === pagination + 3) {
+                        setPagination(listaMapas.data.length - 1)
+                    } else {
+
+                    }
                 } else {
                     setPagination(pagination + 3)
                 }
@@ -54,13 +58,13 @@ function MapasPublicos() {
 
     return (
         <>
-            {!loading ? <> <div className="row"> {devolverMisMapas()} </div> 
-            <br />
-            <button className="d-none d-md-inline" onClick={() => action()}>Crear Mapa Nuevo</button>
-            <button className="d-md-none button" onClick={() => action()}>Crear Mapa Nuevo</button>
-            <button className="float-right button" onClick={() => avanzar()}>Siguiente</button>
-            <button className="float-right button" onClick={() => atrasar()}>Anterior</button> </>
-            : <Ajax />}
+            {!loading ? <> <div className="row"> {devolverMisMapas()} </div>
+                <br />
+                <button className="d-none d-md-inline" onClick={() => action()}>Crear Mapa Nuevo</button>
+                <button className="d-md-none button" onClick={() => action()}>Crear Mapa Nuevo</button>
+                <button className="float-right button" onClick={() => avanzar()}>Siguiente</button>
+                <button className="float-right button" onClick={() => atrasar()}>Anterior</button> </>
+                : <Ajax />}
         </>
     );
 
