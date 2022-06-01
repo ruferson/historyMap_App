@@ -7,7 +7,7 @@ function ConfigUsuario() {
 
     function action() {
         localStorage.setItem('isLoggedIn', false)
-        setLocation("/session")
+        setLocation("/")
     }
 
     return (<>
