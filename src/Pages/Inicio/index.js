@@ -19,8 +19,8 @@ function Inicio () {
                 <p>¿Te gustaría marcar dónde ocurrieron los eventos más importantes de tu vida?</p>
                 <p>¿Te gustaría ayudar a tus alumnos a comprender mejor los más importantes eventos históricos?</p>
                 <p>¡Crea tu propio mapa ya!</p>
-                {localStorage.getItem("isLoggedIn") !== "false" ? <button onClick={()=>{setLocation("/crear")}}>Crear Mapa Nuevo</button>
-                    : <button onClick={()=>{setLocation("/session")}}>Iniciar Sesión</button>}
+                {localStorage.getItem("isLoggedIn") !== "true" ? <button onClick={()=>{setLocation("/session")}}>Iniciar Sesión</button>
+                    : <button onClick={()=>{setLocation("/crear")}}>Crear Mapa Nuevo</button>}
             </div>
             <div className="abajo"><Footer /></div>
         </div>
