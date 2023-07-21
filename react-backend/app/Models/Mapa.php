@@ -10,7 +10,7 @@ class Mapa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
+        'name',
         'link_imagen',
         'usuario_id',
         'privado'

@@ -15,7 +15,7 @@ class CreateMapasTable extends Migration
     {
         Schema::create('mapas', function (Blueprint $table) {
             $table->id();
-            $table->string("nombre", 100);
+            $table->string("name", 100);
             $table->string("link_imagen", 255);
             $table->bigInteger("usuario_id")->unsigned();
             $table->boolean('privado')->default(true);

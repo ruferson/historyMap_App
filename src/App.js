@@ -11,14 +11,22 @@ import MisMapas from './Pages/MisMapas';
 import Editar from './Pages/Editar';
 import Inicio from './Pages/Inicio';
 import Publicos from './Pages/Publicos';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase/firebaseConfig';
 
 
 function App() {
 
     const [isActive, setActive] = useState(true)
-    const [isLogged, setIsLogged] = useState(localStorage.getItem("isLoggedIn") !== "true");
-
-    useEffect(() => { setIsLogged(localStorage.getItem("isLoggedIn") !== "true") }, [localStorage.getItem("isLoggedIn")])
+    const [location, setLocation] = useLocation();
+		
+		onAuthStateChanged(auth, (currentUser) => {
+			if (!currentUser) {
+				if (location !== "/session" && location !== "/") {
+        	setLocation("/session");
+				}
+			}
+		})
 
     return (
         <div className="fondo">

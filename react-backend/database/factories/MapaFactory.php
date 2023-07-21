@@ -14,7 +14,7 @@ class MapaFactory extends Factory
     public function definition()
     {
         return [
-            'nombre' => $this->faker->word(),
+            'name' => $this->faker->word(),
             'link_imagen' => 'link de imagen',
             'usuario_id' => $this->faker->numberBetween(1,20),
             'privado' => $this->faker->boolean(80),

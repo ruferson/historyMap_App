@@ -1,72 +1,71 @@
-import Ajax from "components/Ajax";
-import { useState } from "react";
-import { useLocation } from "wouter";
-import useMapasPub from "../../hooks/useMapasPub";
-import MapaClick from "../MapaClick";
+import Ajax from 'components/Ajax';
+import { useState } from 'react';
+import { useLocation } from 'wouter';
 
-function MapasPublicos() {
+import useMapasPub from '../../hooks/useMapasPub';
+import MapaClick from '../MapaClick';
 
-    const [location, setLocation] = useLocation();
-    const { listaMapas, loading } = useMapasPub();
-    const [pagination, setPagination] = useState(0);
+const MapasPublicos = () => {
 
-    function action() {
-        setLocation("/crear")
-    }
+	const [location, setLocation] = useLocation();
+	const { mapList, loading } = useMapasPub();
+	const [pagination, setPagination] = useState(0);
 
-    function avanzar() {
-        if (!loading) {
-            if (listaMapas.data.length - 1 > pagination) {
-                if (listaMapas.data.length - 1 <= pagination + 3) {
-                    if (listaMapas.data.length - 1 === pagination + 3) {
-                        setPagination(listaMapas.data.length - 1)
-                    } else {
+	const moveRight = () => {
+		if (!loading) {
+			if (mapList.data.length - 1 > pagination) {
+				if (mapList.data.length - 1 <= pagination + 3) {
+					if (mapList.data.length - 1 === pagination + 3) {
+						setPagination(mapList.data.length - 1)
+					}
+				} else {
+					setPagination(pagination + 3)
+				}
+			}
+		}
+		return null;
+	}
 
-                    }
-                } else {
-                    setPagination(pagination + 3)
-                }
-            }
-        }
-        return null;
-    }
+	const moveLeft = () => {
+		if (!loading) {
+			if (0 < pagination) {
+				if (0 >= pagination - 3) {
+					setPagination(0)
+				} else {
+					setPagination(pagination - 3)
+				}
+			}
+		}
+		return null;
+	}
 
-    function atrasar() {
-        if (!loading) {
-            if (0 < pagination) {
-                if (0 >= pagination - 3) {
-                    setPagination(0)
-                } else {
-                    setPagination(pagination - 3)
-                }
-            }
-        }
-        return null;
-    }
+	const mapMyMaps = (mapa, key) => {
+		if (key < (pagination + 3) && key >= pagination) {
+			return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
+		}
+	}
 
-    function mapearMisMapas(mapa, key) {
-        if (key < (pagination + 3) && key >= pagination) {
-            return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
-        }
-    }
+	const getMyMaps = () => {
+		if (mapList.data) {
+			return mapList.data.map(mapMyMaps)
+		}
+	}
 
-    function devolverMisMapas() {
-        if (listaMapas.data) {
-            return listaMapas.data.map(mapearMisMapas)
-        }
-    }
-
-    return (
-        <>
-            {!loading ? <> <div className="row"> {devolverMisMapas()} </div>
-                <br />
-                <button className="d-none d-md-inline" onClick={() => action()}>Crear Mapa Nuevo</button>
-                <button className="d-md-none button" onClick={() => action()}>Crear Mapa Nuevo</button>
-                <button className="float-right button" onClick={() => avanzar()}>Siguiente</button>
-                <button className="float-right button" onClick={() => atrasar()}>Anterior</button> </>
-                : <Ajax />}
-        </>
-    );
+	return (
+		<>
+			{
+				!loading
+					? <>
+						<div className="row"> {getMyMaps()} </div>
+						<br />
+						<button className="d-none d-md-inline" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
+						<button className="d-md-none button" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
+						<button className="float-right button" onClick={() => moveRight()}>Siguiente</button>
+						<button className="float-right button" onClick={() => moveLeft()}>Anterior</button> </>
+					: <Ajax />
+			}
+		</>
+	);
 
 }
 

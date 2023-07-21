@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { useLocation } from 'wouter';
 import CrearPaso1 from '../../components/CrearPaso1';
 import CrearPaso2 from '../../components/CrearPaso2';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase/firebaseConfig';
 
 function Crear() {
 
@@ -10,9 +12,13 @@ function Crear() {
     const [mapaID, setMapaID] = useState(1)
     const [paso, setPaso] = useState(1);
 
-    if (localStorage.getItem("isLoggedIn") === "false") {
-        setLocation("/session")
-    }
+		onAuthStateChanged(auth, (currentUser) => {
+			if (!currentUser) {
+				if (location !== "/session" && location !== "/") {
+        	setLocation("/session");
+				}
+			}
+		})
 
     function segunPasos() {
         switch (paso) {

@@ -3,13 +3,13 @@ import { getUsers} from "../servicios/getUsers";
 
 const useUsers = (show) => {
 
-    const [listaUsers, setListaUsers] = useState([]);
+    const [userList, setUserList] = useState([]);
     const [loading, setLoading] = useState(true);
     function obtenerUsers() {
         if (show){
             setLoading(true)
             getUsers().then(nextUsers => {
-                setListaUsers(nextUsers);
+                setUserList(nextUsers);
                 setLoading(false);
             });
         }
@@ -17,6 +17,6 @@ const useUsers = (show) => {
 
     useEffect(obtenerUsers, [show]);
 
-    return { listaUsers, loading }
+    return { userList, loading }
 }
 export default useUsers;

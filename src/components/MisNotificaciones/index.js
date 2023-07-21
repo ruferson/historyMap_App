@@ -1,33 +1,34 @@
 import React, { useEffect } from 'react';
+
 import useNotificaciones from '../../hooks/useNotificaciones';
 import Notificacion from '../Notificacion';
 
-function MisNotificaciones(props) {
+const MisNotificaciones = (props) => {
 
-    const { listaNotificaciones, loading } = useNotificaciones();
+	const { notificationList, loading } = useNotificaciones();
 
-    useEffect(()=> {
-        if (!loading) {
-            props.setNotificaciones(listaNotificaciones.data.length)
-        }
-    }, [loading])
+	useEffect(() => {
+		if (!loading) {
+			props.setNotificaciones(notificationList.data.length)
+		}
+	}, [loading])
 
-    function mapearMisNotificaciones(notificacion, key){
-        return <Notificacion url={notificacion.url} noteName={notificacion.type} noteDesc={notificacion.description}></Notificacion>
-    }
+	const mapMyNotifications = (notification, key) => {
+		return <Notificacion url={notification.url} noteName={notification.type} noteDesc={notification.description}></Notificacion>
+	}
 
-    function devolverMisNotificaciones(){
-        return listaNotificaciones.data.map(mapearMisNotificaciones)
-    }
+	const getMyNotifications = () => {
+		return notificationList.data.map(mapMyNotifications)
+	}
 
-    return (
-        <div className="notificaciones">
-            <h1 className="text-white">Mis Notificaciones</h1><br />
-            <div className="row">
-                {!loading ? devolverMisNotificaciones() : <></>}
-            </div> 
-        </div>
-    );
+	return (
+		<div className="notificaciones">
+			<h1 className="text-white">Mis Notificaciones</h1><br />
+			<div className="row">
+				{!loading ? getMyNotifications() : <></>}
+			</div>
+		</div>
+	);
 }
 
 export default MisNotificaciones;

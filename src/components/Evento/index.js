@@ -1,26 +1,30 @@
-import React, { useEffect } from 'react';
-import useEvento from 'hooks/useEvento';
 import Ajax from 'components/Ajax';
+import useEvento from 'hooks/useEvento';
+import React from 'react';
 
-function Evento(props) {
+const Evento = (props) => {
 
-    const { evento, loading } = useEvento(props.id, 0);
+	const { event, loading } = useEvento(props.id, 0);
 
-    if (evento !== null) {
-        props.setEvento(evento)
-    }
+	if (event !== null) {
+		props.setEvento(event);
+	}
 
-    return (<>
-        {!props.noClicked ? evento ? <>
-            <p dangerouslySetInnerHTML={{ __html: props.tipo }} />
-            <h1 dangerouslySetInnerHTML={{ __html: evento.data.titulo }} />
-            <br/>
-            <div dangerouslySetInnerHTML={{ __html: evento.data.html }} />
-        </>
-            : <Ajax></Ajax> : <></>
-        }
-    </>
-    );
+	return (
+		<>
+			{!props.noClicked
+				? event
+					? <>
+						<p dangerouslySetInnerHTML={{ __html: props.type }} />
+						<h1 dangerouslySetInnerHTML={{ __html: event.data.titulo }} />
+						<br />
+						<div dangerouslySetInnerHTML={{ __html: event.data.html }} />
+					</>
+					: <Ajax></Ajax>
+				: <></>
+			}
+		</>
+	);
 }
 
 export default Evento;

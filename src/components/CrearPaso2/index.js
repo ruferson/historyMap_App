@@ -1,141 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import Mapa from '../Mapa';
-import Escribir from '../Escribir';
-import Footer from '../Footer';
-import axios from "axios";
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 import useEvento from 'hooks/useEvento';
+import React, { useEffect, useState } from 'react';
 
-function CrearPaso2(props) {
+import { db } from '../../firebase/firebaseConfig';
+import Escribir from '../Escribir';
+import Mapa from '../Mapa';
 
-    const [crear, setCrear] = useState(false);
-    const [marcadorID, setMarcadorID] = useState(null);
-    const [update, setUpdate] = useState(0);
-    const [html, setHTML] = useState();
-    const [titulo, setTitulo] = useState()
-    const [tipo, setTipo] = useState("default")
-    const { evento, loading } = useEvento(marcadorID, update);
+const CrearPaso2 = (props) => {
 
-    function cambiarMarcador(event) {
-        setUpdate(update + 1)
-        setTipo(event.target.options.tipo)
-        setMarcadorID(event.target.options.id);
-    }
+	const [create, setCreate] = useState(false);
+	const [markerID, setMarkerID] = useState(null);
+	const [update, setUpdate] = useState(0);
+	const [html, setHTML] = useState();
+	const [title, setTitle] = useState()
+	const [type, setType] = useState("default")
+	const { event, loading } = useEvento(markerID, update);
 
-    function cambiarMarcadorACreado(id) {
-        setTipo("default")
-        setMarcadorID(id);
-    }
+	const changeMarker = (event) => {
+		setUpdate(update + 1)
+		setType(event.target.options.type)
+		setMarkerID(event.target.options.id);
+	}
 
-    useEffect(() => {
-        if (evento !== null) {
-            setHTML(evento.data.html);
-            setTitulo(evento.data.titulo);
-        }
-    }, [evento])
+	const cambiarMarcadorACreado = (id) => {
+		setType("default")
+		setMarkerID(id);
+	}
 
-    function cambiarCrear() {
-        setCrear(!crear)
-    }
+	useEffect(() => {
+		if (event !== null) {
+			setHTML(event.data.html);
+			setTitle(event.data.title);
+		}
+	}, [event])
 
-    function sendMarcador(x, y) {
-        let data = JSON.stringify({ "x": x, "y": y, "tipo": "default", "mapa_id": props.mapaID });
-        axios
-            .post(process.env.REACT_APP_BACKEND_URL+"/api/marcadores",
-                data
-                , {
-                    headers: {
-                        'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-                        'Content-Type': 'application/json'
-                    }
-                })
-            .then((response) => {
-                if (response.status === 201) {
-                    cambiarMarcadorACreado(response.data.data.id)
-                    let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id": response.data.data.id });
-                    axios
-                        .post(process.env.REACT_APP_BACKEND_URL+"/api/eventos",
-                            data2
-                            , {
-                                headers: {
-                                    'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-                                    'Content-Type': 'application/json'
-                                }
-                            })
-                        .then((response) => {
-                            if (response.status === 201) {
-                                setUpdate(update + 1)
-                            } else {
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                            alert("¡Ha habido un error!")
-                        });
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                alert("¡Ha habido un error!")
-            });
-    }
+	const cambiarCrear = () => {
+		setCreate(!create)
+	}
 
-    function sendHTML(titulo, html, type) {
-        if (marcadorID === null) {
-            alert("¡NO has selecionnado un marcador!")
-        } else if (html === null || titulo === "") {
-            alert("¡Has dejado un campo VACÍO!")
-        } else {
-            let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
-            axios
-                .put(process.env.REACT_APP_BACKEND_URL+"/api/eventos/" + evento.data.id,
-                    data
-                    , {
-                        headers: {
-                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setUpdate(update + 1)
-                    }
-                })
-                .catch((error) => {
-                });
-            axios
-                .put(process.env.REACT_APP_BACKEND_URL+"/api/marcadores/" + marcadorID,
-                    { tipo: type }
-                    , {
-                        headers: {
-                            'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                .then((response) => {
-                    if (response.status === 200) {
-                        setUpdate(update + 1)
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("¡Ha habido un error!")
-                });
-        }
-    }
+	const sendMarcador = async (x, y) => {
+		const markerData = { x, y, type: "default", mapId: props.mapaID };
 
-    return (
-        <div className="pl-4 pr-4">
-            <button className="mb-4 d-block" onClick={cambiarCrear}>Añadir Marcador</button>
-            <div>
-                <Mapa sendMarcador={sendMarcador} cambiarMarcador={cambiarMarcador} crear={crear} setCrear={setCrear} id={props.mapaID} update={update}
-                    changeHTML={setHTML} changeTitulo={setTitulo} changeTipo={setTipo} evento={evento}></Mapa>
-            </div>
-            <div className="mt-5">
-                <Escribir sendHTML={sendHTML} html={html} titulo={titulo} tipo={tipo}></Escribir>
-            </div><br /><br />
-            <button onClick={() => { window.location.href = "/ver/" + props.mapaID }}>Finalizar</button>
-        </div>
-    );
+		try {
+			const markerID = await addDoc(collection(db, "markers"), markerData).id;
+			cambiarMarcadorACreado(markerID)
+			const eventData = { title: "", html: "", markerID };
+			await addDoc(collection(db, "events"), eventData);
+			setUpdate(update + 1);
+		} catch (error) {
+			console.log(error.message)
+			alert("¡Ha habido un error!");
+		}
+	}
+
+	const sendHTML = async (title, html, type) => {
+		if (markerID === null) {
+			alert("¡NO has selecionnado un marcador!")
+		} else if (html === null || title === "") {
+			alert("¡Has dejado un campo VACÍO!")
+		} else {
+			const markerData = { title, html, markerID: markerID };
+
+			try {
+				await updateDoc(doc(db, "events", event.data.id), markerData);
+				setUpdate(update + 1);
+				await updateDoc(doc(db, "markers", markerID), { type: type });
+				setUpdate(update + 1)
+			} catch (error) {
+				console.log(error.message)
+				alert("¡Ha habido un error!");
+			}
+		}
+	}
+
+	return (
+		<div className="pl-4 pr-4">
+			<button className="mb-4 d-block" onClick={cambiarCrear}>Añadir Marcador</button>
+			<div>
+				<Mapa sendMarcador={sendMarcador} changeMarker={changeMarker} create={create} setCreate={setCreate} id={props.mapaID} update={update}
+					changeHTML={setHTML} changeTitle={setTitle} changeType={setType} event={event}></Mapa>
+			</div>
+			<div className="mt-5">
+				<Escribir sendHTML={sendHTML} html={html} title={title} type={type}></Escribir>
+			</div><br /><br />
+			<button onClick={() => { window.location.href = "/ver/" + props.mapaID }}>Finalizar</button>
+		</div>
+	);
 }
 
 export default CrearPaso2;

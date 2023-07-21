@@ -1,65 +1,63 @@
+import { addDoc, collection } from 'firebase/firestore';
 import useUsers from 'hooks/useUsers';
 import React, { useEffect, useState } from 'react';
-import { Form, FormSelect } from 'react-bootstrap';
-import axios from "axios";
-import { Input, Label, Button, Submit} from 'reactstrap';
+import { Form } from 'react-bootstrap';
+import { Button } from 'reactstrap';
 
-function Compartir(props) {
+import { db } from '../../firebase/firebaseConfig';
 
-    const [show, setShow] = useState(false)
-    const { listaUsers, loading } = useUsers(show);
+const Compartir = (props) => {
 
-    function enviarInvitacion(){
-        let id=document.getElementById("form").value
-        axios
-            .post("http://history.test:8000/api/notificaciones", {
-                type: "share",
-                description: "¡Has sido invitado al mapa "+props.mapName+"!",
-                url: "http://history.test:3002/misMapas",
-                idUsu: id,
-            }, {
-                headers: { Authorization: JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token}
-            })
-            .then((response) => {
-                if (response.status === 201) {
-                    
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                alert("¡Ha habido un error!")
-            }); 
-    }
+	const [show, setShow] = useState(false)
+	const { userList, loading } = useUsers(show);
 
-    function mapping(user, key){
-        return <option key={key} value={user.id}>{user.name}</option>
-    }
+	const sendInvitation = async () => {
+		let id = document.getElementById("form").value;
 
-    function mapeoOptions(){
-        if (!loading){
-            return listaUsers.data.map(mapping)
-        }
-    }
+		try {
+			const mapData = {
+				description: "¡Has sido invitado al mapa " + props.mapName + "!",
+				type: "share",
+				uidUser: id,
+				url: "www.google.es", // TODO: Cambiar la URL por la que es.
+			};
+			await addDoc(collection(db, "notifications"), mapData);
+		} catch (error) {
+			console.log(error.message);
+			alert('¡Ha habido un error!');
+		}
+	}
 
-    function elegirPersonita() {
-        return (
-            <div>
-                <Form>
-                <select multiple className="form-select" id="form">
-                    {mapeoOptions()}
-                </select> <br/>
-                <Button className="btn-alert" onClick={enviarInvitacion}>Enviar invitación</Button>
-                </Form><br/>
-            </div>
-        )
-    }
+	const mapping = (user, key) => {
+		return <option key={key} value={user.id}>{user.name}</option>
+	}
 
-    return (<>
-        <Button className="float-left btn-success" onClick={() => {setShow(!show)}} dataTo>Compartir</Button><br/><br/><br/>
-        {show && elegirPersonita()}
-        
-        </>
-    );
+	const mapeoOptions = () => {
+		if (!loading) {
+			return userList.data.map(mapping)
+		}
+	}
+
+	const elegirPersonita = () => {
+		return (
+			<div>
+				<Form>
+					<select multiple className="form-select" id="form">
+						{mapeoOptions()}
+					</select> <br />
+					<Button className="btn-alert" onClick={sendInvitation}>Enviar invitación</Button>
+				</Form><br />
+			</div>
+		)
+	}
+
+	return (
+		<>
+			<Button className="float-left btn-success" onClick={() => { setShow(!show) }} dataTo>Compartir</Button>
+			<br /><br /><br />
+			{show && elegirPersonita()}
+		</>
+	);
 }
 
 export default Compartir;
