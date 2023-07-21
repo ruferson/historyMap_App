@@ -2,22 +2,22 @@ import Ajax from 'components/Ajax';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 
-import useMapList from '../../hooks/useMapList';
-import MapaClick from '../MapaClick';
-import { auth } from '../../firebase/firebaseConfig';
+import Footer from '../../components/Footer';
+import MapaClick from '../../components/MapaClick';
+import useMapList from 'hooks/useMapList';
 
-const MapasPublicos = () => {
+const MyMapsPage = () => {
 
 	const [location, setLocation] = useLocation();
-	const { mapList, loading } = useMapList(false);
+	const { mapList: privateMapList, loading } = useMapList(true);
 	const [pagination, setPagination] = useState(0);
 
 	const moveRight = () => {
 		if (!loading) {
-			if (mapList.length - 1 > pagination) {
-				if (mapList.length - 1 <= pagination + 3) {
-					if (mapList.length - 1 === pagination + 3) {
-						setPagination(mapList.length - 1)
+			if (privateMapList.length - 1 > pagination) {
+				if (privateMapList.length - 1 <= pagination + 3) {
+					if (privateMapList.length - 1 === pagination + 3) {
+						setPagination(privateMapList.length - 1)
 					}
 				} else {
 					setPagination(pagination + 3)
@@ -40,42 +40,46 @@ const MapasPublicos = () => {
 		return null;
 	}
 
-	const mapMyMaps = (mapa, key) => {
+
+	const mappingMaps = (mapa, key) => {
 		if (key < (pagination + 3) && key >= pagination) {
-			return <MapaClick key={key} uid={mapa.uid} mapID={mapa.id} mapImage={mapa.imgUrl} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
+			return <MapaClick key={key} mapID={mapa.id} uid={mapa.uid} mapImage={mapa.imgUrl} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
 		}
 	}
 
-	const getMyMaps = () => {
-		if (mapList.length) {
-			return mapList.map(mapMyMaps)
+	const getPrivateMaps = () => {
+		if (privateMapList.length) {
+			return privateMapList.map(mappingMaps)
 		} else {
 			return (<h4>¡No hay ningún mapa por aquí!</h4>)
 		}
 	}
 
 	return (
-		<>
-			{
-				!loading
+		<div id="main">
+			<div className="pr-4 pl-4">
+				<h1>Mis Mapas</h1><br />
+				{!loading
 					? <>
-						<div className="row"> {getMyMaps()} </div>
-						<br />
+						<div className="row">
+							{getPrivateMaps()}
+						</div> <br />
 						<button className="d-none d-md-inline" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
 						<button className="d-md-none button" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
-						{mapList.length > 3
+						{privateMapList && privateMapList.length > 3
 							?
 							<>
 								<button className="float-right button" onClick={() => moveRight()}>Siguiente</button>
 								<button className="float-right button" onClick={() => moveLeft()}>Anterior</button>
 							</>
-							: <></>}
+							: <></>} <br />
 					</>
-					: <Ajax />
-			}
-		</>
+					: <Ajax />}
+			</div>
+			<div className=""><Footer /></div>
+		</div>
 	);
 
 }
 
-export default MapasPublicos;
+export default MyMapsPage;

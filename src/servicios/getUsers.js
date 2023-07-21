@@ -1,24 +1,22 @@
+import { collection, getDocs } from 'firebase/firestore';
 
-export function getUsers () {
+import { db } from '../firebase/firebaseConfig';
 
-  const apiURL = process.env.REACT_APP_BACKEND_URL+'/api/users';
-  
-  let token;
-  if (localStorage.getItem('userToken') !== null){
-    token = JSON.parse(localStorage.getItem("userToken")).token_type+" "+JSON.parse(localStorage.getItem("userToken")).access_token
-  } else {
-    token = ""
-  }
-  
-  return fetch(apiURL, {
-    method: 'GET',
-    headers: {
-      'Authorization': token,
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(response => {
-      const data = response.json();
-      return data;
-  })
-}
+export const getUsers = async () => {
+	const collectionRef = collection(db, "users");
+
+	try {
+		const querySnapshot = await getDocs(collectionRef);
+
+		const allUsers = [];
+
+		querySnapshot.forEach((doc) => {
+			allUsers.push({ id: doc.id, ...doc.data() });
+		});
+
+		return allUsers;
+	} catch (error) {
+		console.error("Error al obtener los usuarios:", error);
+		return [];
+	}
+};

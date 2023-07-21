@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth"
+import { getStorage } from "firebase/storage"
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -12,7 +13,7 @@ const firebaseConfig = {
 	storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
 	messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
 	appId: process.env.REACT_APP_FIREBASE_APPID,
-	measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
+	measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID,
 };
 
 // Initialize Firebase
@@ -20,3 +21,4 @@ const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+export const storage = getStorage(app);

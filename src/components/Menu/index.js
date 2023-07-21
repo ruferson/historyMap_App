@@ -2,7 +2,6 @@ import React from 'react';
 import { useLocation } from 'wouter';
 
 const Menu = () => {
-
 	const [location, setLocation] = useLocation();
 
 	return (<ul>

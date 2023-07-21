@@ -45,4 +45,9 @@ psd
 thumb
 sketch
 
+build
+.firebase*
+.vscode
+.github
+
 # End of https://www.toptal.com/developers/gitignore/api/react,laravel
