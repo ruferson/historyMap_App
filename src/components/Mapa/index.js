@@ -21,12 +21,12 @@ const Mapa = (props) => {
 
 	const ponerMarcadores = () => {
 		if (!loading) {
-			let markers = [];
+			let newMarkers = [];
 			for (let i = 0; i < Object.keys(markers.data).length; i++) {
 				let array = markers.data[i]
-				markers.push(array);
+				newMarkers.push(array);
 			}
-			setMarkerList(markers);
+			setListaMarcadores(marcadores);
 		}
 	}
 	useEffect(ponerMarcadores, [loading]);
