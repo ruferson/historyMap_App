@@ -12,13 +12,8 @@ import discoveryIcon from '../../img/discovery.png';
 import warIcon from '../../img/war.png';
 
 const LocationMarker = (position, props, marker, key) => {
-	let myIcon = L.icon({
-		iconUrl: defaultIcon,
-		iconRetinaUrl: defaultIcon,
-		iconAnchor: [5, 55],
-		popupAnchor: [10, -44],
-		iconSize: [30, 30],
-	});
+	let myIcon;
+
 	switch (marker.type) {
 		case "war":
 			myIcon = L.icon({
