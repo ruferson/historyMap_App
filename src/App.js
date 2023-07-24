@@ -1,18 +1,20 @@
-
 import './css/main.css';
-import Ver from './Pages/Ver';
-import Crear from './Pages/Crear';
-import User from './Pages/User';
-import { Route, useLocation } from 'wouter';
-import Session from './Pages/Session';
-import { useEffect, useState } from 'react';
-import Header from './components/Header';
-import MisMapas from './Pages/MisMapas';
-import Editar from './Pages/Editar';
-import Inicio from './Pages/Inicio';
-import Publicos from './Pages/Publicos';
+
 import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { Route, useLocation } from 'wouter';
+
+import Header from './components/Header';
 import { auth } from './firebase/firebaseConfig';
+import CreatePage from './Pages/CreatePage';
+import EditPage from './Pages/EditPage';
+import HomePage from './Pages/HomePage';
+import MyMapsPage from './Pages/MyMapsPage';
+import PublicMapsPage from './Pages/PublicMapsPage';
+import SessionPage from './Pages/SessionPage';
+import UserPage from './Pages/UserPage';
+import ViewPage from './Pages/ViewPage';
+
 
 
 function App() {
@@ -33,35 +35,35 @@ function App() {
 			<div id="wrapper">
 				<Header isActive={isActive} setActive={setActive} />
 				<Route
-					component={Inicio}
+					component={HomePage}
 					path="/">
 				</Route>
 				<Route
-					component={Publicos}
+					component={PublicMapsPage}
 					path="/publicos">
 				</Route>
 				<Route
-					component={MisMapas}
+					component={MyMapsPage}
 					path="/misMapas">
 				</Route>
 				<Route
-					component={User}
+					component={UserPage}
 					path="/perfil">
 				</Route>
 				<Route
-					component={Session}
+					component={SessionPage}
 					path="/session">
 				</Route>
 				<Route
-					component={Ver}
+					component={ViewPage}
 					path="/ver/:id">
 				</Route>
 				<Route
-					component={Editar}
+					component={EditPage}
 					path="/editar/:id">
 				</Route>
 				<Route
-					component={Crear}
+					component={CreatePage}
 					path="/crear">
 				</Route>
 			</div>
