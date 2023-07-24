@@ -1,182 +1,113 @@
+import Writer from 'components/Writer';
+import Footer from 'components/Footer';
+import MapComponent from 'components/MapComponent';
+import useEvento from 'hooks/useEvent';
+import useMapa from 'hooks/useMap';
 import React, { useEffect, useState } from 'react';
 import { Input, Label } from 'reactstrap';
-import axios from "axios";
-import useEvento from 'hooks/useEvent';
-import Mapa from 'components/Mapa';
-import Escribir from 'components/Escribir';
-import Footer from 'components/Footer';
-import useMapa from 'hooks/useMap';
 import { useLocation } from 'wouter';
+import { addDoc, collection, doc, updateDoc } from '@firebase/firestore';
+import { db } from '../../firebase/firebaseConfig';
 
-function Editar(props) {
+const Editar = (props) => {
 
-	const { mapaDatos, loading } = useMapa(props.params.id)
+	const { mapData, loading } = useMapa(props.params.id)
 	const [location, setLocation] = useLocation();
-	const [mapaID, setMapaID] = useState(props.params.id)
-	const [crear, setCrear] = useState(false);
-	const [marcadorID, setMarcadorID] = useState(null);
+	const [mapID, setMapID] = useState(props.params.id)
+	const [create, setCreate] = useState(false);
+	const [markerID, setMarkerID] = useState(null);
 	const [update, setUpdate] = useState(0);
 	const [html, setHTML] = useState();
-	const [titulo, setTitulo] = useState()
-	const [type, setTipo] = useState("default")
-	const { evento, loadingEvent } = useEvento(marcadorID, update);
-	const [esPrivado, setEsPrivado] = useState(false)
+	const [title, setTitle] = useState()
+	const [type, setType] = useState("default")
+	const { mapEvent, loadingEvent } = useEvento(markerID, update);
+	const [isPrivate, setIsPrivate] = useState(false)
 	const [name, setName] = useState("")
 	const [img, setImg] = useState("");
 
 	if (!loading) {
-		if (mapaDatos.data.usuario_id !== JSON.parse(localStorage.getItem("userData")).user_id) {
+		if (mapData.data.usuario_id !== JSON.parse(localStorage.getItem("userData")).user_id) {
 			setLocation("/")
 		}
 	}
 
-	function cambiarMarcador(event) {
+	const changeMarker = (event) => {
 		setUpdate(update + 1)
-		setTipo(event.target.options.type)
-		setMarcadorID(event.target.options.id);
+		setType(event.target.options.type)
+		setMarkerID(event.target.options.id);
 	}
 
-	function cambiarMarcadorACreado(id) {
-		setTipo("default")
-		setMarcadorID(id);
+	const changeMarkerToCreated = (id) => {
+		setType("default")
+		setMarkerID(id);
 	}
 
 	useEffect(() => {
 		if (!loading) {
-			setMapaID(mapaDatos.data.id)
-			setName(mapaDatos.data.name)
-			setImg(mapaDatos.data.link_imagen)
+			setMapID(mapData.data.id)
+			setName(mapData.data.name)
+			setImg(mapData.data.link_imagen)
 		}
 	}, [loading])
 
 	useEffect(() => {
-		if (evento !== null) {
-			setHTML(evento.data.html);
-			setTitulo(evento.data.titulo);
+		if (mapEvent !== null) {
+			setHTML(mapEvent.data.html);
+			setTitle(mapEvent.data.title);
 		}
-	}, [evento])
+	}, [mapEvent])
 
-	function cambiarCrear() {
-		setCrear(!crear)
+	const changeCreate = () => {
+		setCreate(!create)
 	}
 
-	function sendMarcador(x, y) {
-		let data = JSON.stringify({ "x": x, "y": y, "type": "default", "mapa_id": mapaID });
+	const sendMarker = async (x, y) => {
+		const markerData = { x, y, type: "default", mapId: mapID };
 
-		axios
-			.post(process.env.REACT_APP_BACKEND_URL + "/api/marcadores",
-				data
-				, {
-					headers: {
-						'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-						'Content-Type': 'application/json'
-					}
-				})
-			.then((response) => {
-				if (response.status === 201) {
-					cambiarMarcadorACreado(response.data.data.id)
-					let data2 = JSON.stringify({ "titulo": "", "html": "", "marcador_id": response.data.data.id });
-					axios
-						.post(process.env.REACT_APP_BACKEND_URL + "/api/eventos",
-							data2
-							, {
-								headers: {
-									'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-									'Content-Type': 'application/json'
-								}
-							})
-						.then((response) => {
-							if (response.status === 201) {
-								setUpdate(update + 1)
-							} else {
-							}
-						})
-						.catch((error) => {
-							console.log(error);
-							alert("¡Ha habido un error!")
-						});
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-				alert("¡Ha habido un error!")
-			});
+		try {
+			const markerID = await addDoc(collection(db, "markers"), markerData).id;
+			changeMarkerToCreated(markerID)
+			const eventData = { title: "", html: "", markerID };
+			await addDoc(collection(db, "events"), eventData);
+			setUpdate(update + 1);
+		} catch (error) {
+			console.log(error.message)
+			alert("¡Ha habido un error!");
+		}
 	}
 
-	function sendHTML(titulo, html, type) {
+	const sendHTML = async (title, html, type) => {
 		if (validateURL(img)) {
-			if (marcadorID !== null) {
-				let data = JSON.stringify({ "titulo": titulo, "html": html, "marcador_id": marcadorID });
-				axios
-					.put(process.env.REACT_APP_BACKEND_URL + "/api/eventos/" + evento.data.id,
-						data
-						, {
-							headers: {
-								'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-								'Content-Type': 'application/json'
-							}
-						})
-					.then((response) => {
-						if (response.status === 201) {
-							setUpdate(update + 1)
-						}
-					})
-					.catch((error) => {
-					});
-				axios
-					.put(process.env.REACT_APP_BACKEND_URL + "/api/marcadores/" + marcadorID,
-						{ type: type }
-						, {
-							headers: {
-								'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-								'Content-Type': 'application/json'
-							}
-						})
-					.then((response) => {
-						if (response.status === 200) {
-							setUpdate(update + 1)
-						}
-					})
-					.catch((error) => {
-						console.log(error);
-						alert("¡Ha habido un error!")
-					});
-			}
-			axios
-				.put(process.env.REACT_APP_BACKEND_URL + "/api/mapas/" + mapaID,
-					{
-						privado: esPrivado,
-						link_imagen: img,
-						name: name
-					}
-					, {
-						headers: {
-							'Authorization': JSON.parse(localStorage.getItem("userToken")).token_type + " " + JSON.parse(localStorage.getItem("userToken")).access_token,
-							'Content-Type': 'application/json'
-						}
-					})
-				.then((response) => {
-					if (response.status === 200) {
-						setUpdate(update + 1)
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-					alert("¡Ha habido un error!")
-				});
-		}
+			if (markerID === null) {
+				alert("¡NO has selecionnado un marcador!")
+			} else if (html === null || title === "") {
+				alert("¡Has dejado un campo VACÍO!")
+			} else {
+				const markerData = { title, html, markerID: markerID };
 
+				try {
+					await updateDoc(doc(db, "events", mapEvent.data.id), markerData);
+					setUpdate(update + 1);
+					await updateDoc(doc(db, "markers", markerID), { type: type });
+					setUpdate(update + 1)
+					await updateDoc(doc(db, "maps", mapID), { private: isPrivate, imgUrl: img, name });
+				} catch (error) {
+					console.log(error.message)
+					alert("¡Ha habido un error!");
+				}
+			}
+		}
 	}
 
-	function onChangeNombre(event) {
+	const onChangeName = (event) => {
 		setName(event.target.value)
 	}
 
-	function onChangeImage(event) {
+	const onChangeImage = (event) => {
 		setImg(event.target.value)
 	}
 
-	function validateURL(url) {
+	const validateURL = (url) => {
 		let regex = /^https?:\/\/(.+\/)+.+(\.(gif|png|jpg|jpeg|webp|svg|psd|bmp|tif|jfif))$/i;
 		if (regex.test(url)) {
 			return true;
@@ -186,47 +117,48 @@ function Editar(props) {
 		}
 	}
 
-	return (<div id="main">
-		<div className="row">
-			<div className="col-12 pl-4 pr-4">
-				<button className=" mb-4" onClick={cambiarCrear}>Añadir Marcador</button>
-				<div>
-					<Mapa sendMarcador={sendMarcador} cambiarMarcador={cambiarMarcador} crear={crear} setCrear={setCrear} id={mapaID} update={update}
-						changeHTML={setHTML} changeTitulo={setTitulo} changeTipo={setTipo} evento={evento}></Mapa>
-				</div> <br /><br />
-				<div>
-					<Label for="name"><h1>Nombre del Mapa:</h1></Label>
-					<Input
-						type="text"
-						name="name"
-						id="name"
-						placeholder="name"
-						value={name}
-						onChange={onChangeNombre}
-					/><br />
-					<Label for="name"><h1>URL de la imagen:</h1></Label>
-					<Input
-						type="text"
-						name="img"
-						id="img"
-						placeholder="img"
-						value={img}
-						onChange={onChangeImage}
-					/><br />
-					<h2>Privado:</h2><br />
-					<label class="switch" id="switch">
-						<input type="checkbox" onChange={() => { setEsPrivado(!esPrivado) }} />
-						<span class="slider round"></span>
-					</label> <br /><br /><br />
+	return (
+		<div id="main">
+			<div className="row">
+				<div className="col-12 pl-4 pr-4">
+					<button className=" mb-4" onClick={changeCreate}>Añadir Marcador</button>
+					<div>
+						<MapComponent sendMarker={sendMarker} changeMarker={changeMarker} create={create} setCreate={setCreate} id={mapID} update={update}
+							changeHTML={setHTML} changeTitulo={setTitle} changeTipo={setType} mapEvent={mapEvent}></MapComponent>
+					</div> <br /><br />
+					<div>
+						<Label for="name"><h1>Nombre del Mapa:</h1></Label>
+						<Input
+							type="text"
+							name="name"
+							id="name"
+							placeholder="name"
+							value={name}
+							onChange={onChangeName}
+						/><br />
+						<Label for="name"><h1>URL de la imagen:</h1></Label>
+						<Input
+							type="text"
+							name="img"
+							id="img"
+							placeholder="img"
+							value={img}
+							onChange={onChangeImage}
+						/><br />
+						<h2>Privado:</h2><br />
+						<label class="switch" id="switch">
+							<input type="checkbox" onChange={() => { setIsPrivate(!isPrivate) }} />
+							<span class="slider round"></span>
+						</label> <br /><br /><br />
+					</div>
+					<div className="">
+						<Writer sendHTML={sendHTML} html={html} title={title} type={type} esEdicion={true}></Writer>
+					</div><br /><br />
+					<button onClick={() => { window.location.href = "/ver/" + mapID }}>Finalizar</button>
 				</div>
-				<div className="">
-					<Escribir sendHTML={sendHTML} html={html} titulo={titulo} type={type} esEdicion={true}></Escribir>
-				</div><br /><br />
-				<button onClick={() => { window.location.href = "/ver/" + mapaID }}>Finalizar</button>
 			</div>
+			<Footer />
 		</div>
-		<Footer />
-	</div>
 	);
 }
 

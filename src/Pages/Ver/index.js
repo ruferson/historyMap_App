@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
 import './styles.css';
-import Evento from '../../components/Evento';
-import Mapa from '../../components/Mapa';
-import { useLocation } from 'wouter';
-import Compartir from '../../components/Compartir';
-import Footer from '../../components/Footer';
-import useMapa from 'hooks/useMap';
 
-function Ver(props) {
+import useMapa from 'hooks/useMap';
+import React, { useState } from 'react';
+import { useLocation } from 'wouter';
+
+import EventComponent from '../../components/EventComponent';
+import Footer from '../../components/Footer';
+import MapComponent from '../../components/MapComponent';
+
+const Ver = (props) => {
 
 	const [mapaID, setMapaID] = useState(props.params.id)
 	const [location, setLocation] = useLocation();
@@ -21,30 +22,30 @@ function Ver(props) {
 		setLocation("/session")
 	}
 
-	function cambiarMarcador(event) {
+	const cambiarMarcador = (event) => {
 		setNoClicked(false);
 		setTipo(event.target.options.type)
 		setMarcadorID(event.target.options.id);
 	}
 
-	return (<div id="main">{!loading ?
-		<div className="pl-4 pr-4">
-			<div className="">
-				<h1 className="d-none d-sm-block">{mapaDatos.data.name}</h1>
-				<h2 className="d-sm-none">{mapaDatos.data.name}</h2><br />
+	return (
+		<div id="main">{!loading ?
+			<div className="pl-4 pr-4">
 				<div className="">
-					<Mapa cambiarMarcador={cambiarMarcador} crear={false} id={mapaID} evento={evento}></Mapa>
-				</div> <br />
-				<div className="">
-					<Evento id={marcadorID} type={type} noClicked={noClicked} setEvento={setEvento}></Evento>
+					<h1 className="d-none d-sm-block">{mapaDatos.data.name}</h1>
+					<h2 className="d-sm-none">{mapaDatos.data.name}</h2><br />
+					<div className="">
+						<MapComponent cambiarMarcador={cambiarMarcador} crear={false} id={mapaID} evento={evento}></MapComponent>
+					</div> <br />
+					<div className="">
+						<EventComponent id={marcadorID} type={type} noClicked={noClicked} setEvento={setEvento}></EventComponent>
+					</div>
 				</div>
+				<br />
 			</div>
-			<br />
+			: <></>}
+			<Footer />
 		</div>
-		: <></>}
-		<Footer />
-	</div>
-
 	);
 }
 

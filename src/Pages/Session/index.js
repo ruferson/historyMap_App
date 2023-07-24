@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-import IniciarSesion from '../../components/IniciarSesion'
-import Registrarse from "../../components/Registrarse";
-import { useLocation } from "wouter";
-import Footer from "../../components/Footer";
+import React, { useState } from 'react';
+import { useLocation } from 'wouter';
 
-function Session() {
+import Footer from '../../components/Footer';
+import LogIn from '../../components/LogIn';
+import SignIn from '../../components/SignIn';
 
-    const [location, setLocation] = useLocation();
-    const [modo, setModo] = useState("login")
+const Session = () => {
+	const [modo, setModo] = useState("login")
 
-    function sesiones(mode) {
-        if (mode === "login") {
-            return <IniciarSesion></IniciarSesion>
-        } else {
-            return <Registrarse></Registrarse>
-        }
-    }
+	function sesiones(mode) {
+		if (mode === "login") {
+			return <LogIn></LogIn>
+		} else {
+			return <SignIn></SignIn>
+		}
+	}
 
-    return (<div id="main">
-        <div className="pl-4 pr-4">
-            <button className="text-center mb-4" onClick={() => setModo("login")}>Iniciar sesión</button>
-            <button className="text-center mb-4" onClick={() => setModo("singup")}>Registrarse</button>
-            {sesiones(modo)}
-        </div>
-        <Footer />
-    </div>
-    );
+	return (
+		<div id="main">
+			<div className="pl-4 pr-4">
+				<button className="text-center mb-4" onClick={() => setModo("login")}>Iniciar sesión</button>
+				<button className="text-center mb-4" onClick={() => setModo("singup")}>Registrarse</button>
+				{sesiones(modo)}
+			</div>
+			<Footer />
+		</div>
+	);
 }
 
 export default Session;
