@@ -1,4 +1,4 @@
-import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Form, FormGroup, Input, Label } from 'reactstrap';
 import { useLocation } from 'wouter';
@@ -11,15 +11,6 @@ const Login = () => {
 	const [password, setPasswd] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [errMsg, setErrMsg] = useState("");
-	const [location, setLocation] = useLocation();
-
-	onAuthStateChanged(auth, (currentUser) => {
-		if (!currentUser) {
-			if (location !== "/session" && location !== "/") {
-				setLocation("/session");
-			}
-		}
-	})
 
 	function onEmailChange(e) {
 		setEmail(e.target.value)

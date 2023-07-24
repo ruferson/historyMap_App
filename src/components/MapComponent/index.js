@@ -11,7 +11,6 @@ const Mapa = (props) => {
 	const [creating, setCreating] = useState(props.crear);
 	const { markers, loading } = useMarcadores(props.id, props.update)
 	const [markerList, setMarkerList] = useState([])
-	const [selectedPosition, setSelectedPosition] = useState();
 	const position = [40.193795, -3.851789];
 
 	const changeCreating = () => {
@@ -21,12 +20,7 @@ const Mapa = (props) => {
 
 	const ponerMarcadores = () => {
 		if (!loading) {
-			let newMarkers = [];
-			for (let i = 0; i < Object.keys(markers.data).length; i++) {
-				let array = markers.data[i]
-				newMarkers.push(array);
-			}
-			setMarkerList(newMarkers);
+			setMarkerList(markers.map((marker) => marker));
 		}
 	}
 	useEffect(ponerMarcadores, [loading]);
@@ -34,10 +28,6 @@ const Mapa = (props) => {
 	const CreandoMarkers = () => useMapEvents({
 		click(e) {
 			if (creating) {
-				setSelectedPosition([
-					e.latlng.lat,
-					e.latlng.lng
-				]);
 				props.sendMarcador(e.latlng.lat, e.latlng.lng)
 				props.setCrear(false);
 			}

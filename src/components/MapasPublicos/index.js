@@ -2,13 +2,13 @@ import Ajax from 'components/Ajax';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 
-import usePublicMaps from '../../hooks/usePublicMaps';
+import useMaps from '../../hooks/useMaps';
 import MapaClick from '../MapaClick';
 
 const MapasPublicos = () => {
 
 	const [location, setLocation] = useLocation();
-	const { mapList, loading } = usePublicMaps();
+	const { mapList, loading } = useMaps(false);
 	const [pagination, setPagination] = useState(0);
 
 	const moveRight = () => {
@@ -56,12 +56,18 @@ const MapasPublicos = () => {
 			{
 				!loading
 					? <>
-						<div className="row"> {getMyMaps()} </div>
-						<br />
-						<button className="d-none d-md-inline" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
-						<button className="d-md-none button" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
-						<button className="float-right button" onClick={() => moveRight()}>Siguiente</button>
-						<button className="float-right button" onClick={() => moveLeft()}>Anterior</button> </>
+							<div className="row"> {getMyMaps()} </div>
+							<br />
+							<button className="d-none d-md-inline" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
+							<button className="d-md-none button" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
+							{mapList.length > 3
+								?
+									<>
+										<button className="float-right button" onClick={() => moveRight()}>Siguiente</button>
+										<button className="float-right button" onClick={() => moveLeft()}>Anterior</button>
+									</>
+								: <></>}
+						</>
 					: <Ajax />
 			}
 		</>

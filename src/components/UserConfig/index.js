@@ -1,5 +1,5 @@
-import ChangeSessionData from '../ChangeSessionData'
-import { auth } from "../../firebase/firebaseConfig";
+import { auth } from '../../firebase/firebaseConfig';
+import ChangeSessionData from '../ChangeSessionData';
 
 const UserConfig = () => {
 

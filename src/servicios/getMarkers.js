@@ -4,15 +4,19 @@ import { db } from '../firebase/firebaseConfig';
 
 export const getMarkers = async (mapId) => {
 	const collectionRef = collection(db, "markers");
+	console.log(await getDocs(collectionRef))
 
 	try {
-		const querySnapshot = await getDocs(query(collectionRef, where("mapId", "==", mapId)));
-
+		const querySnapshot = await getDocs(collectionRef);
 		const markersOfMap = [];
 
-		querySnapshot.forEach((doc) => {
-			markersOfMap.push({ id: doc.id, ...doc.data() });
-		});
+		if (!querySnapshot.empty) {
+			const querySnapshotFiltered = await getDocs(query(collectionRef, where("mapId", "==", mapId)));
+
+			querySnapshotFiltered.forEach((doc) => {
+				markersOfMap.push({ id: doc.id, ...doc.data() });
+			});
+		}
 
 		return markersOfMap;
 	} catch (error) {

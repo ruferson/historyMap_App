@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { Form, Input, Label } from 'reactstrap';
@@ -12,15 +12,6 @@ const Registrase = () => {
 	const [errorNombre, setErrorNombre] = useState("")
 	const [errorEmail, setErrorEmail] = useState("")
 	const [errorPswd, setErrorPswd] = useState("")
-	const [location, setLocation] = useLocation();
-
-	onAuthStateChanged(auth, (currentUser) => {
-		if (!currentUser) {
-			if (location !== "/session" && location !== "/") {
-				setLocation("/session");
-			}
-		}
-	})
 
 	const onSubmitHandler = async (e) => {
 		e.preventDefault();
@@ -34,6 +25,7 @@ const Registrase = () => {
 				const userData = { name: name, email }
 				await createUserWithEmailAndPassword(auth, email, password);
 				await setDoc(doc(db, "users", auth.currentUser.uid), userData);
+				await signInWithEmailAndPassword(auth, email, password);
 			} catch (error) {
 				console.log(error.message)
 				auth.signOut();
@@ -76,7 +68,6 @@ const Registrase = () => {
 	}
 
 	const validateForm = () => {
-
 		let name = document.getElementById("name").value
 		let email = document.getElementById("email").value
 		let password = document.getElementById("password").value

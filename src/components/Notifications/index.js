@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import useNotifications from '../../hooks/useNotifications';
-import Notificacion from '../Notificacion';
+import NotificationComponent from '../NotificationComponent';
 
 const Notifications = (props) => {
 
@@ -14,7 +14,7 @@ const Notifications = (props) => {
 	}, [loading])
 
 	const mapMyNotifications = (notification, key) => {
-		return <Notificacion url={notification.url} noteName={notification.type} noteDesc={notification.description}></Notificacion>
+		return <NotificationComponent url={notification.url} noteName={notification.type} noteDesc={notification.description}></NotificationComponent>
 	}
 
 	const getMyNotifications = () => {
