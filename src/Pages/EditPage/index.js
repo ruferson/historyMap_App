@@ -66,9 +66,9 @@ const EditPage = (props) => {
 
 		try {
 			const markerID = await addDoc(collection(db, "markers"), markerData).id;
-			changeMarkerToCreated(markerID)
 			const eventData = { title: "", html: "", markerID };
 			await addDoc(collection(db, "events"), eventData);
+			changeMarkerToCreated(markerID)
 			setUpdate(update + 1);
 		} catch (error) {
 			console.log(error.message)

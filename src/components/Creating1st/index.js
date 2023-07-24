@@ -33,8 +33,8 @@ const Creating1st = (props) => {
 						private: isPrivate,
 						userUid: auth.currentUser.uid,
 					}
-					const mapId = await addDoc(collection(db, "maps"), mapData).id;
-					props.setMapID(mapId);
+					const map = await addDoc(collection(db, "maps"), mapData);
+					props.setMapID(map.id);
 					props.setPaso(2);
 				} catch (error) {
 					console.log(error.message)
