@@ -1,7 +1,7 @@
 import './styles.css';
 
 import Ajax from 'components/Ajax';
-import useMarcadores from 'hooks/useMarcadores';
+import useMarcadores from 'hooks/userMakers';
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import LocationMarker from './LocationMarker';
@@ -26,7 +26,7 @@ const Mapa = (props) => {
 				let array = markers.data[i]
 				newMarkers.push(array);
 			}
-			setListaMarcadores(marcadores);
+			setMarkerList(marcadores);
 		}
 	}
 	useEffect(ponerMarcadores, [loading]);

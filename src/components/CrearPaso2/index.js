@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
-import useEvento from 'hooks/useEvento';
+import useEvento from 'hooks/useEvent';
 import React, { useEffect, useState } from 'react';
 
 import { db } from '../../firebase/firebaseConfig';

@@ -5,7 +5,7 @@ import Mapa from '../../components/Mapa';
 import { useLocation } from 'wouter';
 import Compartir from '../../components/Compartir';
 import Footer from '../../components/Footer';
-import useMapa from 'hooks/useMapa';
+import useMapa from 'hooks/useMap';
 
 function Ver(props) {
 

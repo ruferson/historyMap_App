@@ -1,6 +1,6 @@
 import { Button } from "reactstrap";
 import { useLocation } from "wouter";
-import useMisMapas from "../../hooks/useMisMapas";
+import useMyMaps from "../../hooks/useMyMaps";
 import MapaClick from "../../components/MapaClick";
 import Footer from "../../components/Footer";
 import Ajax from "components/Ajax";
@@ -9,7 +9,7 @@ import { useState } from "react";
 function MisMapas() {
 
 	const [location, setLocation] = useLocation();
-	const { listaMapasPriv, loadingPriv } = useMisMapas();
+	const { listaMapasPriv, loadingPriv } = useMyMaps();
 	const [pagination, setPagination] = useState(0);
 
 	if (localStorage.getItem("isLoggedIn") === "false") {

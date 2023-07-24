@@ -1,22 +1,23 @@
-import { useEffect, useState } from "react";
-import { getUsers} from "../servicios/getUsers";
+import { useEffect, useState } from 'react';
+
+import { getUsers } from '../servicios/getUsers';
 
 const useUsers = (show) => {
+	const [userList, setUserList] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-    const [userList, setUserList] = useState([]);
-    const [loading, setLoading] = useState(true);
-    function obtenerUsers() {
-        if (show){
-            setLoading(true)
-            getUsers().then(nextUsers => {
-                setUserList(nextUsers);
-                setLoading(false);
-            });
-        }
-    }
+	const obtenerUsers = () => {
+		if (show) {
+			setLoading(true)
+			getUsers().then(nextUsers => {
+				setUserList(nextUsers);
+				setLoading(false);
+			});
+		}
+	}
+	useEffect(obtenerUsers, [show]);
 
-    useEffect(obtenerUsers, [show]);
-
-    return { userList, loading }
+	return { userList, loading }
 }
+
 export default useUsers;

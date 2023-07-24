@@ -1,4 +1,4 @@
-import useMapa from 'hooks/useMapa';
+import useMapa from 'hooks/useMap';
 import React from 'react';
 import { useLocation } from 'wouter';
 

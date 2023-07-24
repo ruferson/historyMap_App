@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 
-import useNotificaciones from '../../hooks/useNotificaciones';
+import useNotifications from '../../hooks/useNotifications';
 import Notificacion from '../Notificacion';
 
 const MisNotificaciones = (props) => {
 
-	const { notificationList, loading } = useNotificaciones();
+	const { notificationList, loading } = useNotifications();
 
 	useEffect(() => {
 		if (!loading) {

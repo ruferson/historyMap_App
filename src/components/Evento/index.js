@@ -1,5 +1,5 @@
 import Ajax from 'components/Ajax';
-import useEvento from 'hooks/useEvento';
+import useEvento from 'hooks/useEvent';
 import React from 'react';
 
 const Evento = (props) => {

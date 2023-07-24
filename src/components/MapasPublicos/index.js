@@ -2,13 +2,13 @@ import Ajax from 'components/Ajax';
 import { useState } from 'react';
 import { useLocation } from 'wouter';
 
-import useMapasPub from '../../hooks/useMapasPub';
+import usePublicMaps from '../../hooks/usePublicMaps';
 import MapaClick from '../MapaClick';
 
 const MapasPublicos = () => {
 
 	const [location, setLocation] = useLocation();
-	const { mapList, loading } = useMapasPub();
+	const { mapList, loading } = usePublicMaps();
 	const [pagination, setPagination] = useState(0);
 
 	const moveRight = () => {

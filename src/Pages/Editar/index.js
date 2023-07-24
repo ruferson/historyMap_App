@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Input, Label } from 'reactstrap';
 import axios from "axios";
-import useEvento from 'hooks/useEvento';
+import useEvento from 'hooks/useEvent';
 import Mapa from 'components/Mapa';
 import Escribir from 'components/Escribir';
 import Footer from 'components/Footer';
-import useMapa from 'hooks/useMapa';
+import useMapa from 'hooks/useMap';
 import { useLocation } from 'wouter';
 
 function Editar(props) {
