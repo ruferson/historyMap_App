@@ -9,15 +9,15 @@ import useMaps from 'hooks/useMaps';
 const MyMapsPage = () => {
 
 	const [location, setLocation] = useLocation();
-	const { privateMapList, loading } = useMaps(true);
+	const { mapList: privateMapList, loading } = useMaps(true);
 	const [pagination, setPagination] = useState(0);
 
 	const moveRight = () => {
 		if (!loading) {
-			if (privateMapList.data.length - 1 > pagination) {
-				if (privateMapList.data.length - 1 <= pagination + 3) {
-					if (privateMapList.data.length - 1 === pagination + 3) {
-						setPagination(privateMapList.data.length - 1)
+			if (privateMapList.length - 1 > pagination) {
+				if (privateMapList.length - 1 <= pagination + 3) {
+					if (privateMapList.length - 1 === pagination + 3) {
+						setPagination(privateMapList.length - 1)
 					}
 				} else {
 					setPagination(pagination + 3)
@@ -43,11 +43,13 @@ const MyMapsPage = () => {
 
 	const mappingMaps = (mapa, key) => {
 		if (key < (pagination + 3) && key >= pagination) {
-			return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
+			console.log(mapa)
+			return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.imgUrl} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
 		}
 	}
 
 	const getPrivateMaps = () => {
+		console.log(privateMapList)
 		if (privateMapList) {
 			return privateMapList.map(mappingMaps)
 		}
@@ -64,7 +66,7 @@ const MyMapsPage = () => {
 						</div> <br />
 						<button className="d-none d-md-inline" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
 						<button className="d-md-none button" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
-						{privateMapList.length > 3
+						{privateMapList && privateMapList.length > 3
 							?
 								<>
 									<button className="float-right button" onClick={() => moveRight()}>Siguiente</button>

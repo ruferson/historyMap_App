@@ -72,9 +72,9 @@ const LocationMarker = (position, props, marker, key) => {
 	}
 	return position === null ? null : (
 		<div>
-			<Marker id={marker.id} type={marker.type} eventHandlers={{ click: props.cambiarMarcador }} key={key} position={[marker.x, marker.y]} icon={myIcon}>
+			<Marker id={marker.id} type={marker.type} eventHandlers={{ click: props.changeMarker }} key={key} position={[marker.x, marker.y]} icon={myIcon}>
 				<Popup>
-					<h3>{props.evento ? props.evento.data.titulo : ""}</h3>
+					<h3>{props.event ? props.event.title : ""}</h3>
 				</Popup>
 			</Marker>
 		</div>
