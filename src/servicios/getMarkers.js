@@ -1,20 +1,25 @@
+import { collection, getDocs, query, where } from '@firebase/firestore';
 
-export function getMarkers (mapa) { //Con este servicio obtendremos un solo coctail a partir de su id.
+import { db } from '../firebase/firebaseConfig';
 
-  const apiURL = `http://historymap.es/api/records/marcadores`;
-  console.log(apiURL)
-  //Usamos la ID pasada por parámetro.
+export const getMarkers = async (mapId) => {
+	const collectionRef = collection(db, "markers");
 
-  return fetch(apiURL, {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer 4|qPEXqsDDA76ZTci3zNg7EiXwPmvDXqWvVwl5fEvz',
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(response => {
-      const data = response.json();
-      console.log(data)
-      return data;
-  })
-}
+	try {
+		const querySnapshot = await getDocs(collectionRef);
+		const markersOfMap = [];
+
+		if (!querySnapshot.empty) {
+			const querySnapshotFiltered = await getDocs(query(collectionRef, where("mapId", "==", mapId)));
+
+			querySnapshotFiltered.forEach((doc) => {
+				markersOfMap.push({ id: doc.id, ...doc.data() });
+			});
+		}
+
+		return markersOfMap;
+	} catch (error) {
+		console.error("Error al obtener los marcadores del mapa:", error);
+		return [];
+	}
+};

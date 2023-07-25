@@ -1,44 +1,78 @@
-import { Button } from "reactstrap";
-import { useLocation } from "wouter";
-import useMisMapas from "../../hooks/useMisMapas";
-import MapaClick from "../MapaClick";
+import Ajax from 'components/Ajax';
+import { useState } from 'react';
+import { useLocation } from 'wouter';
 
-function MapasPublicos () {
-    
-    const [location, setLocation] = useLocation();
-    const {listaMapas} = useMisMapas(1);
-    //let listaMapas = [["img1", "Mapa 1", "Desc 1"], ["img2", "Mapa 2", "Desc 2"], ["img3", "Mapa 3", "Desc 3"], ["img4", "Mapa 4", "Desc 4"]];
+import useMaps from '../../hooks/useMaps';
+import MapaClick from '../MapaClick';
 
-    function action() {
-        setLocation("/crear")
-    }
+const MapasPublicos = () => {
 
-    function mapearMisMapas(mapa, key){
-        return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.link_imagen} mapName={mapa.nombre} mapDesc={mapa.nombre}></MapaClick>
-    }
+	const [location, setLocation] = useLocation();
+	const { mapList, loading } = useMaps(false);
+	const [pagination, setPagination] = useState(0);
 
-    function devolverMisMapas(){
-        console.log(listaMapas.data)
-        if (listaMapas.data){
-            return listaMapas.data.map(mapearMisMapas)
-        }
-    }
-    
-    function puedeCrear(){
-        if (JSON.parse(localStorage.getItem("userData")).rol==="profesor"){
-            return <Button onClick={()=>action()}>Crear Mapa Nuevo</Button>
-        }
-    }
+	const moveRight = () => {
+		if (!loading) {
+			if (mapList.length - 1 > pagination) {
+				if (mapList.length - 1 <= pagination + 3) {
+					if (mapList.length - 1 === pagination + 3) {
+						setPagination(mapList.length - 1)
+					}
+				} else {
+					setPagination(pagination + 3)
+				}
+			}
+		}
+		return null;
+	}
 
-    return (
-        <>
-        <div className="row">
-            {devolverMisMapas()}
-        </div> <br />
-            {puedeCrear()}
-        </>
-    );
+	const moveLeft = () => {
+		if (!loading) {
+			if (0 < pagination) {
+				if (0 >= pagination - 3) {
+					setPagination(0)
+				} else {
+					setPagination(pagination - 3)
+				}
+			}
+		}
+		return null;
+	}
 
-   }
+	const mapMyMaps = (mapa, key) => {
+		if (key < (pagination + 3) && key >= pagination) {
+			return <MapaClick key={key} userUid={mapa.userUid} mapID={mapa.id} mapImage={mapa.imgUrl} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
+		}
+	}
 
-   export default MapasPublicos;
+	const getMyMaps = () => {
+		if (mapList) {
+			return mapList.map(mapMyMaps)
+		}
+	}
+
+	return (
+		<>
+			{
+				!loading
+					? <>
+						<div className="row"> {getMyMaps()} </div>
+						<br />
+						<button className="d-none d-md-inline" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
+						<button className="d-md-none button" onClick={() => setLocation("/crear")}>Crear Mapa Nuevo</button>
+						{mapList.length > 3
+							?
+							<>
+								<button className="float-right button" onClick={() => moveRight()}>Siguiente</button>
+								<button className="float-right button" onClick={() => moveLeft()}>Anterior</button>
+							</>
+							: <></>}
+					</>
+					: <Ajax />
+			}
+		</>
+	);
+
+}
+
+export default MapasPublicos;
