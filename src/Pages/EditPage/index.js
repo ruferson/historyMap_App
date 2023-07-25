@@ -1,19 +1,20 @@
-import Writer from 'components/Writer';
+import { addDoc, collection, doc, updateDoc } from '@firebase/firestore';
 import Footer from 'components/Footer';
 import MapComponent from 'components/MapComponent';
+import Writer from 'components/Writer';
 import useEvento from 'hooks/useEvent';
-import useMapa from 'hooks/useMap';
+import useMap from 'hooks/useMap';
 import React, { useEffect, useState } from 'react';
 import { Input, Label } from 'reactstrap';
 import { useLocation } from 'wouter';
-import { addDoc, collection, doc, updateDoc } from '@firebase/firestore';
-import { db } from '../../firebase/firebaseConfig';
+
+import { auth, db } from '../../firebase/firebaseConfig';
 
 const EditPage = (props) => {
 
-	const { mapData, loading } = useMapa(props.params.id)
+	const { mapData, loading } = useMap(props.params.id)
 	const [location, setLocation] = useLocation();
-	const [mapID, setMapID] = useState(props.params.id)
+	const [mapId, setMapId] = useState(props.params.id)
 	const [create, setCreate] = useState(false);
 	const [markerID, setMarkerID] = useState(null);
 	const [update, setUpdate] = useState(0);
@@ -26,7 +27,7 @@ const EditPage = (props) => {
 	const [img, setImg] = useState("");
 
 	if (!loading) {
-		if (mapData.data.usuario_id !== JSON.parse(localStorage.getItem("userData")).user_id) {
+		if (mapData.userUid !== auth.currentUser.uid) {
 			setLocation("/")
 		}
 	}
@@ -44,16 +45,16 @@ const EditPage = (props) => {
 
 	useEffect(() => {
 		if (!loading) {
-			setMapID(mapData.data.id)
-			setName(mapData.data.name)
-			setImg(mapData.data.link_imagen)
+			setName(mapData.name)
+			setImg(mapData.imgUrl)
+			setIsPrivate(mapData.private)
 		}
 	}, [loading])
 
 	useEffect(() => {
 		if (mapEvent !== null) {
-			setHTML(mapEvent.data.html);
-			setTitle(mapEvent.data.title);
+			setHTML(mapEvent.html);
+			setTitle(mapEvent.title);
 		}
 	}, [mapEvent])
 
@@ -62,13 +63,13 @@ const EditPage = (props) => {
 	}
 
 	const sendMarker = async (x, y) => {
-		const markerData = { x, y, type: "default", mapId: mapID };
+		const markerData = { x, y, type: "default", mapId };
 
 		try {
-			const markerID = await addDoc(collection(db, "markers"), markerData).id;
-			const eventData = { title: "", html: "", markerID };
+			const marker = await addDoc(collection(db, "markers"), markerData);
+			const eventData = { title: "", html: "", markerID: marker.id };
 			await addDoc(collection(db, "events"), eventData);
-			changeMarkerToCreated(markerID)
+			changeMarkerToCreated(marker.id)
 			setUpdate(update + 1);
 		} catch (error) {
 			console.log(error.message)
@@ -77,24 +78,32 @@ const EditPage = (props) => {
 	}
 
 	const sendHTML = async (title, html, type) => {
-		if (validateURL(img)) {
-			if (markerID === null) {
-				alert("¡NO has selecionnado un marcador!")
-			} else if (html === null || title === "") {
-				alert("¡Has dejado un campo VACÍO!")
-			} else {
-				const markerData = { title, html, markerID: markerID };
+		const eventData = { title, html, markerID };
+		if (markerID === null) {
+			alert("¡NO has selecionnado un marcador!")
+		} else if (html === null || title === "") {
+			alert("¡Has dejado un campo VACÍO!")
+		} else {
+			try {
+				await updateDoc(doc(db, "events", mapEvent.id), eventData);
+				setUpdate(update + 1);
+				await updateDoc(doc(db, "markers", markerID), { type: type });
+				setUpdate(update + 1)
+			} catch (error) {
+				console.log(error.message)
+				alert("¡Ha habido un error!");
+			}
+		}
+	}
 
-				try {
-					await updateDoc(doc(db, "events", mapEvent.data.id), markerData);
-					setUpdate(update + 1);
-					await updateDoc(doc(db, "markers", markerID), { type: type });
-					setUpdate(update + 1)
-					await updateDoc(doc(db, "maps", mapID), { private: isPrivate, imgUrl: img, name });
-				} catch (error) {
-					console.log(error.message)
-					alert("¡Ha habido un error!");
-				}
+	const sendMapData = async () => {
+		if (validateURL(img)) {
+			try {
+				await updateDoc(doc(db, "maps", mapId), { private: isPrivate, imgUrl: img, name });
+				setUpdate(update + 1)
+			} catch (error) {
+				console.log(error.message)
+				alert("¡Ha habido un error!");
 			}
 		}
 	}
@@ -123,7 +132,7 @@ const EditPage = (props) => {
 				<div className="col-12 pl-4 pr-4">
 					<button className=" mb-4" onClick={changeCreate}>Añadir Marcador</button>
 					<div>
-						<MapComponent sendMarker={sendMarker} changeMarker={changeMarker} create={create} setCreate={setCreate} id={mapID} update={update}
+						<MapComponent sendMarker={sendMarker} changeMarker={changeMarker} create={create} setCreate={setCreate} id={mapId} update={update}
 							changeHTML={setHTML} changeTitulo={setTitle} changeTipo={setType} mapEvent={mapEvent}></MapComponent>
 					</div> <br /><br />
 					<div>
@@ -147,14 +156,22 @@ const EditPage = (props) => {
 						/><br />
 						<h2>Privado:</h2><br />
 						<label class="switch" id="switch">
-							<input type="checkbox" onChange={() => { setIsPrivate(!isPrivate) }} />
+							<input type="checkbox" onChange={() => { setIsPrivate(!isPrivate) }} checked={isPrivate} />
 							<span class="slider round"></span>
-						</label> <br /><br /><br />
+						</label> <br /> <br />
 					</div>
+					<button onClick={() => { sendMapData() }}>Guardar</button>
+					<button className='float-right' onClick={() => { setLocation("/ver/" + mapId) }}>Ver Mapa</button>
+					<br />
+					<br />
+					<hr />
 					<div className="">
+						<label for="writer"><h1>Evento Seleccionado</h1></label>
+						<br />
+						<br />
 						<Writer sendHTML={sendHTML} html={html} title={title} type={type} esEdicion={true}></Writer>
-					</div><br /><br />
-					<button onClick={() => { window.location.href = "/ver/" + mapID }}>Finalizar</button>
+					</div>
+					<hr /><br /><br />
 				</div>
 			</div>
 			<Footer />

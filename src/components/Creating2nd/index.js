@@ -22,7 +22,7 @@ const Creating2nd = (props) => {
 		setMarkerID(event.target.options.id);
 	}
 
-	const cambiarMarcadorACreado = (id) => {
+	const changeMarkerToCreated = (id) => {
 		setType("default")
 		setMarkerID(id);
 	}
@@ -38,14 +38,14 @@ const Creating2nd = (props) => {
 		setCreate(!create)
 	}
 
-	const sendMarcador = async (x, y) => {
+	const sendMarker = async (x, y) => {
 		const markerData = { x, y, type: "default", mapId: props.mapID };
 
 		try {
 			const marker = await addDoc(collection(db, "markers"), markerData);
 			const eventData = { title: "", html: "", markerID: marker.id };
 			await addDoc(collection(db, "events"), eventData);
-			cambiarMarcadorACreado(marker.id)
+			changeMarkerToCreated(marker.id)
 			setUpdate(update + 1);
 		} catch (error) {
 			console.log(error.message)
@@ -59,10 +59,10 @@ const Creating2nd = (props) => {
 		} else if (html === null || title === "") {
 			alert("¡Has dejado un campo VACÍO!")
 		} else {
-			const markerData = { title, html, markerID: markerID };
+			const eventData = { title, html, markerID };
 
 			try {
-				await updateDoc(doc(db, "events", mapEvent.id), markerData);
+				await updateDoc(doc(db, "events", mapEvent.id), eventData);
 				setUpdate(update + 1);
 				await updateDoc(doc(db, "markers", markerID), { type: type });
 				setUpdate(update + 1)
@@ -77,7 +77,7 @@ const Creating2nd = (props) => {
 		<div className="pl-4 pr-4">
 			<button className="mb-4 d-block" onClick={cambiarCrear}>Añadir Marcador</button>
 			<div>
-				<MapComponent sendMarcador={sendMarcador} changeMarker={changeMarker} create={create} setCreate={setCreate} id={props.mapID} update={update}
+				<MapComponent sendMarker={sendMarker} changeMarker={changeMarker} create={create} setCreate={setCreate} id={props.mapID} update={update}
 					changeHTML={setHTML} changeTitle={setTitle} changeType={setType} mapEvent={mapEvent}></MapComponent>
 			</div>
 			<div className="mt-5">

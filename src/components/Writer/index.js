@@ -99,7 +99,7 @@ const Writer = (props) => {
 					{type === "construction" ? <option value="construction" selected>Construcción</option> : <option value="construction">Construcción</option>}
 				</select> {/*ponerIconoEvento*/}
 				<br /><br />
-				<button onClick={sendHTML}>Enviar</button>
+				<button onClick={sendHTML}>Guardar Evento</button>
 			</Form>
 		</div>
 	);

@@ -34,7 +34,7 @@ const Share = (props) => {
 
 	const mapeoOptions = () => {
 		if (!loading) {
-			return userList.data.map(mapping)
+			return userList.map(mapping)
 		}
 	}
 

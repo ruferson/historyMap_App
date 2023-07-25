@@ -16,9 +16,9 @@ const EventComponent = (props) => {
 				? mapEvent
 					? <>
 						<p dangerouslySetInnerHTML={{ __html: props.type }} />
-						<h1 dangerouslySetInnerHTML={{ __html: mapEvent.data.titulo }} />
+						<h1 dangerouslySetInnerHTML={{ __html: mapEvent.titulo }} />
 						<br />
-						<div dangerouslySetInnerHTML={{ __html: mapEvent.data.html }} />
+						<div dangerouslySetInnerHTML={{ __html: mapEvent.html }} />
 					</>
 					: <Ajax></Ajax>
 				: <></>

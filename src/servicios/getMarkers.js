@@ -4,7 +4,6 @@ import { db } from '../firebase/firebaseConfig';
 
 export const getMarkers = async (mapId) => {
 	const collectionRef = collection(db, "markers");
-	console.log(await getDocs(collectionRef))
 
 	try {
 		const querySnapshot = await getDocs(collectionRef);

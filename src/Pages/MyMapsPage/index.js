@@ -43,13 +43,11 @@ const MyMapsPage = () => {
 
 	const mappingMaps = (mapa, key) => {
 		if (key < (pagination + 3) && key >= pagination) {
-			console.log(mapa)
-			return <MapaClick key={key} mapID={mapa.id} mapImage={mapa.imgUrl} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
+			return <MapaClick key={key} mapID={mapa.id} userUid={mapa.userUid} mapImage={mapa.imgUrl} mapName={mapa.name} mapDesc={mapa.name}></MapaClick>
 		}
 	}
 
 	const getPrivateMaps = () => {
-		console.log(privateMapList)
 		if (privateMapList) {
 			return privateMapList.map(mappingMaps)
 		}

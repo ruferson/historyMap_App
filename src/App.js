@@ -18,8 +18,7 @@ import Ajax from 'components/Ajax';
 
 
 
-function App() {
-
+const App = () => {
 	const [isActive, setActive] = useState(true)
 	const [location, setLocation] = useLocation();
 	const [loading, setLoading] = useState(true);

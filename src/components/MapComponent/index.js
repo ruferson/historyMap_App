@@ -28,9 +28,8 @@ const MapComponent = (props) => {
 	const CreandoMarkers = () => {
 		useMapEvents({
 			click(e) {
-				console.log(creating)
 				if (creating) {
-					props.sendMarcador(e.latlng.lat, e.latlng.lng)
+					props.sendMarker(e.latlng.lat, e.latlng.lng)
 					props.setCreate(false);
 				}
 			}

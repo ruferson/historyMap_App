@@ -9,7 +9,7 @@ const Notifications = (props) => {
 
 	useEffect(() => {
 		if (!loading) {
-			props.setNotificaciones(notificationList.data.length)
+			props.setNotificaciones(notificationList.length)
 		}
 	}, [loading])
 
@@ -18,7 +18,7 @@ const Notifications = (props) => {
 	}
 
 	const getMyNotifications = () => {
-		return notificationList.data.map(mapMyNotifications)
+		return notificationList.map(mapMyNotifications)
 	}
 
 	return (

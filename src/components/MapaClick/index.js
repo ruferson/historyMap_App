@@ -7,12 +7,7 @@ import { auth } from '../../firebase/firebaseConfig';
 const MapaClick = (props) => {
 
 	const [location, setLocation] = useLocation();
-	const { mapData, loading } = useMap(props.mapID)
-
-	useEffect(() => {
-		console.log(mapData, loading);
-	}, [mapData, loading])
-
+	console.log(props.userUid, auth.currentUser.uid)
 	return (
 		<>
 			<div className="col-4 mb-3 text-center d-none d-lg-flex">
@@ -24,10 +19,8 @@ const MapaClick = (props) => {
 						<h4 className="card-title">{props.mapName}</h4>
 						<button onClick={() => { setLocation("/ver/" + props.mapID) }}>Ver</button>
 						{
-							!loading
-								? mapData.userUid === auth.currentUser.uid
-									? <button onClick={() => { setLocation("/editar/" + props.mapID) }}>Editar</button>
-									: <></>
+							props.userUid === auth.currentUser.uid
+								? <button onClick={() => { setLocation("/editar/" + props.mapID) }}>Editar</button>
 								: <></>
 						}
 					</div>
@@ -42,10 +35,8 @@ const MapaClick = (props) => {
 						<p className="card-title">{props.mapName}</p>
 						<button className="button" onClick={() => { setLocation("/ver/" + props.mapID) }}>Ver</button>
 						{
-							!loading
-								? mapData.userUid === auth.currentUser.uid
-									? <button className="button" onClick={() => { setLocation("/editar/" + props.mapID) }}>Editar</button>
-									: <></>
+							props.userUid === auth.currentUser.uid
+								? <button className="button" onClick={() => { setLocation("/editar/" + props.mapID) }}>Editar</button>
 								: <></>
 						}
 					</div>

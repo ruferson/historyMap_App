@@ -8,15 +8,15 @@ export const getUsers = async () => {
 	try {
 		const querySnapshot = await getDocs(collectionRef);
 
-		const allMaps = [];
+		const allUsers = [];
 
 		querySnapshot.forEach((doc) => {
-			allMaps.push({ id: doc.id, ...doc.data() });
+			allUsers.push({ id: doc.id, ...doc.data() });
 		});
 
-		return allMaps;
+		return allUsers;
 	} catch (error) {
-		console.error("Error al obtener los mapas:", error);
+		console.error("Error al obtener los usuarios:", error);
 		return [];
 	}
 };

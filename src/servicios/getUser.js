@@ -2,9 +2,10 @@ import { doc, getDoc } from 'firebase/firestore';
 
 import { db } from '../firebase/firebaseConfig';
 
-export const getMap = async (id) => {
+export const getUserById = async (userId) => {
+	const docRef = doc(db, "users", userId);
+
 	try {
-		const docRef = doc(db, "maps", id);
 		const docSnap = await getDoc(docRef);
 
 		if (docSnap.exists()) {
@@ -14,7 +15,7 @@ export const getMap = async (id) => {
 			return null;
 		}
 	} catch (error) {
-		console.error("Error al obtener el mapa:", error);
+		console.error("Error al obtener el usuario por ID:", error);
 		return null;
 	}
 };
